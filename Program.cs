@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Anidopt.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<AnidoptContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("AnidoptContext") ?? throw new InvalidOperationException("Connection string 'AnidoptContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
