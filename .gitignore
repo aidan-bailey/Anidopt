@@ -78,3 +78,9 @@ _[Ss]cripts
 
 # VSCode
 .vscode
+
+# Databases
+*.db
+
+# Appsettings
+appsettings.*
