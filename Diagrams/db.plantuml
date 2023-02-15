@@ -1,0 +1,55 @@
+@startuml
+entity Sex {
+    Id: Int
+    Name: Str
+}
+entity Breed {
+    Id: Int
+    Name: Str
+}
+entity Type {
+    Id: Int
+    Name: Str
+}
+entity Animal {
+    Id: Int
+    Name: Str
+    Age: Int
+    SexId: Int
+    BreedId: Int
+    TypeId: Int
+    Size: Float
+    _Description: Str
+}
+entity DescriptorType {
+    Id: Int
+    Name: Str
+}
+entity Descriptor {
+    Id: Int
+    DescriptorTypeId: Id
+    _Title: Str
+}
+entity Link {
+    Id: Int
+    AnimalId: Int
+    DescriptorId: Int
+}
+entity AdditionalInfo {
+    Id: Int
+    LinkId: Int
+    Info: Str
+}
+entity Organisation {
+    Id: Int
+    Name: Str
+}
+Animal }o--|| Organisation
+DescriptorType ||--|| Descriptor
+Descriptor ||--o{ Link
+Animal ||--o{ Link
+AdditionalInfo }o--|| Link
+Breed ||--|| Animal
+Type ||--|| Animal
+Sex ||--|| Animal
+@enduml
