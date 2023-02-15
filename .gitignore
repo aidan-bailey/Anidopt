@@ -84,3 +84,6 @@ _[Ss]cripts
 
 # Appsettings
 appsettings.*
+
+# Visual Studio
+.vs
