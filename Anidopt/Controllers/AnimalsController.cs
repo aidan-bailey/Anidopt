@@ -64,6 +64,12 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
+                ViewBag.AnimalTypes = _context.AnimalType.Select(at => new SelectListItem
+                {
+                    Text = at.Name,
+                    Value = at.Id.ToString(),
+                    Selected = animal.AnimalTypeId == at.Id 
+                });
                 _context.Add(animal);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
