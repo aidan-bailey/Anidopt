@@ -111,14 +111,8 @@ namespace Anidopt.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AnimalExists(animal.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!(await _animalService.AnimalExistsById(animal.Id))) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -169,11 +163,6 @@ namespace Anidopt.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool AnimalExists(int id)
-        {
-            return (_context.Animal?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
