@@ -23,6 +23,12 @@ namespace Anidopt.Data
             builder.Entity<AnimalType>()
                 .HasIndex(at => at.Name)
                 .IsUnique();
+            builder.Entity<Organisation>()
+                .HasIndex(o => o.Name)
+                .IsUnique();
+            builder.Entity<Breed>()
+                .HasIndex(b => b.Name)
+                .IsUnique();
         }
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
