@@ -22,9 +22,9 @@ namespace Anidopt.Controllers
         // GET: Animals
         public async Task<IActionResult> Index()
         {
-              return _context.Animal != null ? 
-                          View(await _context.Animal.ToListAsync()) :
-                          Problem("Entity set 'AnidoptContext.Animal'  is null.");
+            return _context.Animal != null ?
+                        View(await _context.Animal.ToListAsync()) :
+                        Problem("Entity set 'AnidoptContext.Animal'  is null.");
         }
 
         // GET: Animals/Details/5
@@ -48,6 +48,10 @@ namespace Anidopt.Controllers
         // GET: Animals/Create
         public IActionResult Create()
         {
+            ViewBag.AnimalTypes = _context.AnimalType.Select(at => new SelectListItem {
+                Text = at.Name,
+                Value = at.Id.ToString()
+            });
             return View();
         }
 
@@ -56,7 +60,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age")] Animal animal)
+        public async Task<IActionResult> Create([Bind("Id,Name,Age,AnimalTypeId")] Animal animal)
         {
             if (ModelState.IsValid)
             {
@@ -150,14 +154,14 @@ namespace Anidopt.Controllers
             {
                 _context.Animal.Remove(animal);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AnimalExists(int id)
         {
-          return (_context.Animal?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Animal?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

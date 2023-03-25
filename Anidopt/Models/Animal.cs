@@ -11,7 +11,7 @@ public class Animal
     public string? Name { get; set; }
     [Required]
     public int Age { get; set; }
+    public virtual AnimalType? AnimalType { get; set; }
     [Required]
-    public virtual AnimalType AnimalType { get; set; }
     public int AnimalTypeId { get; set; }
 }
