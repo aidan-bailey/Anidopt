@@ -12,6 +12,17 @@ public static class SeedData
                 DbContextOptions<AnidoptContext>>()))
         {
 
+            if (!context.Organisation.Any())
+            {
+                context.Organisation.AddRange(
+                    new Organisation
+                    {
+                        Name = "Mdzananda"
+                    }
+                );
+                context.SaveChanges();
+            }
+
             if (!context.AnimalType.Any())
             {
                 context.AnimalType.AddRange(
@@ -35,7 +46,8 @@ public static class SeedData
                     {
                         Name = "Dimitri",
                         Age = 1,
-                        AnimalType = context.AnimalType.Where(at => at.Name == "Dog").First()
+                        AnimalType = context.AnimalType.Where(at => at.Name == "Dog").First(),
+                        Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
                     }
                 ); ;
                 context.SaveChanges();
