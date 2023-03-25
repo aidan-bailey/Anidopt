@@ -11,7 +11,7 @@ Classifieds web-app for animal adoption (WIP)
 Make sure `dotnet-ef` is installed
 
 ``` sh
-dotnet tool update --global dotnet-ef
+dotnet tool install --global dotnet-ef
 ```
 
 Create a json file called *appsettings.json* in the `Anidopt` directory containing an `AnidoptContext` connection string, e.g.
