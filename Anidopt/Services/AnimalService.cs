@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Services;
 
-public class AnimalTypeService : IAnimalService
+public class AnimalService : IAnimalService
 {
     private readonly AnidoptContext _context;
 
-    public AnimalTypeService(AnidoptContext context)
+    public AnimalService(AnidoptContext context)
     {
         _context = context;
     }
