@@ -80,7 +80,7 @@ namespace Anidopt.Controllers
         {
             if (id == null || _context.Animal == null) return NotFound();
 
-            var animal = await _context.Animal.FindAsync(id);
+            var animal = await _animalService.GetAnimalById((int)id);
             if (animal == null) return NotFound();
 
             var animalType = await _animalService.GetAnimalTypes();
