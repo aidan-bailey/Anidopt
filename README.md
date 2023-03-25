@@ -9,8 +9,14 @@ Make sure `dotnet-ef` is installed
 dotnet tool update --global dotnet-ef
 ```
 
-Build database
+Create a json file called /appsettings.json/ in the `Anidopt` directory containing an `AnidoptContext` connection string, e.g.
 
-``` sh
-dotnet ef database update
+```json
+{
+  "ConnectionStrings": {
+    "AnidoptContext": "Server=(localdb)\\MSSQLLocalDB;Database=_CHANGE_ME;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}
 ```
+
+The database will be created if it does not exist.
