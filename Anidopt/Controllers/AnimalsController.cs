@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;   
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +56,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Age,Name,Gender,DateAdded")] Animal animal)
+        public async Task<IActionResult> Create([Bind("Id,Name,Age")] Animal animal)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Age,Name,Gender,DateAdded")] Animal animal)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age")] Animal animal)
         {
             if (id != animal.Id)
             {
