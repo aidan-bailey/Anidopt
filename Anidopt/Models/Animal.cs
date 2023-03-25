@@ -4,7 +4,6 @@ namespace Anidopt.Models;
 
 public class Animal
 {
-
     public int Id { get; set; }
     [StringLength(32, MinimumLength = 1)]
     [Required]
