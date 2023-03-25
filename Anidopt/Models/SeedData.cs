@@ -12,8 +12,6 @@ public static class SeedData
                 DbContextOptions<AnidoptContext>>()))
         {
 
-            var changed = false;
-
             if (!context.AnimalType.Any())
             {
                 context.AnimalType.AddRange(
@@ -26,7 +24,7 @@ public static class SeedData
                         Name = "Cat"
                     }
                 );
-                changed = true;
+                context.SaveChanges();
             }
 
             // Look for any movies.
@@ -36,13 +34,13 @@ public static class SeedData
                     new Animal
                     {
                         Name = "Dimitri",
-                        Age = 1
+                        Age = 1,
+                        AnimalType = context.AnimalType.Where(at => at.Name == "Dog").First()
                     }
-                );
-                changed = true;
+                ); ;
+                context.SaveChanges();
             }
 
-            if (changed) context.SaveChanges();
         }
     }
 }
