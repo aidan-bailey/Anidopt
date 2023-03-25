@@ -10,11 +10,13 @@ namespace Anidopt.Controllers
     {
         private readonly AnidoptContext _context;
         private readonly IBreedService _breedService;
+        private readonly IAnimalTypeService _animalTypeService;
 
-        public BreedsController(AnidoptContext context, IBreedService breedService)
+        public BreedsController(AnidoptContext context, IBreedService breedService, IAnimalTypeService animalTypeService)
         {
             _context = context;
             _breedService = breedService;
+            _animalTypeService = animalTypeService;
         }
 
         // GET: Breeds
