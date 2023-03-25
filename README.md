@@ -1,6 +1,11 @@
 # Anidopt
 Classifieds web-app for animal adoption (WIP)
 
+## Requirements
+
+- [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+- [MS SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+
 ## Usage
 
 Make sure `dotnet-ef` is installed
