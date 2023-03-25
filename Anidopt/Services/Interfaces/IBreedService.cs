@@ -8,4 +8,5 @@ public interface IBreedService
     public Task<List<Breed>> GetBreedsAsync();
     public Task<Breed?> GetBreedByIdAsync(int id);
     public bool BreedExistsById(int id);
+    public Task ConfirmDeletionById(int id);
 }
