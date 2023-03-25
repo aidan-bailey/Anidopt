@@ -25,7 +25,7 @@ namespace Anidopt.Controllers
         // GET: AnimalTypes
         public async Task<IActionResult> Index()
         {
-            if (_context.AnimalType == null) return Problem("Entity set 'AnidoptContext.AnimalType'  is null.");
+            if (!_animalTypeService.Initialised) return Problem("Entity set 'AnidoptContext.AnimalType'  is null.");
             var animalTypes = await _animalTypeService.GetAnimalTypesAsync();
             return View(animalTypes);
         }
@@ -33,7 +33,7 @@ namespace Anidopt.Controllers
         // GET: AnimalTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.AnimalType == null) return NotFound();
+            if (id == null || !_animalTypeService.Initialised) return NotFound();
             var animalType = await _animalTypeService.GetAnimalTypeByIdAsync((int)id);
             if (animalType == null) return NotFound();
             return View(animalType);
@@ -64,7 +64,7 @@ namespace Anidopt.Controllers
         // GET: AnimalTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.AnimalType == null) return NotFound();
+            if (id == null || !_animalTypeService.Initialised) return NotFound();
             var animalType = await _animalTypeService.GetAnimalTypeByIdAsync((int)id);
             if (animalType == null) return NotFound();
             return View(animalType);
@@ -99,7 +99,7 @@ namespace Anidopt.Controllers
         // GET: AnimalTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.AnimalType == null) return NotFound();
+            if (id == null || !_animalTypeService.Initialised) return NotFound();
             var animalType = await _animalTypeService.GetAnimalTypeByIdAsync((int)id);
             if (animalType == null) return NotFound();
             return View(animalType);
@@ -110,7 +110,7 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.AnimalType == null) return Problem("Entity set 'AnidoptContext.AnimalType'  is null.");
+            if (!_animalTypeService.Initialised) return Problem("Entity set 'AnidoptContext.AnimalType'  is null.");
             var animalType = await _animalTypeService.GetAnimalTypeByIdAsync(id);
             if (animalType != null) _context.AnimalType.Remove(animalType);
             await _context.SaveChangesAsync();
