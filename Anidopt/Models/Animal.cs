@@ -10,6 +10,7 @@ public class Animal
     [Required]
     public string? Name { get; set; }
     [Required]
+    [Range(0, int.MaxValue)]
     public int Age { get; set; }
     public virtual AnimalType? AnimalType { get; set; }
     [Required]
