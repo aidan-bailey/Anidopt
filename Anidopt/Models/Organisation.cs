@@ -10,6 +10,4 @@ public class Organisation
     [Required]
     [StringLength(32, MinimumLength = 1)]
     public string Name { get; set; }
-    public virtual List<Animal> Animals { get; set; }
-    public List<int> AnimalIds { get; set; }
 }
