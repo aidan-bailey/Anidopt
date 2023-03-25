@@ -28,7 +28,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Index()
         {
             if (_context.Animal == null) Problem("Entity set 'AnidoptContext.Animal'  is null.");
-            var animals = await _animalService.GetAnimals();
+            var animals = await _animalService.GetAnimalsAsync();
             return View(animals);
         }
 
@@ -36,7 +36,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Animal == null) return NotFound();
-            var animal = await _animalService.GetAnimalById((int)id);
+            var animal = await _animalService.GetAnimalByIdAsync((int)id);
             if (animal == null) return NotFound();
             return View(animal);
         }
@@ -44,7 +44,7 @@ namespace Anidopt.Controllers
         // GET: Animals/Create
         public async Task<IActionResult> Create()
         {
-            var animalType = await _animalService.GetAnimalTypes();
+            var animalType = await _animalService.GetAnimalTypesAsync();
             ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
                 Text = at.Name,
@@ -69,7 +69,7 @@ namespace Anidopt.Controllers
             if (ModelState.IsValid)
             {
 
-                var animalType = await _animalService.GetAnimalTypes();
+                var animalType = await _animalService.GetAnimalTypesAsync();
                 ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
                 {
                     Text = at.Name,
@@ -97,10 +97,10 @@ namespace Anidopt.Controllers
         {
             if (id == null || _context.Animal == null) return NotFound();
 
-            var animal = await _animalService.GetAnimalById((int)id);
+            var animal = await _animalService.GetAnimalByIdAsync((int)id);
             if (animal == null) return NotFound();
 
-            var animalType = await _animalService.GetAnimalTypes();
+            var animalType = await _animalService.GetAnimalTypesAsync();
 
             ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
@@ -137,13 +137,13 @@ namespace Anidopt.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!(await _animalService.AnimalExistsById(animal.Id))) return NotFound();
+                    if (!(await _animalService.AnimalExistsByIdAsync(animal.Id))) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
 
-            var animalType = await _animalService.GetAnimalTypes();
+            var animalType = await _animalService.GetAnimalTypesAsync();
             ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
                 Text = at.Name,
@@ -166,7 +166,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Animal == null) return NotFound();
-            var animal = await _animalService.GetAnimalById((int)id);
+            var animal = await _animalService.GetAnimalByIdAsync((int)id);
             if (animal == null) return NotFound();
             return View(animal);
         }
@@ -177,7 +177,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Animal == null) return Problem("Entity set 'AnidoptContext.Animal'  is null.");
-            await _animalService.ConfirmAnimalDeletionById(id);
+            await _animalService.ConfirmAnimalDeletionByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

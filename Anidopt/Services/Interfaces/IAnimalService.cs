@@ -5,9 +5,9 @@ namespace Anidopt.Services.Interfaces;
 
 public interface IAnimalService
 {
-    public Task<List<AnimalType>> GetAnimalTypes();
-    public Task<List<Animal>> GetAnimals();
-    public Task<Animal?> GetAnimalById(int id);
-    public Task<bool> AnimalExistsById(int id);
-    public Task ConfirmAnimalDeletionById(int id);
+    public Task<List<AnimalType>> GetAnimalTypesAsync();
+    public Task<List<Animal>> GetAnimalsAsync();
+    public Task<Animal?> GetAnimalByIdAsync(int id);
+    public Task<bool> AnimalExistsByIdAsync(int id);
+    public Task ConfirmAnimalDeletionByIdAsync(int id);
 }
