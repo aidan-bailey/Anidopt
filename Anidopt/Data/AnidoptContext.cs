@@ -18,6 +18,13 @@ namespace Anidopt.Data
             => optionsBuilder
                 .UseLazyLoadingProxies();
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<AnimalType>()
+                .HasIndex(at => at.Name)
+                .IsUnique();
+        }
+
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
 
         public DbSet<Anidopt.Models.AnimalType> AnimalType { get; set; } = default!;
