@@ -14,8 +14,6 @@ public class AnimalService : IAnimalService
         _context = context;
     }
 
-    public async Task<List<AnimalType>> GetAnimalTypesAsync() => await _context.AnimalType.ToListAsync();
-
     public async Task<List<Animal>> GetAnimalsAsync() => await _context.Animal.ToListAsync();
 
     public async Task<Animal?> GetAnimalByIdAsync(int id) => await _context.Animal.FindAsync(id);

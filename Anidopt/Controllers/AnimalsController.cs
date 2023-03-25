@@ -15,12 +15,14 @@ namespace Anidopt.Controllers
     {
         private readonly AnidoptContext _context;
         private readonly IAnimalService _animalService;
+        private readonly IAnimalTypeService _animalTypeService;
         private readonly IOrganisationService _organisationService;
 
-        public AnimalsController(AnidoptContext context, IAnimalService animalService, IOrganisationService organisationService)
+        public AnimalsController(AnidoptContext context, IAnimalService animalService, IAnimalTypeService animalTypeService, IOrganisationService organisationService)
         {
             _context = context;
             _animalService = animalService;
+            _animalTypeService = animalTypeService;
             _organisationService = organisationService;
         }
 
@@ -44,7 +46,7 @@ namespace Anidopt.Controllers
         // GET: Animals/Create
         public async Task<IActionResult> Create()
         {
-            var animalType = await _animalService.GetAnimalTypesAsync();
+            var animalType = await _animalTypeService.GetAnimalTypesAsync();
             ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
                 Text = at.Name,
@@ -69,7 +71,7 @@ namespace Anidopt.Controllers
             if (ModelState.IsValid)
             {
 
-                var animalType = await _animalService.GetAnimalTypesAsync();
+                var animalType = await _animalTypeService.GetAnimalTypesAsync();
                 ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
                 {
                     Text = at.Name,
@@ -100,7 +102,7 @@ namespace Anidopt.Controllers
             var animal = await _animalService.GetAnimalByIdAsync((int)id);
             if (animal == null) return NotFound();
 
-            var animalType = await _animalService.GetAnimalTypesAsync();
+            var animalType = await _animalTypeService.GetAnimalTypesAsync();
 
             ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
@@ -143,7 +145,7 @@ namespace Anidopt.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var animalType = await _animalService.GetAnimalTypesAsync();
+            var animalType = await _animalTypeService.GetAnimalTypesAsync();
             ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
                 Text = at.Name,

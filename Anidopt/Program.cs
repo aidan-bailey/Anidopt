@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AnidoptContext>(options =>
 builder.Services.AddControllersWithViews();
 
 // Services
+builder.Services.AddTransient<IAnimalTypeService, AnimalTypeService>();
 builder.Services.AddTransient<IAnimalService, AnimalService>();
 builder.Services.AddTransient<IOrganisationService, OrganisationService>();
 
