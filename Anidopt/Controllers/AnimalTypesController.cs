@@ -7,24 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Anidopt.Data;
 using Anidopt.Models;
+using Anidopt.Services.Interfaces;
 
 namespace Anidopt.Controllers
 {
     public class AnimalTypesController : Controller
     {
         private readonly AnidoptContext _context;
+        private readonly IAnimalTypeService _animalTypeService;
 
-        public AnimalTypesController(AnidoptContext context)
+        public AnimalTypesController(AnidoptContext context, IAnimalTypeService animalTypeService)
         {
             _context = context;
+            _animalTypeService = animalTypeService;
         }
 
         // GET: AnimalTypes
         public async Task<IActionResult> Index()
         {
-              return _context.AnimalType != null ? 
-                          View(await _context.AnimalType.ToListAsync()) :
-                          Problem("Entity set 'AnidoptContext.AnimalType'  is null.");
+            if (_context.AnimalType == null) return Problem("Entity set 'AnidoptContext.AnimalType'  is null.");
+            var animalTypes = await _animalTypeService.GetAnimalTypesAsync();
+            return View(animalTypes);
         }
 
         // GET: AnimalTypes/Details/5
