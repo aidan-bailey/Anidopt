@@ -14,5 +14,18 @@ public class OrganisationService: IOrganisationService
         _context = context;
     }
 
-    public async Task<List<Organisation>> GetOrganisations() =>  await _context.Organisation.ToListAsync();
+    public bool Initialised => _context.Organisation != null;
+
+    public bool OrganisationExistsById(int id) => _context.Organisation.Any(e => e.Id == id);
+
+    public async Task ConfirmDeletionById(int id)
+    {
+        var organisation = await GetOrganisationByIdAsync(id);
+        if (organisation != null) _context.Organisation.Remove(organisation);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<Organisation?> GetOrganisationByIdAsync(int id) => await _context.Organisation.FindAsync(id);
+
+    public async Task<List<Organisation>> GetOrganisationsAsync() => await _context.Organisation.ToListAsync();
 }

@@ -4,5 +4,9 @@ namespace Anidopt.Services.Interfaces;
 
 public interface IOrganisationService
 {
-    public Task<List<Organisation>> GetOrganisations();
+    public bool Initialised { get; }
+    public Task<List<Organisation>> GetOrganisationsAsync();
+    public Task<Organisation?> GetOrganisationByIdAsync(int id);
+    public bool OrganisationExistsById(int id);
+    public Task ConfirmDeletionById(int id);
 }
