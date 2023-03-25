@@ -1,6 +1,5 @@
-﻿namespace Anidopt.Services.Interfaces
+﻿namespace Anidopt.Services.Interfaces;
+
+public interface IAnimalTypeService
 {
-    public interface IAnimalTypeService
-    {
-    }
 }
