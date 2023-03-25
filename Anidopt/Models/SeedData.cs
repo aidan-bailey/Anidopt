@@ -11,20 +11,41 @@ public static class SeedData
             serviceProvider.GetRequiredService<
                 DbContextOptions<AnidoptContext>>()))
         {
-            // Look for any movies.
-            if (context.Animal.Any())
+
+            var changed = false;
+
+            if (!context.AnimalType.Any())
             {
-                return;   // DB has been seeded
+                context.AnimalType.AddRange(
+                    new AnimalType
+                    {
+                        Name = "Dog",
+                        Id = 0
+                    },
+                    new AnimalType
+                    {
+                        Name = "Cat",
+                        Id = 0
+                    }
+                );
+                changed = true;
             }
-            context.Animal.AddRange(
-                new Animal
-                {
-                    Name = "Dimitri",
-                    Age = 1,
-                    Id = 0
-                }
-            );
-            context.SaveChanges();
+
+            // Look for any movies.
+            if (!context.Animal.Any())
+            {
+                context.Animal.AddRange(
+                    new Animal
+                    {
+                        Name = "Dimitri",
+                        Age = 1,
+                        Id = 0
+                    }
+                );
+                changed = true;
+            }
+
+            if (changed) context.SaveChanges();
         }
     }
 }
