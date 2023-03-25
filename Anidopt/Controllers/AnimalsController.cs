@@ -31,9 +31,10 @@ namespace Anidopt.Controllers
         }
 
         // GET: Animals/Details/5
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            var animal = await _animalService.GetAnimalById(id);
+            if (id == null || _context.Animal == null) return NotFound();
+            var animal = await _animalService.GetAnimalById((int)id);
             if (animal == null) return NotFound();
             return View(animal);
         }
@@ -76,16 +77,10 @@ namespace Anidopt.Controllers
         // GET: Animals/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Animal == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.Animal == null) return NotFound();
 
             var animal = await _context.Animal.FindAsync(id);
-            if (animal == null)
-            {
-                return NotFound();
-            }
+            if (animal == null) return NotFound();
 
             var animalType = await _animalService.GetAnimalTypes();
 
@@ -105,10 +100,7 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,AnimalTypeId")] Animal animal)
         {
-            if (id != animal.Id)
-            {
-                return NotFound();
-            }
+            if (id != animal.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
