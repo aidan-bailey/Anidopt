@@ -2,7 +2,7 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface IAnimalTypeService
+public interface IAnimalService
 {
     public Task<List<AnimalType>> GetAnimalTypes();
 }

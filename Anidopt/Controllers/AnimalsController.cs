@@ -14,12 +14,12 @@ namespace Anidopt.Controllers
     public class AnimalsController : Controller
     {
         private readonly AnidoptContext _context;
-        private readonly IAnimalTypeService _animalTypeService;
+        private readonly IAnimalService _animalService;
 
-        public AnimalsController(AnidoptContext context, IAnimalTypeService animalTypeService)
+        public AnimalsController(AnidoptContext context, IAnimalService animalService)
         {
             _context = context;
-            _animalTypeService = animalTypeService;
+            _animalService = animalService;
         }
 
         // GET: Animals
@@ -51,7 +51,7 @@ namespace Anidopt.Controllers
         // GET: Animals/Create
         public async Task<IActionResult> Create()
         {
-            var animalType = await _animalTypeService.GetAnimalTypes();
+            var animalType = await _animalService.GetAnimalTypes();
             ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem {
                 Text = at.Name,
                 Value = at.Id.ToString()
@@ -68,7 +68,7 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                var animalType = await _animalTypeService.GetAnimalTypes();
+                var animalType = await _animalService.GetAnimalTypes();
 
                 ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
                 {
@@ -97,7 +97,7 @@ namespace Anidopt.Controllers
                 return NotFound();
             }
 
-            var animalType = await _animalTypeService.GetAnimalTypes();
+            var animalType = await _animalService.GetAnimalTypes();
 
             ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
@@ -141,7 +141,7 @@ namespace Anidopt.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var animalType = await _animalTypeService.GetAnimalTypes();
+            var animalType = await _animalService.GetAnimalTypes();
             ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
                 Text = at.Name,
