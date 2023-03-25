@@ -22,26 +22,16 @@ namespace Anidopt.Controllers
         // GET: Breeds
         public async Task<IActionResult> Index()
         {
-              return _context.Breed != null ? 
-                          View(await _context.Breed.ToListAsync()) :
-                          Problem("Entity set 'AnidoptContext.Breed'  is null.");
+            if (!_breedService.Initialised) return Problem("Entity set 'AnidoptContext.Breed'  is null.");
+            return View(await _breedService.GetBreedsAsync());
         }
 
         // GET: Breeds/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Breed == null)
-            {
-                return NotFound();
-            }
-
-            var breed = await _context.Breed
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (breed == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null || !_breedService.Initialised) return NotFound();
+            var breed = await _breedService.GetBreedByIdAsync((int)id);
+            if (breed == null) return NotFound();
             return View(breed);
         }
 
@@ -70,16 +60,9 @@ namespace Anidopt.Controllers
         // GET: Breeds/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Breed == null)
-            {
-                return NotFound();
-            }
-
-            var breed = await _context.Breed.FindAsync(id);
-            if (breed == null)
-            {
-                return NotFound();
-            }
+            if (id == null || !_breedService.Initialised) return NotFound();
+            var breed = await _breedService.GetBreedByIdAsync((int)id);
+            if (breed == null) return NotFound();
             return View(breed);
         }
 
@@ -90,11 +73,7 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Breed breed)
         {
-            if (id != breed.Id)
-            {
-                return NotFound();
-            }
-
+            if (id != breed.Id) return NotFound();
             if (ModelState.IsValid)
             {
                 try
@@ -104,14 +83,8 @@ namespace Anidopt.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BreedExists(breed.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!_breedService.BreedExistsById(breed.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -121,18 +94,9 @@ namespace Anidopt.Controllers
         // GET: Breeds/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Breed == null)
-            {
-                return NotFound();
-            }
-
-            var breed = await _context.Breed
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (breed == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null || !_breedService.Initialised) return NotFound();
+            var breed = await _breedService.GetBreedByIdAsync((int)id);
+            if (breed == null) return NotFound();
             return View(breed);
         }
 
@@ -141,23 +105,11 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Breed == null)
-            {
-                return Problem("Entity set 'AnidoptContext.Breed'  is null.");
-            }
-            var breed = await _context.Breed.FindAsync(id);
-            if (breed != null)
-            {
-                _context.Breed.Remove(breed);
-            }
-            
+            if (!_breedService.Initialised) return Problem("Entity set 'AnidoptContext.Breed'  is null.");
+            var breed = await _breedService.GetBreedByIdAsync(id);
+            if (breed != null) _context.Breed.Remove(breed);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool BreedExists(int id)
-        {
-          return (_context.Breed?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
