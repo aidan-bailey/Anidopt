@@ -19,4 +19,12 @@ public class AnimalService : IAnimalService
     public async Task<Animal?> GetAnimalById(int id) => await _context.Animal.FirstOrDefaultAsync(a => a.Id == id);
 
     public async Task<bool> AnimalExistsById(int id) => await _context.Animal.AnyAsync(e => e.Id == id);
+
+    public async Task ConfirmAnimalDeletionById(int id)
+    {
+        var animal = await GetAnimalById(id);
+        if (animal != null)
+            _context.Animal.Remove(animal);
+        await _context.SaveChangesAsync();
+    }
 }

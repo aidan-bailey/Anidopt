@@ -43,7 +43,8 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Create()
         {
             var animalType = await _animalService.GetAnimalTypes();
-            ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem {
+            ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
+            {
                 Text = at.Name,
                 Value = at.Id.ToString()
             });
@@ -65,7 +66,7 @@ namespace Anidopt.Controllers
                 {
                     Text = at.Name,
                     Value = at.Id.ToString(),
-                    Selected = animal.AnimalTypeId == at.Id 
+                    Selected = animal.AnimalTypeId == at.Id
                 });
                 _context.Add(animal);
                 await _context.SaveChangesAsync();
@@ -131,18 +132,9 @@ namespace Anidopt.Controllers
         // GET: Animals/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Animal == null)
-            {
-                return NotFound();
-            }
-
-            var animal = await _context.Animal
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (animal == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null || _context.Animal == null) return NotFound();
+            var animal = await _animalService.GetAnimalById((int)id);
+            if (animal == null) return NotFound();
             return View(animal);
         }
 
@@ -151,17 +143,8 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Animal == null)
-            {
-                return Problem("Entity set 'AnidoptContext.Animal'  is null.");
-            }
-            var animal = await _context.Animal.FindAsync(id);
-            if (animal != null)
-            {
-                _context.Animal.Remove(animal);
-            }
-
-            await _context.SaveChangesAsync();
+            if (_context.Animal == null) return Problem("Entity set 'AnidoptContext.Animal'  is null.");
+            await _animalService.ConfirmAnimalDeletionById(id);
             return RedirectToAction(nameof(Index));
         }
     }
