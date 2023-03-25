@@ -16,6 +16,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IAnimalTypeService, AnimalTypeService>();
 builder.Services.AddTransient<IAnimalService, AnimalService>();
 builder.Services.AddTransient<IOrganisationService, OrganisationService>();
+builder.Services.AddTransient<IBreedService, BreedService>();
 
 var app = builder.Build();
 

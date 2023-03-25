@@ -1,5 +1,6 @@
 ﻿using Anidopt.Data;
 using Anidopt.Models;
+using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +9,12 @@ namespace Anidopt.Controllers
     public class BreedsController : Controller
     {
         private readonly AnidoptContext _context;
+        private readonly IBreedService _breedService;
 
-        public BreedsController(AnidoptContext context)
+        public BreedsController(AnidoptContext context, IBreedService breedService)
         {
             _context = context;
+            _breedService = breedService;
         }
 
         // GET: Breeds
