@@ -1,5 +1,6 @@
 ﻿using Anidopt.Data;
 using Anidopt.Models;
+using Anidopt.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,18 +9,20 @@ namespace Anidopt.Controllers
     public class OrganisationsController : Controller
     {
         private readonly AnidoptContext _context;
+        private readonly OrganisationService _organisationService;
 
-        public OrganisationsController(AnidoptContext context)
+        public OrganisationsController(AnidoptContext context, OrganisationService organisationService)
         {
             _context = context;
+            _organisationService = organisationService;
         }
 
         // GET: Organisations
         public async Task<IActionResult> Index()
         {
-              return _context.Organisation != null ? 
-                          View(await _context.Organisation.ToListAsync()) :
-                          Problem("Entity set 'AnidoptContext.Organisation'  is null.");
+            return _context.Organisation != null ?
+                        View(await _context.Organisation.ToListAsync()) :
+                        Problem("Entity set 'AnidoptContext.Organisation'  is null.");
         }
 
         // GET: Organisations/Details/5
@@ -145,14 +148,14 @@ namespace Anidopt.Controllers
             {
                 _context.Organisation.Remove(organisation);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrganisationExists(int id)
         {
-          return (_context.Organisation?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Organisation?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
