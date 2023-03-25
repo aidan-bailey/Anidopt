@@ -16,7 +16,7 @@ public class AnimalService : IAnimalService
 
     public async Task<List<AnimalType>> GetAnimalTypes() => await _context.AnimalType.ToListAsync();
 
-    public async Task<Animal?> GetAnimalById(int id) => await _context.Animal.FirstOrDefaultAsync(a => a.Id == id);
+    public async Task<Animal?> GetAnimalById(int id) => await _context.Animal.FindAsync(id);
 
     public async Task<bool> AnimalExistsById(int id) => await _context.Animal.AnyAsync(e => e.Id == id);
 
