@@ -11,7 +11,7 @@ namespace Anidopt.Controllers
         private readonly AnidoptContext _context;
         private readonly OrganisationService _organisationService;
 
-        public OrganisationsController(AnidoptContext context, OrganisationService organisationService)
+        public OrganisationsController(AnidoptContext context, IOrganisationService organisationService)
         {
             _context = context;
             _organisationService = organisationService;
