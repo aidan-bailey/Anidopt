@@ -13,7 +13,7 @@ builder.Services.AddDbContext<AnidoptContext>(options =>
 builder.Services.AddControllersWithViews();
 
 // Services
-builder.Services.AddSingleton<IAnimalTypeService, AnimalTypeService>();
+builder.Services.AddTransient<IAnimalTypeService, AnimalTypeService>();
 
 var app = builder.Build();
 

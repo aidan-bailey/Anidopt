@@ -51,7 +51,7 @@ namespace Anidopt.Controllers
         // GET: Animals/Create
         public IActionResult Create()
         {
-            ViewBag.AnimalTypes = _context.AnimalType.Select(at => new SelectListItem {
+            ViewBag.AnimalTypes = _animalTypeService.GetAnimalTypes().Select(at => new SelectListItem {
                 Text = at.Name,
                 Value = at.Id.ToString()
             });
@@ -67,7 +67,7 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                ViewBag.AnimalTypes = _context.AnimalType.Select(at => new SelectListItem
+                ViewBag.AnimalTypes = _animalTypeService.GetAnimalTypes().Select(at => new SelectListItem
                 {
                     Text = at.Name,
                     Value = at.Id.ToString(),
@@ -94,7 +94,7 @@ namespace Anidopt.Controllers
                 return NotFound();
             }
 
-            ViewBag.AnimalTypes = _context.AnimalType.Select(at => new SelectListItem
+            ViewBag.AnimalTypes = _animalTypeService.GetAnimalTypes().Select(at => new SelectListItem
             {
                 Text = at.Name,
                 Value = at.Id.ToString()
