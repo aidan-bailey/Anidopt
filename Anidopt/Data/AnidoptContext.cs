@@ -30,5 +30,7 @@ namespace Anidopt.Data
         public DbSet<Anidopt.Models.AnimalType> AnimalType { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Organisation> Organisation { get; set; } = default!;
+
+        public DbSet<Anidopt.Models.Breed> Breed { get; set; } = default!;
     }
 }
