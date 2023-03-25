@@ -20,26 +20,17 @@ namespace Anidopt.Controllers
         // GET: Organisations
         public async Task<IActionResult> Index()
         {
-            return _context.Organisation != null ?
-                        View(await _context.Organisation.ToListAsync()) :
-                        Problem("Entity set 'AnidoptContext.Organisation'  is null.");
+            if (!_organisationService.Initialised) return Problem("Entity set 'AnidoptContext.Organisation'  is null.");
+            var organisations = await _organisationService.GetOrganisationsAsync();
+            return View(organisations);
         }
 
         // GET: Organisations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Organisation == null)
-            {
-                return NotFound();
-            }
-
-            var organisation = await _context.Organisation
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (organisation == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null || !_organisationService.Initialised) return NotFound();
+            var organisation = await _organisationService.GetOrganisationByIdAsync((int)id);
+            if (organisation == null) return NotFound();
             return View(organisation);
         }
 
@@ -68,16 +59,9 @@ namespace Anidopt.Controllers
         // GET: Organisations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Organisation == null)
-            {
-                return NotFound();
-            }
-
-            var organisation = await _context.Organisation.FindAsync(id);
-            if (organisation == null)
-            {
-                return NotFound();
-            }
+            if (id == null || !_organisationService.Initialised) return NotFound();
+            var organisation = await _organisationService.GetOrganisationByIdAsync((int)id);
+            if (organisation == null) return NotFound();
             return View(organisation);
         }
 
@@ -88,10 +72,7 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Organisation organisation)
         {
-            if (id != organisation.Id)
-            {
-                return NotFound();
-            }
+            if (id != organisation.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -102,14 +83,8 @@ namespace Anidopt.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrganisationExists(organisation.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!_organisationService.OrganisationExistsById(organisation.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -119,18 +94,9 @@ namespace Anidopt.Controllers
         // GET: Organisations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Organisation == null)
-            {
-                return NotFound();
-            }
-
-            var organisation = await _context.Organisation
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (organisation == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null || !_organisationService.Initialised) return NotFound();
+            var organisation = await _organisationService.GetOrganisationByIdAsync((int)id);
+            if (organisation == null) return NotFound();
             return View(organisation);
         }
 
@@ -139,23 +105,9 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Organisation == null)
-            {
-                return Problem("Entity set 'AnidoptContext.Organisation'  is null.");
-            }
-            var organisation = await _context.Organisation.FindAsync(id);
-            if (organisation != null)
-            {
-                _context.Organisation.Remove(organisation);
-            }
-
-            await _context.SaveChangesAsync();
+            if (_context.Organisation == null) return Problem("Entity set 'AnidoptContext.Organisation'  is null.");
+            await _organisationService.ConfirmDeletionById((int)id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool OrganisationExists(int id)
-        {
-            return (_context.Organisation?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
