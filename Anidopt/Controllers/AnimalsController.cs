@@ -52,7 +52,7 @@ namespace Anidopt.Controllers
                 Text = at.Name,
                 Value = at.Id.ToString()
             });
-            var organisations = await _organisationService.GetOrganisations();
+            var organisations = await _organisationService.GetOrganisationsAsync();
             ViewBag.Organisations = organisations.Select(at => new SelectListItem
             {
                 Text = at.Name,
@@ -79,7 +79,7 @@ namespace Anidopt.Controllers
                     Selected = animal.AnimalTypeId == at.Id
                 });
 
-                var organisations = await _organisationService.GetOrganisations();
+                var organisations = await _organisationService.GetOrganisationsAsync();
                 ViewBag.Organisations = organisations.Select(at => new SelectListItem
                 {
                     Text = at.Name,
@@ -110,7 +110,7 @@ namespace Anidopt.Controllers
                 Value = at.Id.ToString()
             });
 
-            var organisations = await _organisationService.GetOrganisations();
+            var organisations = await _organisationService.GetOrganisationsAsync();
             ViewBag.Organisations = organisations.Select(at => new SelectListItem
             {
                 Text = at.Name,
@@ -153,7 +153,7 @@ namespace Anidopt.Controllers
                 Selected = animal.AnimalTypeId == at.Id
             });
 
-            var organisations = await _organisationService.GetOrganisations();
+            var organisations = await _organisationService.GetOrganisationsAsync();
             ViewBag.Organisations = organisations.Select(at => new SelectListItem
             {
                 Text = at.Name,
