@@ -49,9 +49,10 @@ namespace Anidopt.Controllers
         }
 
         // GET: Animals/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.AnimalTypes = _animalTypeService.GetAnimalTypes().Select(at => new SelectListItem {
+            var animalType = await _animalTypeService.GetAnimalTypes();
+            ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem {
                 Text = at.Name,
                 Value = at.Id.ToString()
             });
@@ -67,7 +68,9 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                ViewBag.AnimalTypes = _animalTypeService.GetAnimalTypes().Select(at => new SelectListItem
+                var animalType = await _animalTypeService.GetAnimalTypes();
+
+                ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
                 {
                     Text = at.Name,
                     Value = at.Id.ToString(),
@@ -94,7 +97,9 @@ namespace Anidopt.Controllers
                 return NotFound();
             }
 
-            ViewBag.AnimalTypes = _animalTypeService.GetAnimalTypes().Select(at => new SelectListItem
+            var animalType = await _animalTypeService.GetAnimalTypes();
+
+            ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
                 Text = at.Name,
                 Value = at.Id.ToString()
@@ -136,7 +141,8 @@ namespace Anidopt.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.AnimalTypes = _context.AnimalType.Select(at => new SelectListItem
+            var animalType = await _animalTypeService.GetAnimalTypes();
+            ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
             {
                 Text = at.Name,
                 Value = at.Id.ToString(),
