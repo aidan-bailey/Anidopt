@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Anidopt.Models;
 using Anidopt.Data;
+using Anidopt.Services;
+using Anidopt.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AnidoptContext>(options =>
@@ -9,6 +11,9 @@ builder.Services.AddDbContext<AnidoptContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Services
+builder.Services.AddSingleton<IAnimalTypeService, AnimalTypeService>();
 
 var app = builder.Build();
 

@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Anidopt.Data;
 using Anidopt.Models;
+using Anidopt.Services.Interfaces;
 
 namespace Anidopt.Controllers
 {
     public class AnimalsController : Controller
     {
         private readonly AnidoptContext _context;
+        private readonly IAnimalTypeService _animalTypeService;
 
-        public AnimalsController(AnidoptContext context)
+        public AnimalsController(AnidoptContext context, IAnimalTypeService animalTypeService)
         {
             _context = context;
+            _animalTypeService = animalTypeService;
         }
 
         // GET: Animals
