@@ -19,13 +19,11 @@ public static class SeedData
                 context.AnimalType.AddRange(
                     new AnimalType
                     {
-                        Name = "Dog",
-                        Id = 0
+                        Name = "Dog"
                     },
                     new AnimalType
                     {
-                        Name = "Cat",
-                        Id = 0
+                        Name = "Cat"
                     }
                 );
                 changed = true;
@@ -38,8 +36,7 @@ public static class SeedData
                     new Animal
                     {
                         Name = "Dimitri",
-                        Age = 1,
-                        Id = 0
+                        Age = 1
                     }
                 );
                 changed = true;
