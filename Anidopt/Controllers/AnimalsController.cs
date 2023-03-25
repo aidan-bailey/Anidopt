@@ -90,6 +90,13 @@ namespace Anidopt.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.AnimalTypes = _context.AnimalType.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString()
+            });
+
             return View(animal);
         }
 
@@ -98,7 +105,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age")] Animal animal)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,AnimalTypeId")] Animal animal)
         {
             if (id != animal.Id)
             {
@@ -125,6 +132,14 @@ namespace Anidopt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.AnimalTypes = _context.AnimalType.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString(),
+                Selected = animal.AnimalTypeId == at.Id
+            });
+
             return View(animal);
         }
 
