@@ -1,7 +1,9 @@
 ﻿using Anidopt.Data;
+using Anidopt.Migrations;
 using Anidopt.Models;
 using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Controllers
@@ -46,7 +48,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Breed breed)
+        public async Task<IActionResult> Create([Bind("Id,Name,AnimalTypeId")] Breed breed)
         {
             if (ModelState.IsValid)
             {
@@ -54,6 +56,13 @@ namespace Anidopt.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            var animalTypes = await _animalTypeService.GetAnimalTypesAsync();
+            ViewBag.AnimalTypes = animalTypes.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString(),
+                Selected = breed.AnimalTypeId == at.Id
+            });
             return View(breed);
         }
 
@@ -63,6 +72,12 @@ namespace Anidopt.Controllers
             if (id == null || !_breedService.Initialised) return NotFound();
             var breed = await _breedService.GetBreedByIdAsync((int)id);
             if (breed == null) return NotFound();
+            var animalTypes = await _animalTypeService.GetAnimalTypesAsync();
+            ViewBag.AnimalTypes = animalTypes.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString()
+            });
             return View(breed);
         }
 
@@ -88,6 +103,13 @@ namespace Anidopt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            var animalTypes = await _animalTypeService.GetAnimalTypesAsync();
+            ViewBag.AnimalTypes = animalTypes.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString(),
+                Selected = breed.AnimalTypeId == at.Id
+            });
             return View(breed);
         }
 
@@ -106,9 +128,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!_breedService.Initialised) return Problem("Entity set 'AnidoptContext.Breed'  is null.");
-            var breed = await _breedService.GetBreedByIdAsync(id);
-            if (breed != null) _context.Breed.Remove(breed);
-            await _context.SaveChangesAsync();
+            await _breedService.ConfirmDeletionById((int)id);
             return RedirectToAction(nameof(Index));
         }
     }
