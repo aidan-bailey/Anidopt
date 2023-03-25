@@ -31,20 +31,10 @@ namespace Anidopt.Controllers
         }
 
         // GET: Animals/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Animal == null)
-            {
-                return NotFound();
-            }
-
-            var animal = await _context.Animal
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (animal == null)
-            {
-                return NotFound();
-            }
-
+            var animal = await _animalService.GetAnimalById(id);
+            if (animal == null) return NotFound();
             return View(animal);
         }
 
