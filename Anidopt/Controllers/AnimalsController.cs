@@ -25,9 +25,9 @@ namespace Anidopt.Controllers
         // GET: Animals
         public async Task<IActionResult> Index()
         {
-            return _context.Animal != null ?
-                        View(await _context.Animal.ToListAsync()) :
-                        Problem("Entity set 'AnidoptContext.Animal'  is null.");
+            if (_context.Animal == null) Problem("Entity set 'AnidoptContext.Animal'  is null.");
+            var animals = await _animalService.GetAnimals();
+            return View(animals);
         }
 
         // GET: Animals/Details/5
