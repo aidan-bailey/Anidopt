@@ -14,5 +14,9 @@ public class AnimalTypeService: IAnimalTypeService
         _context = context;
     }
 
+    public async Task<AnimalType?> GetAnimalTypeByIdAsync(int id) => await _context.AnimalType.FindAsync(id);
+
     public async Task<List<AnimalType>> GetAnimalTypesAsync() => await _context.AnimalType.ToListAsync();
+
+    public bool GetAnimalTypeExists(int id) => _context.AnimalType.Any(e => e.Id == id);
 }

@@ -33,18 +33,9 @@ namespace Anidopt.Controllers
         // GET: AnimalTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.AnimalType == null)
-            {
-                return NotFound();
-            }
-
-            var animalType = await _context.AnimalType
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (animalType == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null || _context.AnimalType == null) return NotFound();
+            var animalType = await _animalTypeService.GetAnimalTypeByIdAsync((int)id);
+            if (animalType == null) return NotFound();
             return View(animalType);
         }
 
@@ -73,16 +64,9 @@ namespace Anidopt.Controllers
         // GET: AnimalTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.AnimalType == null)
-            {
-                return NotFound();
-            }
-
-            var animalType = await _context.AnimalType.FindAsync(id);
-            if (animalType == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.AnimalType == null) return NotFound();
+            var animalType = await _animalTypeService.GetAnimalTypeByIdAsync((int)id);
+            if (animalType == null) return NotFound();
             return View(animalType);
         }
 
@@ -93,10 +77,7 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] AnimalType animalType)
         {
-            if (id != animalType.Id)
-            {
-                return NotFound();
-            }
+            if (id != animalType.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -107,14 +88,8 @@ namespace Anidopt.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AnimalTypeExists(animalType.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!_animalTypeService.GetAnimalTypeExists(animalType.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -124,18 +99,9 @@ namespace Anidopt.Controllers
         // GET: AnimalTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.AnimalType == null)
-            {
-                return NotFound();
-            }
-
-            var animalType = await _context.AnimalType
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (animalType == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null || _context.AnimalType == null) return NotFound();
+            var animalType = await _animalTypeService.GetAnimalTypeByIdAsync((int)id);
+            if (animalType == null) return NotFound();
             return View(animalType);
         }
 
@@ -144,23 +110,11 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.AnimalType == null)
-            {
-                return Problem("Entity set 'AnidoptContext.AnimalType'  is null.");
-            }
-            var animalType = await _context.AnimalType.FindAsync(id);
-            if (animalType != null)
-            {
-                _context.AnimalType.Remove(animalType);
-            }
-            
+            if (_context.AnimalType == null) return Problem("Entity set 'AnidoptContext.AnimalType'  is null.");
+            var animalType = await _animalTypeService.GetAnimalTypeByIdAsync(id);
+            if (animalType != null) _context.AnimalType.Remove(animalType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool AnimalTypeExists(int id)
-        {
-          return (_context.AnimalType?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
