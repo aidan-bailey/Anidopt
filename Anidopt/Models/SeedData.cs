@@ -38,6 +38,23 @@ public static class SeedData
                 context.SaveChanges();
             }
 
+            if (!context.Breed.Any())
+            {
+                context.Breed.AddRange(
+                    new Breed
+                    {
+                        Name = "Golden Retriever",
+                        AnimalType = context.AnimalType.Where(at => at.Name == "Dog").First()
+                    },
+                    new Breed
+                    {
+                        Name = "Siamese",
+                        AnimalType = context.AnimalType.Where(at => at.Name == "Cat").First()
+                    }
+                );
+                context.SaveChanges();
+            }
+
             // Look for any movies.
             if (!context.Animal.Any())
             {
