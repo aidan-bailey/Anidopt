@@ -12,6 +12,8 @@ public static class SeedData
                 DbContextOptions<AnidoptContext>>()))
         {
 
+            context.Database.EnsureCreated();
+
             if (!context.Organisation.Any())
             {
                 context.Organisation.AddRange(
