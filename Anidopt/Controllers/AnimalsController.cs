@@ -15,11 +15,13 @@ namespace Anidopt.Controllers
     {
         private readonly AnidoptContext _context;
         private readonly IAnimalService _animalService;
+        private readonly IOrganisationService _organisationService;
 
-        public AnimalsController(AnidoptContext context, IAnimalService animalService)
+        public AnimalsController(AnidoptContext context, IAnimalService animalService, IOrganisationService organisationService)
         {
             _context = context;
             _animalService = animalService;
+            _organisationService = organisationService;
         }
 
         // GET: Animals
@@ -48,6 +50,12 @@ namespace Anidopt.Controllers
                 Text = at.Name,
                 Value = at.Id.ToString()
             });
+            var organisations = await _organisationService.GetOrganisations();
+            ViewBag.Organisations = organisations.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString()
+            });
             return View();
         }
 
@@ -56,18 +64,27 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Age,AnimalTypeId")] Animal animal)
+        public async Task<IActionResult> Create([Bind("Name,Age,AnimalTypeId,OrganisationId")] Animal animal)
         {
             if (ModelState.IsValid)
             {
-                var animalType = await _animalService.GetAnimalTypes();
 
+                var animalType = await _animalService.GetAnimalTypes();
                 ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
                 {
                     Text = at.Name,
                     Value = at.Id.ToString(),
                     Selected = animal.AnimalTypeId == at.Id
                 });
+
+                var organisations = await _organisationService.GetOrganisations();
+                ViewBag.Organisations = organisations.Select(at => new SelectListItem
+                {
+                    Text = at.Name,
+                    Value = at.Id.ToString(),
+                    Selected = animal.OrganisationId == at.Id
+                });
+
                 _context.Add(animal);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -91,6 +108,14 @@ namespace Anidopt.Controllers
                 Value = at.Id.ToString()
             });
 
+            var organisations = await _organisationService.GetOrganisations();
+            ViewBag.Organisations = organisations.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString(),
+                Selected = animal.OrganisationId == at.Id
+            });
+
             return View(animal);
         }
 
@@ -99,7 +124,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,AnimalTypeId")] Animal animal)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,AnimalTypeId,OrganisationId")] Animal animal)
         {
             if (id != animal.Id) return NotFound();
 
@@ -124,6 +149,14 @@ namespace Anidopt.Controllers
                 Text = at.Name,
                 Value = at.Id.ToString(),
                 Selected = animal.AnimalTypeId == at.Id
+            });
+
+            var organisations = await _organisationService.GetOrganisations();
+            ViewBag.Organisations = organisations.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString(),
+                Selected = animal.OrganisationId == at.Id
             });
 
             return View(animal);

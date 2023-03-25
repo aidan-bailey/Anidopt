@@ -2,8 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Anidopt.Models;
 
-#pragma warning disable CS8618
-
 public class Animal
 {
 
@@ -14,9 +12,10 @@ public class Animal
     [Required]
     [Range(0, int.MaxValue)]
     public int Age { get; set; }
-    public virtual AnimalType AnimalType { get; set; }
+    public virtual AnimalType? AnimalType { get; set; }
     [Required]
     public int AnimalTypeId { get; set; }
-    public virtual Organisation Organisation { get; set; }
+    public virtual Organisation? Organisation { get; set; }
+    [Required]
     public int OrganisationId { get; set; }
 }
