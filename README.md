@@ -9,7 +9,7 @@ Make sure `dotnet-ef` is installed
 dotnet tool update --global dotnet-ef
 ```
 
-Create a json file called /appsettings.json/ in the `Anidopt` directory containing an `AnidoptContext` connection string, e.g.
+Create a json file called *appsettings.json* in the `Anidopt` directory containing an `AnidoptContext` connection string, e.g.
 
 ```json
 {
