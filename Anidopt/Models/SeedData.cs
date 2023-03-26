@@ -12,6 +12,7 @@ public static class SeedData
                 DbContextOptions<AnidoptContext>>()))
         {
 
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             if (!context.Organisation.Any())
@@ -35,6 +36,23 @@ public static class SeedData
                     new DescriptorType
                     {
                         Name = "Medical"
+                    }
+                );
+                context.SaveChanges();
+            }
+
+            if (!context.Descriptor.Any())
+            {
+                context.Descriptor.AddRange(
+                    new Descriptor
+                    {
+                        Name = "Friendly with Cats",
+                        DescriptorType = context.DescriptorType.Where(at => at.Name == "Social").First()
+                    },
+                    new Descriptor
+                    {
+                        Name = "Dewormed",
+                        DescriptorType = context.DescriptorType.Where(at => at.Name == "Medical").First()
                     }
                 );
                 context.SaveChanges();
