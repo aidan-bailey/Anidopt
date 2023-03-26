@@ -18,4 +18,7 @@ public class Animal
     public virtual Organisation? Organisation { get; set; }
     [Required]
     public int OrganisationId { get; set; }
+    public virtual Breed? Breed { get; set; }
+    [Required]
+    public int BreedId { get; set; }
 }
