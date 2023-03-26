@@ -12,7 +12,7 @@ public static class SeedData
                 DbContextOptions<AnidoptContext>>()))
         {
 
-            context.Database.EnsureDeleted();
+            context.Database.EnsureDeleted(); // TODO - this is obviously bad!!!
             context.Database.EnsureCreated();
 
             if (!context.Organisation.Any())
