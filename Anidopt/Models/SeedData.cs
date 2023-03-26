@@ -100,6 +100,7 @@ public static class SeedData
                         Age = 1,
                         AnimalType = context.AnimalType.Where(at => at.Name == "Dog").First(),
                         Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
+                        Breed = context.Breed.Where(b => b.Name == "Golden Retriever").First()
                     }
                 ); ;
                 context.SaveChanges();

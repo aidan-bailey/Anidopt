@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Anidopt.Models;
+using System.Reflection.Emit;
 
 namespace Anidopt.Data
 {
     public class AnidoptContext : DbContext
     {
-        public AnidoptContext (DbContextOptions<AnidoptContext> options)
+        public AnidoptContext(DbContextOptions<AnidoptContext> options)
             : base(options)
         {
         }
@@ -20,6 +21,7 @@ namespace Anidopt.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             builder.Entity<AnimalType>()
                 .HasIndex(at => at.Name)
                 .IsUnique();
@@ -29,6 +31,10 @@ namespace Anidopt.Data
             builder.Entity<Breed>()
                 .HasIndex(b => b.Name)
                 .IsUnique();
+            builder.Entity<Animal>()
+                .HasOne(a => a.Breed)
+                .WithMany(b => b.Animals)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;

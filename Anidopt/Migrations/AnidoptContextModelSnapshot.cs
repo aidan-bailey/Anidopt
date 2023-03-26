@@ -225,9 +225,9 @@ namespace Anidopt.Migrations
                         .IsRequired();
 
                     b.HasOne("Anidopt.Models.Breed", "Breed")
-                        .WithMany()
+                        .WithMany("Animals")
                         .HasForeignKey("BreedId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Anidopt.Models.Organisation", "Organisation")
@@ -293,6 +293,11 @@ namespace Anidopt.Migrations
                     b.Navigation("Animal");
 
                     b.Navigation("Descriptor");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Breed", b =>
+                {
+                    b.Navigation("Animals");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Organisation", b =>

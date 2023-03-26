@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anidopt.Migrations
 {
     [DbContext(typeof(AnidoptContext))]
-    [Migration("20230325112346_AddAnimalTypeToBreed")]
-    partial class AddAnimalTypeToBreed
+    [Migration("20230326185454_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,13 @@ namespace Anidopt.Migrations
                     b.Property<int>("AnimalTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("BreedId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(32)
@@ -52,6 +59,8 @@ namespace Anidopt.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AnimalTypeId");
+
+                    b.HasIndex("BreedId");
 
                     b.HasIndex("OrganisationId");
 
@@ -99,7 +108,94 @@ namespace Anidopt.Migrations
 
                     b.HasIndex("AnimalTypeId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Breed");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Descriptor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DescriptorTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DescriptorTypeId");
+
+                    b.ToTable("Descriptor");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.DescriptorType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DescriptorType");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Detail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InfoLinkId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InfoLinkId");
+
+                    b.ToTable("Detail");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.InfoLink", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnimalId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DescriptorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
+
+                    b.HasIndex("DescriptorId");
+
+                    b.ToTable("InfoLink");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Organisation", b =>
@@ -117,6 +213,9 @@ namespace Anidopt.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Organisation");
                 });
 
@@ -128,6 +227,12 @@ namespace Anidopt.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Anidopt.Models.Breed", "Breed")
+                        .WithMany("Animals")
+                        .HasForeignKey("BreedId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Anidopt.Models.Organisation", "Organisation")
                         .WithMany("Animals")
                         .HasForeignKey("OrganisationId")
@@ -135,6 +240,8 @@ namespace Anidopt.Migrations
                         .IsRequired();
 
                     b.Navigation("AnimalType");
+
+                    b.Navigation("Breed");
 
                     b.Navigation("Organisation");
                 });
@@ -148,6 +255,52 @@ namespace Anidopt.Migrations
                         .IsRequired();
 
                     b.Navigation("AnimalType");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Descriptor", b =>
+                {
+                    b.HasOne("Anidopt.Models.DescriptorType", "DescriptorType")
+                        .WithMany()
+                        .HasForeignKey("DescriptorTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DescriptorType");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Detail", b =>
+                {
+                    b.HasOne("Anidopt.Models.InfoLink", "InfoLink")
+                        .WithMany()
+                        .HasForeignKey("InfoLinkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InfoLink");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.InfoLink", b =>
+                {
+                    b.HasOne("Anidopt.Models.Animal", "Animal")
+                        .WithMany()
+                        .HasForeignKey("AnimalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Anidopt.Models.Descriptor", "Descriptor")
+                        .WithMany()
+                        .HasForeignKey("DescriptorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Animal");
+
+                    b.Navigation("Descriptor");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Breed", b =>
+                {
+                    b.Navigation("Animals");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Organisation", b =>
