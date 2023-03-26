@@ -42,5 +42,7 @@ namespace Anidopt.Data
         public DbSet<Anidopt.Models.DescriptorType> DescriptorType { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Detail> Detail { get; set; } = default!;
+
+        public DbSet<Anidopt.Models.Descriptor> Descriptor { get; set; } = default!;
     }
 }
