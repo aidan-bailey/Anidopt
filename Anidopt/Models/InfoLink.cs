@@ -11,7 +11,4 @@ public class InfoLink
     public virtual Descriptor? Descriptor { get; set; }
     [Required]
     public int DescriptorId { get; set; }
-    public virtual Detail? Detail { get; set; }
-    [Required]
-    public int DetailId { get; set; }
 }

@@ -22,7 +22,7 @@ namespace Anidopt.Controllers
         // GET: InfoLinks
         public async Task<IActionResult> Index()
         {
-            var anidoptContext = _context.InfoLink.Include(i => i.Animal).Include(i => i.Descriptor).Include(i => i.Detail);
+            var anidoptContext = _context.InfoLink.Include(i => i.Animal).Include(i => i.Descriptor);
             return View(await anidoptContext.ToListAsync());
         }
 
@@ -37,7 +37,6 @@ namespace Anidopt.Controllers
             var infoLink = await _context.InfoLink
                 .Include(i => i.Animal)
                 .Include(i => i.Descriptor)
-                .Include(i => i.Detail)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (infoLink == null)
             {
@@ -71,7 +70,6 @@ namespace Anidopt.Controllers
             }
             ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", infoLink.AnimalId);
             ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", infoLink.DescriptorId);
-            ViewData["DetailId"] = new SelectList(_context.Detail, "Id", "Description", infoLink.DetailId);
             return View(infoLink);
         }
 
@@ -90,7 +88,6 @@ namespace Anidopt.Controllers
             }
             ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", infoLink.AnimalId);
             ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", infoLink.DescriptorId);
-            ViewData["DetailId"] = new SelectList(_context.Detail, "Id", "Description", infoLink.DetailId);
             return View(infoLink);
         }
 
@@ -128,7 +125,6 @@ namespace Anidopt.Controllers
             }
             ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", infoLink.AnimalId);
             ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", infoLink.DescriptorId);
-            ViewData["DetailId"] = new SelectList(_context.Detail, "Id", "Description", infoLink.DetailId);
             return View(infoLink);
         }
 
@@ -140,10 +136,7 @@ namespace Anidopt.Controllers
                 return NotFound();
             }
 
-            var infoLink = await _context.InfoLink
-                .Include(i => i.Animal)
-                .Include(i => i.Descriptor)
-                .Include(i => i.Detail)
+            var infoLink = await _context.InfoLink.Include(i => i.Animal).Include(i => i.Descriptor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (infoLink == null)
             {

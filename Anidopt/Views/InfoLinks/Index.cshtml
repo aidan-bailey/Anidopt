@@ -18,9 +18,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Descriptor)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Detail)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -32,9 +29,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Descriptor.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Detail.Description)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
