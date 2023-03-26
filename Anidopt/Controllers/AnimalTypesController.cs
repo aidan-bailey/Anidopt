@@ -111,7 +111,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!_animalTypeService.Initialised) return Problem("Entity set 'AnidoptContext.AnimalType'  is null.");
-            await _animalTypeService.ConfirmDeletionById(id);
+            await _animalTypeService.EnsureAnimalTypeDeletionById(id);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -22,7 +22,7 @@ public class AnimalTypeService: IAnimalTypeService
 
     public bool GetAnimalTypeExists(int id) => _context.AnimalType.Any(e => e.Id == id);
 
-    public async Task ConfirmDeletionById(int id)
+    public async Task EnsureAnimalTypeDeletionById(int id)
     {
         var animalType = await GetAnimalTypeByIdAsync(id);
         if (animalType != null) _context.AnimalType.Remove(animalType);

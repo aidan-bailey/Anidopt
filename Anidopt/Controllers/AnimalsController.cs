@@ -175,7 +175,7 @@ public class AnimalsController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         if (!_animalService.Initialised) return Problem("Entity set 'AnidoptContext.Animal'  is null.");
-        await _animalService.ConfirmAnimalDeletionByIdAsync(id);
+        await _animalService.EnsureAnimalDeletionByIdAsync(id);
         return RedirectToAction(nameof(Index));
     }
 }

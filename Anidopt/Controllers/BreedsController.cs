@@ -133,7 +133,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!_breedService.Initialised) return Problem("Entity set 'AnidoptContext.Breed'  is null.");
-            await _breedService.ConfirmDeletionById((int)id);
+            await _breedService.EnsureBreedDeletionById((int)id);
             return RedirectToAction(nameof(Index));
         }
     }

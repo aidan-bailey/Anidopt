@@ -18,7 +18,7 @@ public class OrganisationService: IOrganisationService
 
     public bool OrganisationExistsById(int id) => _context.Organisation.Any(e => e.Id == id);
 
-    public async Task ConfirmDeletionById(int id)
+    public async Task EnsureOrganisationDeletionById(int id)
     {
         var organisation = await GetOrganisationByIdAsync(id);
         if (organisation != null) _context.Organisation.Remove(organisation);

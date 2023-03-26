@@ -107,7 +107,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Organisation == null) return Problem("Entity set 'AnidoptContext.Organisation'  is null.");
-            await _organisationService.ConfirmDeletionById((int)id);
+            await _organisationService.EnsureOrganisationDeletionById((int)id);
             return RedirectToAction(nameof(Index));
         }
     }

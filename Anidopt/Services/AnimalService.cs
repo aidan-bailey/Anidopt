@@ -22,7 +22,7 @@ public class AnimalService : IAnimalService
 
     public async Task<bool> AnimalExistsByIdAsync(int id) => await _context.Animal.AnyAsync(e => e.Id == id);
 
-    public async Task ConfirmAnimalDeletionByIdAsync(int id)
+    public async Task EnsureAnimalDeletionByIdAsync(int id)
     {
         var animal = await GetAnimalByIdAsync(id);
         if (animal != null)

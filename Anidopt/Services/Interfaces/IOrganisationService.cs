@@ -8,5 +8,5 @@ public interface IOrganisationService
     public Task<List<Organisation>> GetOrganisationsAsync();
     public Task<Organisation?> GetOrganisationByIdAsync(int id);
     public bool OrganisationExistsById(int id);
-    public Task ConfirmDeletionById(int id);
+    public Task EnsureOrganisationDeletionById(int id);
 }

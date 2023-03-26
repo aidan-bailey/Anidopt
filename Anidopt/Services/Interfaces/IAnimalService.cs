@@ -9,5 +9,5 @@ public interface IAnimalService
     public Task<List<Animal>> GetAnimalsAsync();
     public Task<Animal?> GetAnimalByIdAsync(int id);
     public Task<bool> AnimalExistsByIdAsync(int id);
-    public Task ConfirmAnimalDeletionByIdAsync(int id);
+    public Task EnsureAnimalDeletionByIdAsync(int id);
 }

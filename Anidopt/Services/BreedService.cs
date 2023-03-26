@@ -18,7 +18,7 @@ public class BreedService : IBreedService
 
     public bool BreedExistsById(int id) => _context.Breed.Any(e => e.Id == id);
 
-    public async Task ConfirmDeletionById(int id)
+    public async Task EnsureBreedDeletionById(int id)
     {
         var breed = await GetBreedByIdAsync(id);
         if (breed != null) _context.Breed.Remove(breed);
