@@ -25,6 +25,21 @@ public static class SeedData
                 context.SaveChanges();
             }
 
+            if (!context.DescriptorType.Any())
+            {
+                context.DescriptorType.AddRange(
+                    new DescriptorType
+                    {
+                        Name = "Social"
+                    },
+                    new DescriptorType
+                    {
+                        Name = "Medical"
+                    }
+                );
+                context.SaveChanges();
+            }
+
             if (!context.AnimalType.Any())
             {
                 context.AnimalType.AddRange(
