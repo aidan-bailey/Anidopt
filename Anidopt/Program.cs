@@ -1,9 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Anidopt.Models;
 using Anidopt.Data;
+using Anidopt.Models;
 using Anidopt.Services;
 using Anidopt.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AnidoptContext>(options =>
