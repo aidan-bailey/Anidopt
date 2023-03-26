@@ -24,4 +24,32 @@ Create a json file called *appsettings.json* in the `Anidopt` directory containi
 }
 ```
 
-The database will be created if it does not exist.
+A database will be built with the connection string if it does not exist.
+
+Use the typical `dotnet` cli commands for the rest...
+
+**Build**
+
+```sh
+dotnet build
+```
+
+**Clean**
+
+```sh
+dotnet clean
+```
+
+**Run**
+
+```sh
+dotnet watch
+```
+
+...blah blah blah...
+
+## License
+
+This code is being written with the purpose of doing good things for free.
+Anidopt currently rides under [GPLv2](https://github.com/aidanjbailey/Anidopt/blob/master/LICENSE).
+If it's good enough for Linus it's good enough for me.
