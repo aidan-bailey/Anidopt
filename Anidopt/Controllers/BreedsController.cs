@@ -1,4 +1,5 @@
 ﻿using Anidopt.Data;
+using Anidopt.Migrations;
 using Anidopt.Models;
 using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -37,8 +38,14 @@ namespace Anidopt.Controllers
         }
 
         // GET: Breeds/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var animalTypes = await _animalTypeService.GetAnimalTypesAsync();
+            ViewBag.AnimalTypes = animalTypes.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString()
+            });
             return View();
         }
 
