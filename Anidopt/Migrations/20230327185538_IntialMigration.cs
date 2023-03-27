@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -109,11 +110,12 @@ namespace Anidopt.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
+                    BirthDay = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SpeciesId = table.Column<int>(type: "int", nullable: false),
                     OrganisationId = table.Column<int>(type: "int", nullable: false),
-                    BreedId = table.Column<int>(type: "int", nullable: false)
+                    BreedId = table.Column<int>(type: "int", nullable: false),
+                    SexId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,6 +130,12 @@ namespace Anidopt.Migrations
                         name: "FK_Animal_Organisation_OrganisationId",
                         column: x => x.OrganisationId,
                         principalTable: "Organisation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Animal_Sex_SexId",
+                        column: x => x.SexId,
+                        principalTable: "Sex",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -195,6 +203,11 @@ namespace Anidopt.Migrations
                 column: "OrganisationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Animal_SexId",
+                table: "Animal",
+                column: "SexId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Animal_SpeciesId",
                 table: "Animal",
                 column: "SpeciesId");
@@ -250,9 +263,6 @@ namespace Anidopt.Migrations
                 name: "Detail");
 
             migrationBuilder.DropTable(
-                name: "Sex");
-
-            migrationBuilder.DropTable(
                 name: "InfoLink");
 
             migrationBuilder.DropTable(
@@ -266,6 +276,9 @@ namespace Anidopt.Migrations
 
             migrationBuilder.DropTable(
                 name: "Organisation");
+
+            migrationBuilder.DropTable(
+                name: "Sex");
 
             migrationBuilder.DropTable(
                 name: "DescriptorType");

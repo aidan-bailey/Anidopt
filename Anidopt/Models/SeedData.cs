@@ -98,6 +98,11 @@ public static class SeedData
                     },
                     new Breed
                     {
+                        Name = "Afrikanis",
+                        Species = context.Species.Where(at => at.Name == "Dog").First()
+                    },
+                    new Breed
+                    {
                         Name = "Siamese",
                         Species = context.Species.Where(at => at.Name == "Cat").First()
                     }
@@ -111,13 +116,23 @@ public static class SeedData
                 context.Animal.AddRange(
                     new Animal
                     {
-                        Name = "Dimitri",
-                        Age = 1,
+                        Name = "Ginny",
+                        BirthDay = new DateTime(2016, 12, 16),
                         Species = context.Species.Where(at => at.Name == "Dog").First(),
                         Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
-                        Breed = context.Breed.Where(b => b.Name == "Golden Retriever").First()
+                        Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
+                        Sex = context.Sex.Where(s => s.Name == "Female").First()
+                    },
+                    new Animal
+                    {
+                        Name = "Layla",
+                        BirthDay = new DateTime(2016, 12, 16),
+                        Species = context.Species.Where(at => at.Name == "Dog").First(),
+                        Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
+                        Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
+                        Sex = context.Sex.Where(s => s.Name == "Female").First()
                     }
-                ); ;
+                );
                 context.SaveChanges();
             }
 

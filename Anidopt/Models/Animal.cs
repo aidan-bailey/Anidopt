@@ -14,8 +14,7 @@ public class Animal
     public string? Name { get; set; }
     
     [Required]
-    [Range(0, int.MaxValue)]
-    public int Age { get; set; }
+    public DateTime BirthDay { get; set; }
 
     [Required]
     public string Description { get; set; } = "";
@@ -43,4 +42,12 @@ public class Animal
     
     [Required]
     public int BreedId { get; set; }
+
+    // SEX
+
+    [ForeignKey(nameof(SexId))]
+    public virtual Sex? Sex { get; set; }
+
+    [Required]
+    public int SexId { get; set; }
 }
