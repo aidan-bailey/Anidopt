@@ -5,24 +5,11 @@
 namespace Anidopt.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class IntialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Species",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Species", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "DescriptorType",
                 columns: table => new
@@ -50,23 +37,29 @@ namespace Anidopt.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Breed",
+                name: "Sex",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    SpeciesId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Breed", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Breed_Species_SpeciesId",
-                        column: x => x.SpeciesId,
-                        principalTable: "Species",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Sex", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Species",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Species", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,6 +83,26 @@ namespace Anidopt.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Breed",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    SpeciesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Breed", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Breed_Species_SpeciesId",
+                        column: x => x.SpeciesId,
+                        principalTable: "Species",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Animal",
                 columns: table => new
                 {
@@ -106,12 +119,6 @@ namespace Anidopt.Migrations
                 {
                     table.PrimaryKey("PK_Animal", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Animal_Species_SpeciesId",
-                        column: x => x.SpeciesId,
-                        principalTable: "Species",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Animal_Breed_BreedId",
                         column: x => x.BreedId,
                         principalTable: "Breed",
@@ -121,6 +128,12 @@ namespace Anidopt.Migrations
                         name: "FK_Animal_Organisation_OrganisationId",
                         column: x => x.OrganisationId,
                         principalTable: "Organisation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Animal_Species_SpeciesId",
+                        column: x => x.SpeciesId,
+                        principalTable: "Species",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -187,12 +200,6 @@ namespace Anidopt.Migrations
                 column: "SpeciesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Species_Name",
-                table: "Species",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Breed_Name",
                 table: "Breed",
                 column: "Name",
@@ -228,6 +235,12 @@ namespace Anidopt.Migrations
                 table: "Organisation",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Species_Name",
+                table: "Species",
+                column: "Name",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -235,6 +248,9 @@ namespace Anidopt.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Detail");
+
+            migrationBuilder.DropTable(
+                name: "Sex");
 
             migrationBuilder.DropTable(
                 name: "InfoLink");

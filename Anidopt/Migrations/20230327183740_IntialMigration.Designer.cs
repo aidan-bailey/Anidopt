@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anidopt.Migrations
 {
     [DbContext(typeof(AnidoptContext))]
-    [Migration("20230327182045_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230327183740_IntialMigration")]
+    partial class IntialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -196,6 +196,23 @@ namespace Anidopt.Migrations
                         .IsUnique();
 
                     b.ToTable("Organisation");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Sex", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sex");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Species", b =>

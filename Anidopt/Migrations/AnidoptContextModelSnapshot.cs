@@ -195,6 +195,23 @@ namespace Anidopt.Migrations
                     b.ToTable("Organisation");
                 });
 
+            modelBuilder.Entity("Anidopt.Models.Sex", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sex");
+                });
+
             modelBuilder.Entity("Anidopt.Models.Species", b =>
                 {
                     b.Property<int>("Id")

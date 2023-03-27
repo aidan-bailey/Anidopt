@@ -26,6 +26,21 @@ public static class SeedData
                 context.SaveChanges();
             }
 
+            if (!context.Sex.Any())
+            {
+                context.Sex.AddRange(
+                    new Sex
+                    {
+                        Name = "Male"
+                    },
+                    new Sex
+                    {
+                        Name = "Female"
+                    }
+                );
+                context.SaveChanges();
+            }
+
             if (!context.DescriptorType.Any())
             {
                 context.DescriptorType.AddRange(
