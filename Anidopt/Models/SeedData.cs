@@ -83,6 +83,10 @@ public static class SeedData
                     new Species
                     {
                         Name = "Cat"
+                    },
+                    new Species
+                    {
+                        Name = "Frog"
                     }
                 );
                 context.SaveChanges();
