@@ -19,7 +19,7 @@ public class Animal
     [Required]
     public string Description { get; set; } = "";
 
-    // Species
+    // SPECIES
 
     [ForeignKey(nameof(SpeciesId))]
     public virtual Species? Species { get; set; }
