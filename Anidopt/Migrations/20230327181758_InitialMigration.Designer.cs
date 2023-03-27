@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anidopt.Migrations
 {
     [DbContext(typeof(AnidoptContext))]
-    [Migration("20230327181453_AddAnimalConstraints")]
-    partial class AddAnimalConstraints
+    [Migration("20230327181758_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
