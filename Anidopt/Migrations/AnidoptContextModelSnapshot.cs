@@ -35,9 +35,6 @@ namespace Anidopt.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("AnimalTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("BreedId")
                         .HasColumnType("int");
 
@@ -53,36 +50,18 @@ namespace Anidopt.Migrations
                     b.Property<int>("OrganisationId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("SpeciesId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("AnimalTypeId");
+                    b.HasKey("Id");
 
                     b.HasIndex("BreedId");
 
                     b.HasIndex("OrganisationId");
 
+                    b.HasIndex("SpeciesId");
+
                     b.ToTable("Animal");
-                });
-
-            modelBuilder.Entity("Anidopt.Models.AnimalType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("AnimalType");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Breed", b =>
@@ -93,20 +72,20 @@ namespace Anidopt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AnimalTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("SpeciesId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("AnimalTypeId");
+                    b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("SpeciesId");
 
                     b.ToTable("Breed");
                 });
@@ -216,14 +195,29 @@ namespace Anidopt.Migrations
                     b.ToTable("Organisation");
                 });
 
+            modelBuilder.Entity("Anidopt.Models.Species", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Species");
+                });
+
             modelBuilder.Entity("Anidopt.Models.Animal", b =>
                 {
-                    b.HasOne("Anidopt.Models.AnimalType", "AnimalType")
-                        .WithMany()
-                        .HasForeignKey("AnimalTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Anidopt.Models.Breed", "Breed")
                         .WithMany("Animals")
                         .HasForeignKey("BreedId")
@@ -236,22 +230,28 @@ namespace Anidopt.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AnimalType");
+                    b.HasOne("Anidopt.Models.Species", "Species")
+                        .WithMany()
+                        .HasForeignKey("SpeciesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Breed");
 
                     b.Navigation("Organisation");
+
+                    b.Navigation("Species");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Breed", b =>
                 {
-                    b.HasOne("Anidopt.Models.AnimalType", "AnimalType")
+                    b.HasOne("Anidopt.Models.Species", "Species")
                         .WithMany()
-                        .HasForeignKey("AnimalTypeId")
+                        .HasForeignKey("SpeciesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AnimalType");
+                    b.Navigation("Species");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Descriptor", b =>

@@ -11,7 +11,7 @@ namespace Anidopt.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AnimalType",
+                name: "Species",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -20,7 +20,7 @@ namespace Anidopt.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnimalType", x => x.Id);
+                    table.PrimaryKey("PK_Species", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,15 +56,15 @@ namespace Anidopt.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    AnimalTypeId = table.Column<int>(type: "int", nullable: false)
+                    SpeciesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Breed", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Breed_AnimalType_AnimalTypeId",
-                        column: x => x.AnimalTypeId,
-                        principalTable: "AnimalType",
+                        name: "FK_Breed_Species_SpeciesId",
+                        column: x => x.SpeciesId,
+                        principalTable: "Species",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -98,7 +98,7 @@ namespace Anidopt.Migrations
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AnimalTypeId = table.Column<int>(type: "int", nullable: false),
+                    SpeciesId = table.Column<int>(type: "int", nullable: false),
                     OrganisationId = table.Column<int>(type: "int", nullable: false),
                     BreedId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -106,9 +106,9 @@ namespace Anidopt.Migrations
                 {
                     table.PrimaryKey("PK_Animal", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Animal_AnimalType_AnimalTypeId",
-                        column: x => x.AnimalTypeId,
-                        principalTable: "AnimalType",
+                        name: "FK_Animal_Species_SpeciesId",
+                        column: x => x.SpeciesId,
+                        principalTable: "Species",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -172,11 +172,6 @@ namespace Anidopt.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Animal_AnimalTypeId",
-                table: "Animal",
-                column: "AnimalTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Animal_BreedId",
                 table: "Animal",
                 column: "BreedId");
@@ -187,21 +182,26 @@ namespace Anidopt.Migrations
                 column: "OrganisationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AnimalType_Name",
-                table: "AnimalType",
-                column: "Name",
-                unique: true);
+                name: "IX_Animal_SpeciesId",
+                table: "Animal",
+                column: "SpeciesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Breed_AnimalTypeId",
-                table: "Breed",
-                column: "AnimalTypeId");
+                name: "IX_Species_Name",
+                table: "Species",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Breed_Name",
                 table: "Breed",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Breed_SpeciesId",
+                table: "Breed",
+                column: "SpeciesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Descriptor_DescriptorTypeId",
@@ -255,7 +255,7 @@ namespace Anidopt.Migrations
                 name: "DescriptorType");
 
             migrationBuilder.DropTable(
-                name: "AnimalType");
+                name: "Species");
         }
     }
 }

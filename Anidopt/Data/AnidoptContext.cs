@@ -22,7 +22,7 @@ namespace Anidopt.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
-            builder.Entity<AnimalType>()
+            builder.Entity<Species>()
                 .HasIndex(at => at.Name)
                 .IsUnique();
             builder.Entity<Organisation>()
@@ -39,7 +39,7 @@ namespace Anidopt.Data
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.AnimalType> AnimalType { get; set; } = default!;
+        public DbSet<Anidopt.Models.Species> Species { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Organisation> Organisation { get; set; } = default!;
 

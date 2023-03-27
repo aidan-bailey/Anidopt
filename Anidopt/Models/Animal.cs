@@ -20,13 +20,13 @@ public class Animal
     [Required]
     public string Description { get; set; } = "";
 
-    // ANIMALTYPE
+    // Species
 
-    [ForeignKey(nameof(AnimalTypeId))]
-    public virtual AnimalType? AnimalType { get; set; }
+    [ForeignKey(nameof(SpeciesId))]
+    public virtual Species? Species { get; set; }
     
     [Required]
-    public int AnimalTypeId { get; set; }
+    public int SpeciesId { get; set; }
 
     // ORGANISATION
 

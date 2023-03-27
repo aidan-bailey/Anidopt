@@ -10,8 +10,8 @@ public class Breed
     [StringLength(32, MinimumLength = 1)]
     [Required]
     public string? Name { get; set; }
-    [ForeignKey(nameof(AnimalTypeId))]
-    public virtual AnimalType? AnimalType { get; set; }
-    public int AnimalTypeId { get; set; }
+    [ForeignKey(nameof(SpeciesId))]
+    public virtual Species? Species { get; set; }
+    public int SpeciesId { get; set; }
     public virtual List<Animal> Animals { get; set; } = new List<Animal>();
 }

@@ -11,14 +11,14 @@ public class AnimalsController : Controller
 {
     private readonly AnidoptContext _context;
     private readonly IAnimalService _animalService;
-    private readonly IAnimalTypeService _animalTypeService;
+    private readonly ISpeciesService _SpeciesService;
     private readonly IOrganisationService _organisationService;
 
-    public AnimalsController(AnidoptContext context, IAnimalService animalService, IAnimalTypeService animalTypeService, IOrganisationService organisationService)
+    public AnimalsController(AnidoptContext context, IAnimalService animalService, ISpeciesService SpeciesService, IOrganisationService organisationService)
     {
         _context = context;
         _animalService = animalService;
-        _animalTypeService = animalTypeService;
+        _SpeciesService = SpeciesService;
         _organisationService = organisationService;
     }
 
@@ -42,8 +42,8 @@ public class AnimalsController : Controller
     // GET: Animals/Create
     public async Task<IActionResult> Create()
     {
-        var animalType = await _animalTypeService.GetAnimalTypesAsync();
-        ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
+        var Species = await _SpeciesService.GetSpeciesAsync();
+        ViewBag.Speciess = Species.Select(at => new SelectListItem
         {
             Text = at.Name,
             Value = at.Id.ToString()
@@ -62,17 +62,17 @@ public class AnimalsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,Age,AnimalTypeId,OrganisationId,Description")] Animal animal)
+    public async Task<IActionResult> Create([Bind("Name,Age,SpeciesId,OrganisationId,Description")] Animal animal)
     {
         if (ModelState.IsValid)
         {
 
-            var animalType = await _animalTypeService.GetAnimalTypesAsync();
-            ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
+            var Species = await _SpeciesService.GetSpeciesAsync();
+            ViewBag.Speciess = Species.Select(at => new SelectListItem
             {
                 Text = at.Name,
                 Value = at.Id.ToString(),
-                Selected = animal.AnimalTypeId == at.Id
+                Selected = animal.SpeciesId == at.Id
             });
 
             var organisations = await _organisationService.GetOrganisationsAsync();
@@ -98,9 +98,9 @@ public class AnimalsController : Controller
         var animal = await _animalService.GetAnimalByIdAsync((int)id);
         if (animal == null) return NotFound();
 
-        var animalType = await _animalTypeService.GetAnimalTypesAsync();
+        var Species = await _SpeciesService.GetSpeciesAsync();
 
-        ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
+        ViewBag.Speciess = Species.Select(at => new SelectListItem
         {
             Text = at.Name,
             Value = at.Id.ToString()
@@ -122,7 +122,7 @@ public class AnimalsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,AnimalTypeId,OrganisationId,Description")] Animal animal)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,SpeciesId,OrganisationId,Description")] Animal animal)
     {
         if (id != animal.Id) return NotFound();
 
@@ -141,12 +141,12 @@ public class AnimalsController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        var animalType = await _animalTypeService.GetAnimalTypesAsync();
-        ViewBag.AnimalTypes = animalType.Select(at => new SelectListItem
+        var Species = await _SpeciesService.GetSpeciesAsync();
+        ViewBag.Speciess = Species.Select(at => new SelectListItem
         {
             Text = at.Name,
             Value = at.Id.ToString(),
-            Selected = animal.AnimalTypeId == at.Id
+            Selected = animal.SpeciesId == at.Id
         });
 
         var organisations = await _organisationService.GetOrganisationsAsync();

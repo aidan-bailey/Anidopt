@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Anidopt.Models;
 
 [PrimaryKey(nameof(Id))]
-public class AnimalType
+public class Species
 {
     public int Id { get; set; }
 

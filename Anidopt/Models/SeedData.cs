@@ -58,14 +58,14 @@ public static class SeedData
                 context.SaveChanges();
             }
 
-            if (!context.AnimalType.Any())
+            if (!context.Species.Any())
             {
-                context.AnimalType.AddRange(
-                    new AnimalType
+                context.Species.AddRange(
+                    new Species
                     {
                         Name = "Dog"
                     },
-                    new AnimalType
+                    new Species
                     {
                         Name = "Cat"
                     }
@@ -79,12 +79,12 @@ public static class SeedData
                     new Breed
                     {
                         Name = "Golden Retriever",
-                        AnimalType = context.AnimalType.Where(at => at.Name == "Dog").First()
+                        Species = context.Species.Where(at => at.Name == "Dog").First()
                     },
                     new Breed
                     {
                         Name = "Siamese",
-                        AnimalType = context.AnimalType.Where(at => at.Name == "Cat").First()
+                        Species = context.Species.Where(at => at.Name == "Cat").First()
                     }
                 );
                 context.SaveChanges();
@@ -98,7 +98,7 @@ public static class SeedData
                     {
                         Name = "Dimitri",
                         Age = 1,
-                        AnimalType = context.AnimalType.Where(at => at.Name == "Dog").First(),
+                        Species = context.Species.Where(at => at.Name == "Dog").First(),
                         Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
                         Breed = context.Breed.Where(b => b.Name == "Golden Retriever").First()
                     }
