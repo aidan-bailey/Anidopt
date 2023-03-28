@@ -19,6 +19,12 @@ public class Animal
     [Required]
     public string Description { get; set; } = "";
 
+    [Required]
+    public float AdultHeightEstimation { get; set; }
+
+    [Required]
+    public float AdultWeightEstimation { get; set; }
+
     // SPECIES
 
     [ForeignKey(nameof(SpeciesId))]

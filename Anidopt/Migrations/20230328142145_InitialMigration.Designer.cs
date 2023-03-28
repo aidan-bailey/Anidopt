@@ -4,6 +4,7 @@ using Anidopt.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anidopt.Migrations
 {
     [DbContext(typeof(AnidoptContext))]
-    partial class AnidoptContextModelSnapshot : ModelSnapshot
+    [Migration("20230328142145_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,12 +35,6 @@ namespace Anidopt.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<float>("AdultHeightEstimation")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AdultWeightEstimation")
-                        .HasColumnType("real");
 
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");

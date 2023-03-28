@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anidopt.Migrations
 {
     [DbContext(typeof(AnidoptContext))]
-    [Migration("20230327185538_IntialMigration")]
-    partial class IntialMigration
+    [Migration("20230328142939_AddAdultEstimations")]
+    partial class AddAdultEstimations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,12 @@ namespace Anidopt.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<float>("AdultHeightEstimation")
+                        .HasColumnType("real");
+
+                    b.Property<float>("AdultWeightEstimation")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");
@@ -247,7 +253,7 @@ namespace Anidopt.Migrations
                     b.HasOne("Anidopt.Models.Breed", "Breed")
                         .WithMany("Animals")
                         .HasForeignKey("BreedId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Anidopt.Models.Organisation", "Organisation")
@@ -263,9 +269,9 @@ namespace Anidopt.Migrations
                         .IsRequired();
 
                     b.HasOne("Anidopt.Models.Species", "Species")
-                        .WithMany()
+                        .WithMany("Animals")
                         .HasForeignKey("SpeciesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Breed");
@@ -335,6 +341,11 @@ namespace Anidopt.Migrations
                 });
 
             modelBuilder.Entity("Anidopt.Models.Organisation", b =>
+                {
+                    b.Navigation("Animals");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Species", b =>
                 {
                     b.Navigation("Animals");
                 });

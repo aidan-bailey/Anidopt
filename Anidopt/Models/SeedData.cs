@@ -125,7 +125,9 @@ public static class SeedData
                         Species = context.Species.Where(at => at.Name == "Dog").First(),
                         Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
                         Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
-                        Sex = context.Sex.Where(s => s.Name == "Female").First()
+                        Sex = context.Sex.Where(s => s.Name == "Female").First(),
+                        AdultWeightEstimation = 0,
+                        AdultHeightEstimation = 0
                     },
                     new Animal
                     {
@@ -135,6 +137,8 @@ public static class SeedData
                         Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
                         Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
                         Sex = context.Sex.Where(s => s.Name == "Female").First()
+                        AdultWeightEstimation = 0,
+                        AdultHeightEstimation = 0
                     }
                 );
                 context.SaveChanges();
