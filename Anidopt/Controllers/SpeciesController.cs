@@ -88,7 +88,7 @@ namespace Anidopt.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_SpeciesService.GetSpeciesExists(Species.Id)) return NotFound();
+                    if (!_SpeciesService.SpeciesExistsById(Species.Id)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));

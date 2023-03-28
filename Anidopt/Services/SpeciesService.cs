@@ -20,7 +20,7 @@ public class SpeciesService: ISpeciesService
 
     public async Task<List<Species>> GetSpeciesAsync() => await _context.Species.ToListAsync();
 
-    public bool GetSpeciesExists(int id) => _context.Species.Any(e => e.Id == id);
+    public bool SpeciesExistsById(int id) => _context.Species.Any(e => e.Id == id);
 
     public async Task EnsureSpeciesDeletionById(int id)
     {
