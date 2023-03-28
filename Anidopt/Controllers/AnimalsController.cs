@@ -11,14 +11,16 @@ public class AnimalsController : Controller
 {
     private readonly AnidoptContext _context;
     private readonly IAnimalService _animalService;
-    private readonly ISpeciesService _SpeciesService;
+    private readonly IBreedService _breedService;
+    private readonly ISpeciesService _speciesService;
     private readonly IOrganisationService _organisationService;
 
-    public AnimalsController(AnidoptContext context, IAnimalService animalService, ISpeciesService SpeciesService, IOrganisationService organisationService)
+    public AnimalsController(AnidoptContext context, IAnimalService animalService, ISpeciesService speciesService, IBreedService breedService, IOrganisationService organisationService)
     {
         _context = context;
         _animalService = animalService;
-        _SpeciesService = SpeciesService;
+        _breedService = breedService;
+        _speciesService = speciesService;
         _organisationService = organisationService;
     }
 
@@ -42,17 +44,23 @@ public class AnimalsController : Controller
     // GET: Animals/Create
     public async Task<IActionResult> Create()
     {
-        var Species = await _SpeciesService.GetSpeciesAsync();
-        ViewBag.Speciess = Species.Select(at => new SelectListItem
+        var species = await _speciesService.GetSpeciesAsync();
+        ViewBag.Species = species.Select(at => new SelectListItem
         {
             Text = at.Name,
             Value = at.Id.ToString()
         });
-        var organisations = await _organisationService.GetOrganisationsAsync();
-        ViewBag.Organisations = organisations.Select(at => new SelectListItem
+        var breeds = await _breedService.GetBreedsAsync();
+        ViewBag.Breeds = breeds.Where(s => s.SpeciesId == species[0].Id).Select(s => new SelectListItem
         {
-            Text = at.Name,
-            Value = at.Id.ToString()
+            Text = s.Name,
+            Value = s.Id.ToString()
+        });
+        var organisations = await _organisationService.GetOrganisationsAsync();
+        ViewBag.Organisations = organisations.Select(o => new SelectListItem
+        {
+            Text = o.Name,
+            Value = o.Id.ToString()
         });
         return View();
     }
@@ -67,7 +75,7 @@ public class AnimalsController : Controller
         if (ModelState.IsValid)
         {
 
-            var Species = await _SpeciesService.GetSpeciesAsync();
+            var Species = await _speciesService.GetSpeciesAsync();
 
             var organisations = await _organisationService.GetOrganisationsAsync();
             ViewBag.Organisations = organisations.Select(at => new SelectListItem
@@ -92,7 +100,7 @@ public class AnimalsController : Controller
         var animal = await _animalService.GetAnimalByIdAsync((int)id);
         if (animal == null) return NotFound();
 
-        var Species = await _SpeciesService.GetSpeciesAsync();
+        var Species = await _speciesService.GetSpeciesAsync();
 
         ViewBag.Speciess = Species.Select(at => new SelectListItem
         {
