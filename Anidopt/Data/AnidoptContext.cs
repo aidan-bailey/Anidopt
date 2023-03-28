@@ -31,10 +31,6 @@ namespace Anidopt.Data
             builder.Entity<Breed>()
                 .HasIndex(b => b.Name)
                 .IsUnique();
-            builder.Entity<Species>()
-                .HasMany(s => s.Animals)
-                .WithOne(a => a.Species)
-                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;

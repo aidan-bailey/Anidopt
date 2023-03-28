@@ -19,7 +19,10 @@
                 @Html.DisplayNameFor(model => model.BirthDay)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Species)
+                @Html.DisplayNameFor(model => model.Breed.Species)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Breed)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Organisation)
@@ -41,7 +44,10 @@
                     @Html.DisplayFor(modelItem => item.BirthDay)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Species.Name)
+                    @Html.DisplayFor(modelItem => item.Breed.Species.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Breed.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Organisation.Name)

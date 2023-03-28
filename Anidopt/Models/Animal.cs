@@ -7,6 +7,11 @@ namespace Anidopt.Models;
 [PrimaryKey(nameof(Id))]
 public class Animal
 {
+
+    /*********************
+     * NATIVE PROPERTIES *
+     *********************/
+
     public int Id { get; set; }
  
     [StringLength(32, MinimumLength = 1)]
@@ -25,35 +30,32 @@ public class Animal
     [Required]
     public float AdultWeightEstimation { get; set; }
 
-    // SPECIES
-
-    [ForeignKey(nameof(SpeciesId))]
-    public virtual Species? Species { get; set; }
-    
-    [Required]
-    public int SpeciesId { get; set; }
+    /****************
+     * FOREIGN KEYS *
+     ****************/
 
     // ORGANISATION
-
-    [ForeignKey(nameof(OrganisationId))]
-    public virtual Organisation? Organisation { get; set; }
     
     [Required]
     public int OrganisationId { get; set; }
 
-    // BREED
-
-    [ForeignKey(nameof(BreedId))]
-    public virtual Breed? Breed { get; set; }
-    
     [Required]
     public int BreedId { get; set; }
 
-    // SEX
+    [Required]
+    public int SexId { get; set; }
+
+    /**********************
+     * VIRTUAL PROPERTIES *
+     **********************/
 
     [ForeignKey(nameof(SexId))]
     public virtual Sex? Sex { get; set; }
 
-    [Required]
-    public int SexId { get; set; }
+    [ForeignKey(nameof(BreedId))]
+    public virtual Breed? Breed { get; set; }
+
+    [ForeignKey(nameof(OrganisationId))]
+    public virtual Organisation? Organisation { get; set; }
+
 }

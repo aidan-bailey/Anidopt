@@ -11,6 +11,4 @@ public class Species
     [StringLength(32, MinimumLength = 1)]
     [Required]
     public string? Name { get; set; }
-
-    public virtual List<Animal> Animals { get; set; } = new List<Animal>();
 }

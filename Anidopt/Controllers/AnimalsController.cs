@@ -68,12 +68,6 @@ public class AnimalsController : Controller
         {
 
             var Species = await _SpeciesService.GetSpeciesAsync();
-            ViewBag.Speciess = Species.Select(at => new SelectListItem
-            {
-                Text = at.Name,
-                Value = at.Id.ToString(),
-                Selected = animal.SpeciesId == at.Id
-            });
 
             var organisations = await _organisationService.GetOrganisationsAsync();
             ViewBag.Organisations = organisations.Select(at => new SelectListItem
@@ -140,14 +134,6 @@ public class AnimalsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-
-        var Species = await _SpeciesService.GetSpeciesAsync();
-        ViewBag.Speciess = Species.Select(at => new SelectListItem
-        {
-            Text = at.Name,
-            Value = at.Id.ToString(),
-            Selected = animal.SpeciesId == at.Id
-        });
 
         var organisations = await _organisationService.GetOrganisationsAsync();
         ViewBag.Organisations = organisations.Select(at => new SelectListItem

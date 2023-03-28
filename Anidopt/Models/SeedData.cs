@@ -122,7 +122,6 @@ public static class SeedData
                     {
                         Name = "Ginny",
                         BirthDay = new DateTime(2016, 12, 16),
-                        Species = context.Species.Where(at => at.Name == "Dog").First(),
                         Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
                         Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
                         Sex = context.Sex.Where(s => s.Name == "Female").First(),
@@ -133,7 +132,6 @@ public static class SeedData
                     {
                         Name = "Layla",
                         BirthDay = new DateTime(2016, 12, 16),
-                        Species = context.Species.Where(at => at.Name == "Dog").First(),
                         Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
                         Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
                         Sex = context.Sex.Where(s => s.Name == "Female").First(),
