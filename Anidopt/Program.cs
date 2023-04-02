@@ -16,6 +16,7 @@ builder.Services.AddTransient<ISpeciesService, SpeciesService>();
 builder.Services.AddTransient<IAnimalService, AnimalService>();
 builder.Services.AddTransient<IOrganisationService, OrganisationService>();
 builder.Services.AddTransient<IBreedService, BreedService>();
+builder.Services.AddTransient<ISexService, SexService>();
 
 var app = builder.Build();
 
