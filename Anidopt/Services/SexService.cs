@@ -1,10 +1,11 @@
 ﻿using Anidopt.Data;
 using Anidopt.Models;
+using Anidopt.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Services;
 
-public class SexService
+public class SexService: ISexService
 {
     private readonly AnidoptContext _context;
 
@@ -21,7 +22,7 @@ public class SexService
 
     public async Task<bool> SexExistsByIdAsync(int id) => await _context.Sex.AnyAsync(e => e.Id == id);
 
-    public async Task EnsureAnimalDeletionByIdAsync(int id)
+    public async Task EnsureSexDeletionByIdAsync(int id)
     {
         var sex = await GetSexByIdAsync(id);
         if (sex != null)
