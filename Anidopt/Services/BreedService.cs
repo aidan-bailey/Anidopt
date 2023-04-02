@@ -29,5 +29,7 @@ public class BreedService : IBreedService
 
     public async Task<List<Breed>> GetBreedsAsync() => await _context.Breed.ToListAsync();
 
+    public async Task<List<Breed>> GetBreedsForSpeciesById(int id) => await _context.Breed.Where(b => b.SpeciesId == id).ToListAsync();
+
     public async Task<List<Breed>> GetBreedsForSpeciesByIdAsync(int id) => await _context.Breed.Where(b => b.SpeciesId == id).ToListAsync();
 }
