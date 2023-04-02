@@ -13,5 +13,4 @@ public class Breed
     [ForeignKey(nameof(SpeciesId))]
     public virtual Species? Species { get; set; }
     public int SpeciesId { get; set; }
-    public virtual List<Animal> Animals { get; set; } = new List<Animal>();
 }
