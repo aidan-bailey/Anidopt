@@ -9,4 +9,5 @@ public interface IBreedService
     public Task<Breed?> GetBreedByIdAsync(int id);
     public bool BreedExistsById(int id);
     public Task EnsureBreedDeletionById(int id);
+    public Task<List<Breed>> GetBreedsForSpeciesByIdAsync(int id);
 }
