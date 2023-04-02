@@ -1,9 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
 public class SizeEstimation
 {
+
+    /*********************
+     * NATIVE PROPERTIES *
+     *********************/
+
     public int Id { get; set; }
 
     [Required]
@@ -12,9 +18,23 @@ public class SizeEstimation
     [Required]
     public float Weight { get; set; }
 
+    /****************
+     * FOREIGN KEYS *
+     ****************/
+
     [Required]
     public int BreedId { get; set; }
 
     [Required]
     public int SexId { get; set; }
+
+    /**********************
+     * VIRTUAL PROPERTIES *
+     **********************/
+
+    [ForeignKey(nameof(BreedId))]
+    public virtual Breed? Breed { get; set; }
+
+    [ForeignKey(nameof(SexId))]
+    public virtual Sex? Sex { get; set; }
 }
