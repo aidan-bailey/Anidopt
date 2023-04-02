@@ -71,13 +71,13 @@ public class AnimalsController : Controller
             return RedirectToAction(nameof(Index));
         }
         var organisations = await _organisationService.GetOrganisationsAsync();
-        ViewBag.Organisations = new SelectList(organisations, "Id", "Name");
+        ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
         var species = await _speciesService.GetSpeciesAsync();
-        ViewBag.Species = new SelectList(species, "Id", "Name");
+        ViewBag.Species = new SelectList(species, "Id", "Name", (int)animal.Breed?.SpeciesId);
         var breeds = await _breedService.GetBreedsAsync();
-        ViewBag.Breeds = new SelectList(breeds, "Id", "Name");
+        ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
         var sexes = await _sexService.GetSexAsync();
-        ViewBag.Sexes = new SelectList(sexes, "Id", "Name");
+        ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
         return View(animal);
     }
 
