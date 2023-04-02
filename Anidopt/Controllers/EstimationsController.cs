@@ -7,16 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Anidopt.Data;
 using Anidopt.Models;
+using Anidopt.Services.Interfaces;
 
 namespace Anidopt.Controllers
 {
     public class EstimationsController : Controller
     {
         private readonly AnidoptContext _context;
+        private readonly ISpeciesService _speciesService;
+        private readonly IBreedService _breedService;
+        private readonly ISexService _sexService;
 
-        public EstimationsController(AnidoptContext context)
+        public EstimationsController(AnidoptContext context, ISpeciesService speciesService, IBreedService breedService, ISexService sexService)
         {
             _context = context;
+            _speciesService = speciesService;
+            _breedService = breedService;
+            _sexService = sexService;
         }
 
         // GET: Estimations
@@ -47,10 +54,11 @@ namespace Anidopt.Controllers
         }
 
         // GET: Estimations/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["BreedId"] = new SelectList(_context.Breed, "Id", "Name");
-            ViewData["SexId"] = new SelectList(_context.Sex, "Id", "Name");
+            ViewBag.Species = new SelectList(await _speciesService.GetSpeciesAsync(), "Id", "Name");
+            ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name");
+            ViewBag.Sexes = new SelectList(await _sexService.GetSexAsync(), "Id", "Name");
             return View();
         }
 
@@ -67,8 +75,9 @@ namespace Anidopt.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BreedId"] = new SelectList(_context.Breed, "Id", "Name", estimation.BreedId);
-            ViewData["SexId"] = new SelectList(_context.Sex, "Id", "Name", estimation.SexId);
+            ViewBag.Species = new SelectList(await _speciesService.GetSpeciesAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
+            ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name", estimation.BreedId);
+            ViewBag.Sexes = new SelectList(await _sexService.GetSexAsync(), "Id", "Name", estimation.SexId);
             return View(estimation);
         }
 
@@ -85,8 +94,9 @@ namespace Anidopt.Controllers
             {
                 return NotFound();
             }
-            ViewData["BreedId"] = new SelectList(_context.Breed, "Id", "Name", estimation.BreedId);
-            ViewData["SexId"] = new SelectList(_context.Sex, "Id", "Name", estimation.SexId);
+            ViewBag.Species = new SelectList(await _speciesService.GetSpeciesAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
+            ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name", estimation.BreedId);
+            ViewBag.Sexes = new SelectList(await _sexService.GetSexAsync(), "Id", "Name", estimation.SexId);
             return View(estimation);
         }
 
@@ -122,8 +132,9 @@ namespace Anidopt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BreedId"] = new SelectList(_context.Breed, "Id", "Name", estimation.BreedId);
-            ViewData["SexId"] = new SelectList(_context.Sex, "Id", "Name", estimation.SexId);
+            ViewBag.Species = new SelectList(await _speciesService.GetSpeciesAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
+            ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name", estimation.BreedId);
+            ViewBag.Sexes = new SelectList(await _sexService.GetSexAsync(), "Id", "Name", estimation.SexId);
             return View(estimation);
         }
 

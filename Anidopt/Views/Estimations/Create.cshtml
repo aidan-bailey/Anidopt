@@ -23,12 +23,16 @@
                 <span asp-validation-for="Weight" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Breed.SpeciesId" class="control-label"></label>
+                <select id="species-select" asp-for="Breed.SpeciesId" class="form-control" asp-items="ViewBag.Species"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="Breed" class="control-label"></label>
-                <select asp-for="BreedId" class ="form-control" asp-items="ViewBag.BreedId"></select>
+                <select id="breed-select" asp-for="BreedId" class ="form-control" asp-items="ViewBag.Breeds"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Sex" class="control-label"></label>
-                <select asp-for="SexId" class ="form-control" asp-items="ViewBag.SexId"></select>
+                <select asp-for="SexId" class ="form-control" asp-items="ViewBag.Sexes"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -42,5 +46,8 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="/js/SpeciesBreedSelectUpdater.js" type="text/javascript"></script>
 }
