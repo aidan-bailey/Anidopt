@@ -27,6 +27,14 @@
                 <select asp-for="OrganisationId" class="form-control" asp-items="@ViewBag.Organisations"></select>
             </div>
             <div class="form-group">
+                <label asp-for="Breed.Species" class="control-label"></label>
+                <select id="species-select" asp-for="Breed.SpeciesId" class="form-control" asp-items="@ViewBag.Species"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Breed" class="control-label"></label>
+                <select id="breed-select" asp-for="BreedId" class="form-control" asp-items="@ViewBag.Breeds"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
@@ -44,4 +52,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="/js/SpeciesBreedSelectUpdater.js" type="text/javascript"></script>
 }
