@@ -109,6 +109,11 @@ public static class SeedData
                     {
                         Name = "Siamese",
                         Species = context.Species.Where(at => at.Name == "Cat").First()
+                    },
+                    new Breed
+                    {
+                        Name = "Red-Eyed Tree",
+                        Species = context.Species.Where(at => at.Name == "Frog").First()
                     }
                 );
                 context.SaveChanges();
