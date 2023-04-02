@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Anidopt.Models;
 
 [PrimaryKey(nameof(Id))]
-public class SizeEstimation
+public class Estimation
 {
     /*********************
      * NATIVE PROPERTIES *
@@ -14,9 +14,11 @@ public class SizeEstimation
     public int Id { get; set; }
 
     [Required]
+    [Range(1, float.MaxValue)]
     public float Height { get; set; }
 
     [Required]
+    [Range(1, float.MaxValue)]
     public float Weight { get; set; }
 
     /****************
