@@ -5,7 +5,6 @@ namespace Anidopt.Models;
 
 public class SizeEstimation
 {
-
     /*********************
      * NATIVE PROPERTIES *
      *********************/
