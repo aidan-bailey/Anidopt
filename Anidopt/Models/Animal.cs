@@ -21,8 +21,7 @@ public class Animal
     [Required]
     public DateTime BirthDay { get; set; }
 
-    [Required]
-    public string Description { get; set; } = "";
+    public string? Description { get; set; }
 
     [Required]
     public float AdultHeightEstimation { get; set; }
