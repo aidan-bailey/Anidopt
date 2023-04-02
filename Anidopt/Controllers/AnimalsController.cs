@@ -14,14 +14,16 @@ public class AnimalsController : Controller
     private readonly IBreedService _breedService;
     private readonly ISpeciesService _speciesService;
     private readonly IOrganisationService _organisationService;
+    private readonly ISexService _sexService;
 
-    public AnimalsController(AnidoptContext context, IAnimalService animalService, ISpeciesService speciesService, IBreedService breedService, IOrganisationService organisationService)
+    public AnimalsController(AnidoptContext context, IAnimalService animalService, ISpeciesService speciesService, IBreedService breedService, IOrganisationService organisationService, ISexService sexService)
     {
         _context = context;
         _animalService = animalService;
         _breedService = breedService;
         _speciesService = speciesService;
         _organisationService = organisationService;
+        _sexService = sexService;
     }
 
     // GET: Animals
@@ -62,6 +64,12 @@ public class AnimalsController : Controller
             Text = o.Name,
             Value = o.Id.ToString()
         });
+        var sexes = await _sexService.GetSexAsync();
+        ViewBag.Sexes = sexes.Select(o => new SelectListItem
+        {
+            Text = o.Name,
+            Value = o.Id.ToString()
+        });
         return View();
     }
 
@@ -70,25 +78,47 @@ public class AnimalsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,Age,SpeciesId,OrganisationId,Description")] Animal animal)
+    public async Task<IActionResult> Create([Bind("Name,Age,SpeciesId,OrganisationId,SexId,Description")] Animal animal)
     {
         if (ModelState.IsValid)
         {
-
-            var Species = await _speciesService.GetSpeciesAsync();
-
-            var organisations = await _organisationService.GetOrganisationsAsync();
-            ViewBag.Organisations = organisations.Select(at => new SelectListItem
-            {
-                Text = at.Name,
-                Value = at.Id.ToString(),
-                Selected = animal.OrganisationId == at.Id
-            });
-
             _context.Add(animal);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        var organisations = await _organisationService.GetOrganisationsAsync();
+        ViewBag.Organisations = organisations.Select(at => new SelectListItem
+        {
+            Text = at.Name,
+            Value = at.Id.ToString(),
+            Selected = animal.OrganisationId == at.Id
+        });
+
+        var species = await _speciesService.GetSpeciesAsync();
+        ViewBag.Species = species.Select(s => new SelectListItem
+        {
+            Text = s.Name,
+            Value = s.Id.ToString(),
+            Selected = animal.Breed.SpeciesId == s.Id
+        });
+
+        var breeds = await _breedService.GetBreedsAsync();
+        ViewBag.Breeds = breeds.Where(b => animal.Breed.SpeciesId == b.SpeciesId).Select(b => new SelectListItem
+        {
+            Text = b.Name,
+            Value = b.Id.ToString(),
+            Selected = animal.BreedId == b.Id
+        });
+
+        var sexes = await _sexService.GetSexAsync();
+        ViewBag.Sexes = sexes.Select(s => new SelectListItem
+        {
+            Text = s.Name,
+            Value = s.Id.ToString(),
+            Selected = animal.SexId == s.Id
+        });
+
         return View(animal);
     }
 
@@ -100,20 +130,36 @@ public class AnimalsController : Controller
         var animal = await _animalService.GetAnimalByIdAsync((int)id);
         if (animal == null) return NotFound();
 
-        var Species = await _speciesService.GetSpeciesAsync();
-
-        ViewBag.Speciess = Species.Select(at => new SelectListItem
-        {
-            Text = at.Name,
-            Value = at.Id.ToString()
-        });
-
         var organisations = await _organisationService.GetOrganisationsAsync();
         ViewBag.Organisations = organisations.Select(at => new SelectListItem
         {
             Text = at.Name,
             Value = at.Id.ToString(),
             Selected = animal.OrganisationId == at.Id
+        });
+
+        var species = await _speciesService.GetSpeciesAsync();
+        ViewBag.Species = species.Select(s => new SelectListItem
+        {
+            Text = s.Name,
+            Value = s.Id.ToString(),
+            Selected = animal.Breed.SpeciesId == s.Id
+        });
+
+        var breeds = await _breedService.GetBreedsAsync();
+        ViewBag.Breeds = breeds.Where(b => animal.Breed.SpeciesId == b.SpeciesId).Select(b => new SelectListItem
+        {
+            Text = b.Name,
+            Value = b.Id.ToString(),
+            Selected = animal.BreedId == b.Id
+        });
+
+        var sexes = await _sexService.GetSexAsync();
+        ViewBag.Sexes = sexes.Select(s => new SelectListItem
+        {
+            Text = s.Name,
+            Value = s.Id.ToString(),
+            Selected = animal.SexId == s.Id
         });
 
         return View(animal);
@@ -124,7 +170,7 @@ public class AnimalsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,SpeciesId,OrganisationId,Description")] Animal animal)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,SpeciesId,BreedId,SexId,OrganisationId,Description")] Animal animal)
     {
         if (id != animal.Id) return NotFound();
 
@@ -149,6 +195,30 @@ public class AnimalsController : Controller
             Text = at.Name,
             Value = at.Id.ToString(),
             Selected = animal.OrganisationId == at.Id
+        });
+
+        var species = await _speciesService.GetSpeciesAsync();
+        ViewBag.Species = species.Select(s => new SelectListItem
+        {
+            Text = s.Name,
+            Value = s.Id.ToString(),
+            Selected = animal.Breed.SpeciesId == s.Id
+        });
+
+        var breeds = await _breedService.GetBreedsAsync();
+        ViewBag.Breeds = breeds.Where(b => animal.Breed.SpeciesId == b.SpeciesId).Select(b => new SelectListItem
+        {
+            Text = b.Name,
+            Value = b.Id.ToString(),
+            Selected = animal.BreedId == b.Id
+        });
+
+        var sexes = await _sexService.GetSexAsync();
+        ViewBag.Sexes = sexes.Select(s => new SelectListItem
+        {
+            Text = s.Name,
+            Value = s.Id.ToString(),
+            Selected = animal.SexId == s.Id
         });
 
         return View(animal);
