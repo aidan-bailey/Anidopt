@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
@@ -26,5 +27,6 @@ public class Detail
      * PROXY PROPERTIES *
      ********************/
 
+    [ForeignKey(nameof(DescriptorLinkId))]
     public virtual DescriptorLink? DescriptorLink { get; set; }
 }
