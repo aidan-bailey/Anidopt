@@ -2,7 +2,7 @@
 
 namespace Anidopt.Models;
 
-public class InfoLink
+public class DescriptorLink
 {
     public int Id { get; set; }
     public virtual Animal? Animal { get; set; }

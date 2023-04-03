@@ -10,43 +10,43 @@ using Anidopt.Models;
 
 namespace Anidopt.Controllers
 {
-    public class InfoLinksController : Controller
+    public class DescriptorLinksController : Controller
     {
         private readonly AnidoptContext _context;
 
-        public InfoLinksController(AnidoptContext context)
+        public DescriptorLinksController(AnidoptContext context)
         {
             _context = context;
         }
 
-        // GET: InfoLinks
+        // GET: DescriptorLinks
         public async Task<IActionResult> Index()
         {
-            var anidoptContext = _context.InfoLink.Include(i => i.Animal).Include(i => i.Descriptor);
+            var anidoptContext = _context.DescriptorLink.Include(i => i.Animal).Include(i => i.Descriptor);
             return View(await anidoptContext.ToListAsync());
         }
 
-        // GET: InfoLinks/Details/5
+        // GET: DescriptorLinks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.InfoLink == null)
+            if (id == null || _context.DescriptorLink == null)
             {
                 return NotFound();
             }
 
-            var infoLink = await _context.InfoLink
+            var DescriptorLink = await _context.DescriptorLink
                 .Include(i => i.Animal)
                 .Include(i => i.Descriptor)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (infoLink == null)
+            if (DescriptorLink == null)
             {
                 return NotFound();
             }
 
-            return View(infoLink);
+            return View(DescriptorLink);
         }
 
-        // GET: InfoLinks/Create
+        // GET: DescriptorLinks/Create
         public IActionResult Create()
         {
             ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name");
@@ -54,50 +54,50 @@ namespace Anidopt.Controllers
             return View();
         }
 
-        // POST: InfoLinks/Create
+        // POST: DescriptorLinks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AnimalId,DescriptorId,DetailId")] InfoLink infoLink)
+        public async Task<IActionResult> Create([Bind("Id,AnimalId,DescriptorId,DetailId")] DescriptorLink DescriptorLink)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(infoLink);
+                _context.Add(DescriptorLink);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", infoLink.AnimalId);
-            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", infoLink.DescriptorId);
-            return View(infoLink);
+            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", DescriptorLink.AnimalId);
+            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", DescriptorLink.DescriptorId);
+            return View(DescriptorLink);
         }
 
-        // GET: InfoLinks/Edit/5
+        // GET: DescriptorLinks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.InfoLink == null)
+            if (id == null || _context.DescriptorLink == null)
             {
                 return NotFound();
             }
 
-            var infoLink = await _context.InfoLink.FindAsync(id);
-            if (infoLink == null)
+            var DescriptorLink = await _context.DescriptorLink.FindAsync(id);
+            if (DescriptorLink == null)
             {
                 return NotFound();
             }
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", infoLink.AnimalId);
-            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", infoLink.DescriptorId);
-            return View(infoLink);
+            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", DescriptorLink.AnimalId);
+            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", DescriptorLink.DescriptorId);
+            return View(DescriptorLink);
         }
 
-        // POST: InfoLinks/Edit/5
+        // POST: DescriptorLinks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AnimalId,DescriptorId,DetailId")] InfoLink infoLink)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AnimalId,DescriptorId,DetailId")] DescriptorLink DescriptorLink)
         {
-            if (id != infoLink.Id)
+            if (id != DescriptorLink.Id)
             {
                 return NotFound();
             }
@@ -106,12 +106,12 @@ namespace Anidopt.Controllers
             {
                 try
                 {
-                    _context.Update(infoLink);
+                    _context.Update(DescriptorLink);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InfoLinkExists(infoLink.Id))
+                    if (!DescriptorLinkExists(DescriptorLink.Id))
                     {
                         return NotFound();
                     }
@@ -122,51 +122,51 @@ namespace Anidopt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", infoLink.AnimalId);
-            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", infoLink.DescriptorId);
-            return View(infoLink);
+            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", DescriptorLink.AnimalId);
+            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", DescriptorLink.DescriptorId);
+            return View(DescriptorLink);
         }
 
-        // GET: InfoLinks/Delete/5
+        // GET: DescriptorLinks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.InfoLink == null)
+            if (id == null || _context.DescriptorLink == null)
             {
                 return NotFound();
             }
 
-            var infoLink = await _context.InfoLink.Include(i => i.Animal).Include(i => i.Descriptor)
+            var DescriptorLink = await _context.DescriptorLink.Include(i => i.Animal).Include(i => i.Descriptor)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (infoLink == null)
+            if (DescriptorLink == null)
             {
                 return NotFound();
             }
 
-            return View(infoLink);
+            return View(DescriptorLink);
         }
 
-        // POST: InfoLinks/Delete/5
+        // POST: DescriptorLinks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.InfoLink == null)
+            if (_context.DescriptorLink == null)
             {
-                return Problem("Entity set 'AnidoptContext.InfoLink'  is null.");
+                return Problem("Entity set 'AnidoptContext.DescriptorLink'  is null.");
             }
-            var infoLink = await _context.InfoLink.FindAsync(id);
-            if (infoLink != null)
+            var DescriptorLink = await _context.DescriptorLink.FindAsync(id);
+            if (DescriptorLink != null)
             {
-                _context.InfoLink.Remove(infoLink);
+                _context.DescriptorLink.Remove(DescriptorLink);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InfoLinkExists(int id)
+        private bool DescriptorLinkExists(int id)
         {
-          return (_context.InfoLink?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.DescriptorLink?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

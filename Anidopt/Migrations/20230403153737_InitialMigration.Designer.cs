@@ -150,12 +150,12 @@ namespace Anidopt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InfoLinkId")
+                    b.Property<int>("DescriptorLinkId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InfoLinkId");
+                    b.HasIndex("DescriptorLinkId");
 
                     b.ToTable("Detail");
                 });
@@ -189,7 +189,7 @@ namespace Anidopt.Migrations
                     b.ToTable("Estimation");
                 });
 
-            modelBuilder.Entity("Anidopt.Models.InfoLink", b =>
+            modelBuilder.Entity("Anidopt.Models.DescriptorLink", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -209,7 +209,7 @@ namespace Anidopt.Migrations
 
                     b.HasIndex("DescriptorId");
 
-                    b.ToTable("InfoLink");
+                    b.ToTable("DescriptorLink");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Organisation", b =>
@@ -322,13 +322,13 @@ namespace Anidopt.Migrations
 
             modelBuilder.Entity("Anidopt.Models.Detail", b =>
                 {
-                    b.HasOne("Anidopt.Models.InfoLink", "InfoLink")
+                    b.HasOne("Anidopt.Models.DescriptorLink", "DescriptorLink")
                         .WithMany()
-                        .HasForeignKey("InfoLinkId")
+                        .HasForeignKey("DescriptorLinkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("InfoLink");
+                    b.Navigation("DescriptorLink");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Estimation", b =>
@@ -350,7 +350,7 @@ namespace Anidopt.Migrations
                     b.Navigation("Sex");
                 });
 
-            modelBuilder.Entity("Anidopt.Models.InfoLink", b =>
+            modelBuilder.Entity("Anidopt.Models.DescriptorLink", b =>
                 {
                     b.HasOne("Anidopt.Models.Animal", "Animal")
                         .WithMany()

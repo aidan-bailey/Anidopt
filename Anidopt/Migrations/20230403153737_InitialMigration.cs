@@ -170,7 +170,7 @@ namespace Anidopt.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InfoLink",
+                name: "DescriptorLink",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -180,15 +180,15 @@ namespace Anidopt.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InfoLink", x => x.Id);
+                    table.PrimaryKey("PK_DescriptorLink", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InfoLink_Animal_AnimalId",
+                        name: "FK_DescriptorLink_Animal_AnimalId",
                         column: x => x.AnimalId,
                         principalTable: "Animal",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_InfoLink_Descriptor_DescriptorId",
+                        name: "FK_DescriptorLink_Descriptor_DescriptorId",
                         column: x => x.DescriptorId,
                         principalTable: "Descriptor",
                         principalColumn: "Id",
@@ -202,15 +202,15 @@ namespace Anidopt.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InfoLinkId = table.Column<int>(type: "int", nullable: false)
+                    DescriptorLinkId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Detail", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Detail_InfoLink_InfoLinkId",
-                        column: x => x.InfoLinkId,
-                        principalTable: "InfoLink",
+                        name: "FK_Detail_DescriptorLink_DescriptorLinkId",
+                        column: x => x.DescriptorLinkId,
+                        principalTable: "DescriptorLink",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -247,9 +247,9 @@ namespace Anidopt.Migrations
                 column: "DescriptorTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Detail_InfoLinkId",
+                name: "IX_Detail_DescriptorLinkId",
                 table: "Detail",
-                column: "InfoLinkId");
+                column: "DescriptorLinkId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Estimation_BreedId",
@@ -262,13 +262,13 @@ namespace Anidopt.Migrations
                 column: "SexId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InfoLink_AnimalId",
-                table: "InfoLink",
+                name: "IX_DescriptorLink_AnimalId",
+                table: "DescriptorLink",
                 column: "AnimalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InfoLink_DescriptorId",
-                table: "InfoLink",
+                name: "IX_DescriptorLink_DescriptorId",
+                table: "DescriptorLink",
                 column: "DescriptorId");
 
             migrationBuilder.CreateIndex(
@@ -294,7 +294,7 @@ namespace Anidopt.Migrations
                 name: "Estimation");
 
             migrationBuilder.DropTable(
-                name: "InfoLink");
+                name: "DescriptorLink");
 
             migrationBuilder.DropTable(
                 name: "Animal");
