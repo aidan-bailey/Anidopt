@@ -25,6 +25,12 @@
                 @Html.DisplayNameFor(model => model.Breed)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.AdultHeightEstimation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdultWeightEstimation)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Sex)
             </th>
             <th>
@@ -51,6 +57,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Breed.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdultHeightEstimation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdultWeightEstimation)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Sex.Name)
