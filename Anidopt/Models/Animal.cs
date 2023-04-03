@@ -24,10 +24,10 @@ public class Animal
     public string? Description { get; set; }
 
     [Required]
-    public float AdultHeightEstimation { get; set; }
+    public float HeightEstimation { get; set; }
 
     [Required]
-    public float AdultWeightEstimation { get; set; }
+    public float WeightEstimation { get; set; }
 
     /****************
      * FOREIGN KEYS *

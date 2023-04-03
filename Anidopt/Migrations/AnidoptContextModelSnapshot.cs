@@ -33,12 +33,6 @@ namespace Anidopt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<float>("AdultHeightEstimation")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AdultWeightEstimation")
-                        .HasColumnType("real");
-
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");
 
@@ -47,6 +41,9 @@ namespace Anidopt.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("HeightEstimation")
+                        .HasColumnType("real");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -58,6 +55,9 @@ namespace Anidopt.Migrations
 
                     b.Property<int>("SexId")
                         .HasColumnType("int");
+
+                    b.Property<float>("WeightEstimation")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
