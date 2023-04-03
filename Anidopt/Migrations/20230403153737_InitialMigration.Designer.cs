@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anidopt.Migrations
 {
     [DbContext(typeof(AnidoptContext))]
-    [Migration("20230403152752_InitialMigration")]
+    [Migration("20230403153737_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -45,7 +45,7 @@ namespace Anidopt.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("HeightEstimation")
+                    b.Property<float>("Height")
                         .HasColumnType("real");
 
                     b.Property<string>("Name")
@@ -59,7 +59,7 @@ namespace Anidopt.Migrations
                     b.Property<int>("SexId")
                         .HasColumnType("int");
 
-                    b.Property<float>("WeightEstimation")
+                    b.Property<float>("Weight")
                         .HasColumnType("real");
 
                     b.HasKey("Id");

@@ -24,10 +24,12 @@ public class Animal
     public string? Description { get; set; }
 
     [Required]
-    public float HeightEstimation { get; set; }
+    [Range(1, float.MaxValue)]
+    public float Height { get; set; }
 
     [Required]
-    public float WeightEstimation { get; set; }
+    [Range(1, float.MaxValue)]
+    public float Weight { get; set; }
 
     /****************
      * FOREIGN KEYS *

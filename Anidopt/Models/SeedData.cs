@@ -130,8 +130,8 @@ public static class SeedData
                         Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
                         Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
                         Sex = context.Sex.Where(s => s.Name == "Female").First(),
-                        WeightEstimation = 0,
-                        HeightEstimation = 0
+                        Weight = 0,
+                        Height = 0
                     },
                     new Animal
                     {
@@ -140,8 +140,8 @@ public static class SeedData
                         Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
                         Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
                         Sex = context.Sex.Where(s => s.Name == "Female").First(),
-                        WeightEstimation = 0,
-                        HeightEstimation = 0
+                        Weight = 0,
+                        Height = 0
                     }
                 );
                 context.SaveChanges();
