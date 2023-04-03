@@ -34,8 +34,6 @@ public class Animal
     /****************
      * FOREIGN KEYS *
      ****************/
-
-    // ORGANISATION
     
     [Required]
     public int OrganisationId { get; set; }
