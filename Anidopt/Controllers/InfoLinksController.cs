@@ -51,7 +51,6 @@ namespace Anidopt.Controllers
         {
             ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name");
             ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name");
-            ViewData["DetailId"] = new SelectList(_context.Detail, "Id", "Description");
             return View();
         }
 

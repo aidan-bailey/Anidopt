@@ -43,8 +43,6 @@ namespace Anidopt.Data
 
         public DbSet<Anidopt.Models.DescriptorType> DescriptorType { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.Detail> Detail { get; set; } = default!;
-
         public DbSet<Anidopt.Models.Descriptor> Descriptor { get; set; } = default!;
 
         public DbSet<Anidopt.Models.InfoLink> InfoLink { get; set; } = default!;
@@ -52,5 +50,7 @@ namespace Anidopt.Data
         public DbSet<Anidopt.Models.Sex> Sex { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Estimation> Estimation { get; set; } = default!;
+
+        public DbSet<Anidopt.Models.Detail> Detail { get; set; } = default!;
     }
 }

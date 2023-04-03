@@ -22,9 +22,8 @@ namespace Anidopt.Controllers
         // GET: Details
         public async Task<IActionResult> Index()
         {
-              return _context.Detail != null ? 
-                          View(await _context.Detail.ToListAsync()) :
-                          Problem("Entity set 'AnidoptContext.Detail'  is null.");
+            var anidoptContext = _context.Detail.Include(d => d.InfoLink);
+            return View(await anidoptContext.ToListAsync());
         }
 
         // GET: Details/Details/5
@@ -36,6 +35,7 @@ namespace Anidopt.Controllers
             }
 
             var detail = await _context.Detail
+                .Include(d => d.InfoLink)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (detail == null)
             {
@@ -48,6 +48,7 @@ namespace Anidopt.Controllers
         // GET: Details/Create
         public IActionResult Create()
         {
+            ViewData["InfoLinkId"] = new SelectList(_context.InfoLink, "Id", "Id");
             return View();
         }
 
@@ -56,7 +57,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description")] Detail detail)
+        public async Task<IActionResult> Create([Bind("Id,Description,InfoLinkId")] Detail detail)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +65,7 @@ namespace Anidopt.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["InfoLinkId"] = new SelectList(_context.InfoLink, "Id", "Id", detail.InfoLinkId);
             return View(detail);
         }
 
@@ -80,6 +82,7 @@ namespace Anidopt.Controllers
             {
                 return NotFound();
             }
+            ViewData["InfoLinkId"] = new SelectList(_context.InfoLink, "Id", "Id", detail.InfoLinkId);
             return View(detail);
         }
 
@@ -88,7 +91,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description")] Detail detail)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,InfoLinkId")] Detail detail)
         {
             if (id != detail.Id)
             {
@@ -115,6 +118,7 @@ namespace Anidopt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["InfoLinkId"] = new SelectList(_context.InfoLink, "Id", "Id", detail.InfoLinkId);
             return View(detail);
         }
 
@@ -127,6 +131,7 @@ namespace Anidopt.Controllers
             }
 
             var detail = await _context.Detail
+                .Include(d => d.InfoLink)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (detail == null)
             {
