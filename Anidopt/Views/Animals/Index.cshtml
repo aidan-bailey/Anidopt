@@ -25,6 +25,9 @@
                 @Html.DisplayNameFor(model => model.Breed)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Sex)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Organisation)
             </th>
             <th>
@@ -48,6 +51,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Breed.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sex.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Organisation.Name)
