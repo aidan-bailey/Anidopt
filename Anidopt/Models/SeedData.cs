@@ -41,38 +41,6 @@ public static class SeedData
                 context.SaveChanges();
             }
 
-            if (!context.DescriptorType.Any())
-            {
-                context.DescriptorType.AddRange(
-                    new DescriptorType
-                    {
-                        Name = "Social"
-                    },
-                    new DescriptorType
-                    {
-                        Name = "Medical"
-                    }
-                );
-                context.SaveChanges();
-            }
-
-            if (!context.Descriptor.Any())
-            {
-                context.Descriptor.AddRange(
-                    new Descriptor
-                    {
-                        Name = "Friendly with Cats",
-                        DescriptorType = context.DescriptorType.Where(at => at.Name == "Social").First()
-                    },
-                    new Descriptor
-                    {
-                        Name = "Dewormed",
-                        DescriptorType = context.DescriptorType.Where(at => at.Name == "Medical").First()
-                    }
-                );
-                context.SaveChanges();
-            }
-
             if (!context.Species.Any())
             {
                 context.Species.AddRange(
@@ -145,6 +113,54 @@ public static class SeedData
                     }
                 );
                 context.SaveChanges();
+            }
+
+            if (!context.DescriptorType.Any())
+            {
+                context.DescriptorType.AddRange(
+                    new DescriptorType
+                    {
+                        Name = "Social"
+                    },
+                    new DescriptorType
+                    {
+                        Name = "Medical"
+                    }
+                );
+                context.SaveChanges();
+            }
+
+            if (!context.Descriptor.Any())
+            {
+                context.Descriptor.AddRange(
+                    new Descriptor
+                    {
+                        Name = "Friendly with Cats",
+                        DescriptorType = context.DescriptorType.Where(at => at.Name == "Social").First()
+                    },
+                    new Descriptor
+                    {
+                        Name = "Dewormed",
+                        DescriptorType = context.DescriptorType.Where(at => at.Name == "Medical").First()
+                    }
+                );
+                context.SaveChanges();
+            }
+
+            if (!context.DescriptorLink.Any())
+            {
+                context.DescriptorLink.AddRange(
+                    new DescriptorLink
+                    {
+                        Descriptor = context.Descriptor.Where(at => at.Name == "Dewormed").First(),
+                        Animal = context.Animal.Where(at => at.Name == "Ginny").First()
+                    },
+                    new DescriptorLink
+                    {
+                        Descriptor = context.Descriptor.Where(at => at.Name == "Dewormed").First(),
+                        Animal = context.Animal.Where(at => at.Name == "Layla").First()
+                    }
+                );
             }
 
         }
