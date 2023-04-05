@@ -71,6 +71,9 @@
                         <th>
                             Type
                         </th>
+                        <th>
+                            Details
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,6 +86,22 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Descriptor.DescriptorType.Name)
                             </td>
+                            <td>
+                                <table class="table">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var detail in item.Details)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => detail.Description)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -92,7 +111,7 @@
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class="col-sm-10">
-            <textarea readonly>@Html.DisplayFor(model => model.Description)</textarea>
+            <textarea style="width:100%;" readonly>@Html.DisplayFor(model => model.Description)</textarea>
         </dd>
     </dl>
 </div>
