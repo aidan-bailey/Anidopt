@@ -1,5 +1,4 @@
 ﻿using Anidopt.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Services.Interfaces;
 
