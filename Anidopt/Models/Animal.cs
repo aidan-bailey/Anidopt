@@ -57,4 +57,6 @@ public class Animal
     [ForeignKey(nameof(OrganisationId))]
     public virtual Organisation? Organisation { get; set; }
 
+    public virtual List<DescriptorLink> DescriptorLinks { get; set; }
+
 }
