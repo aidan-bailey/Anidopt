@@ -161,6 +161,7 @@ public static class SeedData
                         Animal = context.Animal.Where(at => at.Name == "Layla").First()
                     }
                 );
+                context.SaveChanges();
             }
 
         }
