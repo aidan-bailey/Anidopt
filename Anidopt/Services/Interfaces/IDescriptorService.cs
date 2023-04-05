@@ -9,4 +9,5 @@ public interface IDescriptorService
     public Task<Descriptor?> GetDescriptorByIdAsync(int id);
     public Task<bool> DescriptorExistsByIdAsync(int id);
     public Task EnsureDescriptorDeletionByIdAsync(int id);
+    public Task<List<Descriptor>> GetDescriptorsForAnimalByIdAsync(int id);
 }

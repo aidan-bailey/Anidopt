@@ -29,4 +29,6 @@ public class DescriptorService : IDescriptorService
             _context.Descriptor.Remove(descriptor);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<List<Descriptor>> GetDescriptorsForAnimalByIdAsync(int id) => await _context.DescriptorLink.Where(dl => dl.AnimalId == id).Select(dl => dl.Descriptor).ToListAsync();
 }
