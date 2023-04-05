@@ -11,4 +11,6 @@ public class DescriptorLink
     public virtual Descriptor? Descriptor { get; set; }
     [Required]
     public int DescriptorId { get; set; }
+
+    public virtual List<Detail>? Details { get; set; }
 }
