@@ -4,9 +4,9 @@ namespace Anidopt.Services.Interfaces;
 
 public interface ISpeciesService
 {
-    public bool Initialised { get; }
-    public Task<List<Species>> GetSpeciesAsync();
-    public Task<Species?> GetSpeciesByIdAsync(int id);
-    public bool SpeciesExistsById(int id);
-    public Task EnsureSpeciesDeletionById(int id);
+    bool Initialised { get; }
+    Task<List<Species>> GetSpeciesAsync();
+    Task<Species?> GetSpeciesByIdAsync(int id);
+    bool SpeciesExistsById(int id);
+    Task EnsureSpeciesDeletionById(int id);
 }
