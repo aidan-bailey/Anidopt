@@ -164,6 +164,18 @@ public static class SeedData
                 context.SaveChanges();
             }
 
+            if (!context.Detail.Any())
+            {
+                context.Detail.AddRange(
+                    new Detail
+                    {
+                        DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Dewormed").First(),
+                        Description = "Happened on arrival at Mdzananda Animal Clinic"
+                    }
+                );
+                context.SaveChanges();
+            }
+
         }
     }
 }
