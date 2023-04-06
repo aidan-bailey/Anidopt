@@ -181,7 +181,7 @@ public static class SeedData
             context.Seed(
                 new Detail
                 {
-                    DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Dewormed" && at.Animal.Name == "Ginny").First(),
+                    DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Dewormed" && at.Animal.Name == "Layla").First(),
                     Description = "Happened on arrival at Mdzananda Animal Clinic"
                 },
                 new Detail
