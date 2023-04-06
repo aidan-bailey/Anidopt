@@ -13,13 +13,22 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescriptorLink.DescriptorId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DescriptorLink.Descriptor)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DescriptorLink.Descriptor.DescriptorType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescriptorLink.AnimalId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DescriptorLink.Animal)
@@ -32,13 +41,26 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a asp-controller="DescriptorLinks" asp-action="Details" asp-route-id="@item.DescriptorLink.DescriptorId">
+                        @Html.DisplayFor(modelItem => item.DescriptorLink.DescriptorId)
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DescriptorLink.Descriptor.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DescriptorLink.Descriptor.DescriptorType.Name)
+                </td>
+                <td>
+                    <a asp-controller="Animals" asp-action="Details" asp-route-id="@item.DescriptorLink.AnimalId">
+                        @Html.DisplayFor(modelItem => item.DescriptorLink.AnimalId)
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DescriptorLink.Animal.Name)
