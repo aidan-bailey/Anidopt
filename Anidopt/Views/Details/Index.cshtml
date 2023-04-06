@@ -16,26 +16,39 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DescriptorLink)
+                @Html.DisplayNameFor(model => model.DescriptorLink.Descriptor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescriptorLink.Descriptor.DescriptorType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescriptorLink.Animal)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescriptorLink.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptorLink.Descriptor.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptorLink.Descriptor.DescriptorType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptorLink.Animal.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
