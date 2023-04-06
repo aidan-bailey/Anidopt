@@ -31,6 +31,14 @@ namespace Anidopt.Data
             builder.Entity<Breed>()
                 .HasIndex(b => b.Name)
                 .IsUnique();
+            builder.Entity<DescriptorType>()
+                .HasIndex(dt => dt.Name)
+                .IsUnique();
+            builder.Entity<Detail>()
+                .HasOne(d => d.DescriptorLink)
+                .WithMany(dl => dl.Details)
+                .HasForeignKey(d => d.DescriptorLinkId)
+                .HasPrincipalKey(dl => dl.Id);
         }
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
