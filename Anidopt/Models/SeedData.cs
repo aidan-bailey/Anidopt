@@ -125,6 +125,10 @@ public static class SeedData
                     new DescriptorType
                     {
                         Name = "Medical"
+                    },
+                    new DescriptorType
+                    {
+                        Name = "Personal"
                     }
                 );
                 context.SaveChanges();
@@ -140,7 +144,17 @@ public static class SeedData
                     },
                     new Descriptor
                     {
+                        Name = "Nervous",
+                        DescriptorType = context.DescriptorType.Where(at => at.Name == "Personal").First()
+                    },
+                    new Descriptor
+                    {
                         Name = "Dewormed",
+                        DescriptorType = context.DescriptorType.Where(at => at.Name == "Medical").First()
+                    },
+                    new Descriptor
+                    {
+                        Name = "Vaccinated",
                         DescriptorType = context.DescriptorType.Where(at => at.Name == "Medical").First()
                     }
                 );
@@ -157,6 +171,11 @@ public static class SeedData
                     },
                     new DescriptorLink
                     {
+                        Descriptor = context.Descriptor.Where(at => at.Name == "Nervous").First(),
+                        Animal = context.Animal.Where(at => at.Name == "Ginny").First()
+                    },
+                    new DescriptorLink
+                    {
                         Descriptor = context.Descriptor.Where(at => at.Name == "Dewormed").First(),
                         Animal = context.Animal.Where(at => at.Name == "Layla").First()
                     }
@@ -169,8 +188,18 @@ public static class SeedData
                 context.Detail.AddRange(
                     new Detail
                     {
-                        DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Dewormed").First(),
+                        DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Dewormed" && at.Animal.Name == "Ginny").First(),
                         Description = "Happened on arrival at Mdzananda Animal Clinic"
+                    },
+                    new Detail
+                    {
+                        DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Nervous" && at.Animal.Name == "Ginny").First(),
+                        Description = "Does not like going into the Laundry"
+                    },
+                    new Detail
+                    {
+                        DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Nervous" && at.Animal.Name == "Ginny").First(),
+                        Description = "Does not like going into the Kitchen"
                     }
                 );
                 context.SaveChanges();
