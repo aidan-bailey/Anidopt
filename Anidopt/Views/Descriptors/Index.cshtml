@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.DescriptorTypeId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DescriptorType)
             </th>
             <th></th>
@@ -33,6 +36,11 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-controller="DescriptorTypes" asp-action="Details" asp-route-id="@item.DescriptorTypeId">
+                        @Html.DisplayFor(modelItem => item.DescriptorTypeId)
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DescriptorType.Name)
