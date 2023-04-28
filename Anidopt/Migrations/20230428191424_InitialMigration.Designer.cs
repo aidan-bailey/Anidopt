@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anidopt.Migrations
 {
     [DbContext(typeof(AnidoptContext))]
-    [Migration("20230403153737_InitialMigration")]
+    [Migration("20230428191424_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -121,6 +121,29 @@ namespace Anidopt.Migrations
                     b.ToTable("Descriptor");
                 });
 
+            modelBuilder.Entity("Anidopt.Models.DescriptorLink", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnimalId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DescriptorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
+
+                    b.HasIndex("DescriptorId");
+
+                    b.ToTable("DescriptorLink");
+                });
+
             modelBuilder.Entity("Anidopt.Models.DescriptorType", b =>
                 {
                     b.Property<int>("Id")
@@ -131,33 +154,14 @@ namespace Anidopt.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("DescriptorType");
-                });
-
-            modelBuilder.Entity("Anidopt.Models.Detail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DescriptorLinkId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DescriptorLinkId");
-
-                    b.ToTable("Detail");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Estimation", b =>
@@ -187,29 +191,6 @@ namespace Anidopt.Migrations
                     b.HasIndex("SexId");
 
                     b.ToTable("Estimation");
-                });
-
-            modelBuilder.Entity("Anidopt.Models.DescriptorLink", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AnimalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DescriptorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnimalId");
-
-                    b.HasIndex("DescriptorId");
-
-                    b.ToTable("DescriptorLink");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Organisation", b =>
@@ -320,15 +301,23 @@ namespace Anidopt.Migrations
                     b.Navigation("DescriptorType");
                 });
 
-            modelBuilder.Entity("Anidopt.Models.Detail", b =>
+            modelBuilder.Entity("Anidopt.Models.DescriptorLink", b =>
                 {
-                    b.HasOne("Anidopt.Models.DescriptorLink", "DescriptorLink")
-                        .WithMany()
-                        .HasForeignKey("DescriptorLinkId")
+                    b.HasOne("Anidopt.Models.Animal", "Animal")
+                        .WithMany("DescriptorLinks")
+                        .HasForeignKey("AnimalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DescriptorLink");
+                    b.HasOne("Anidopt.Models.Descriptor", "Descriptor")
+                        .WithMany()
+                        .HasForeignKey("DescriptorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Animal");
+
+                    b.Navigation("Descriptor");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Estimation", b =>
@@ -350,23 +339,9 @@ namespace Anidopt.Migrations
                     b.Navigation("Sex");
                 });
 
-            modelBuilder.Entity("Anidopt.Models.DescriptorLink", b =>
+            modelBuilder.Entity("Anidopt.Models.Animal", b =>
                 {
-                    b.HasOne("Anidopt.Models.Animal", "Animal")
-                        .WithMany()
-                        .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Anidopt.Models.Descriptor", "Descriptor")
-                        .WithMany()
-                        .HasForeignKey("DescriptorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Animal");
-
-                    b.Navigation("Descriptor");
+                    b.Navigation("DescriptorLinks");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Organisation", b =>

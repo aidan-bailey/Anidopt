@@ -17,7 +17,7 @@ namespace Anidopt.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,26 +195,6 @@ namespace Anidopt.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Detail",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DescriptorLinkId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Detail", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Detail_DescriptorLink_DescriptorLinkId",
-                        column: x => x.DescriptorLinkId,
-                        principalTable: "DescriptorLink",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Animal_BreedId",
                 table: "Animal",
@@ -247,9 +227,20 @@ namespace Anidopt.Migrations
                 column: "DescriptorTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Detail_DescriptorLinkId",
-                table: "Detail",
-                column: "DescriptorLinkId");
+                name: "IX_DescriptorLink_AnimalId",
+                table: "DescriptorLink",
+                column: "AnimalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DescriptorLink_DescriptorId",
+                table: "DescriptorLink",
+                column: "DescriptorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DescriptorType_Name",
+                table: "DescriptorType",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Estimation_BreedId",
@@ -260,16 +251,6 @@ namespace Anidopt.Migrations
                 name: "IX_Estimation_SexId",
                 table: "Estimation",
                 column: "SexId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DescriptorLink_AnimalId",
-                table: "DescriptorLink",
-                column: "AnimalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DescriptorLink_DescriptorId",
-                table: "DescriptorLink",
-                column: "DescriptorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Organisation_Name",
@@ -288,13 +269,10 @@ namespace Anidopt.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Detail");
+                name: "DescriptorLink");
 
             migrationBuilder.DropTable(
                 name: "Estimation");
-
-            migrationBuilder.DropTable(
-                name: "DescriptorLink");
 
             migrationBuilder.DropTable(
                 name: "Animal");
