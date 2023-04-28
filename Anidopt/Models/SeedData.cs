@@ -176,26 +176,6 @@ public static class SeedData
                 }
             );
 
-            // DETAIL
-
-            context.Seed(
-                new Detail
-                {
-                    DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Dewormed" && at.Animal.Name == "Layla").First(),
-                    Description = "Happened on arrival at Mdzananda Animal Clinic"
-                },
-                new Detail
-                {
-                    DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Nervous" && at.Animal.Name == "Ginny").First(),
-                    Description = "Does not like going into the Laundry"
-                },
-                new Detail
-                {
-                    DescriptorLink = context.DescriptorLink.Where(at => at.Descriptor.Name == "Nervous" && at.Animal.Name == "Ginny").First(),
-                    Description = "Does not like going into the Kitchen"
-                }
-            );
-
         }
     }
 }

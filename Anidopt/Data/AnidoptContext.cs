@@ -34,11 +34,6 @@ namespace Anidopt.Data
             builder.Entity<DescriptorType>()
                 .HasIndex(dt => dt.Name)
                 .IsUnique();
-            builder.Entity<Detail>()
-                .HasOne(d => d.DescriptorLink)
-                .WithMany(dl => dl.Details)
-                .HasForeignKey(d => d.DescriptorLinkId)
-                .HasPrincipalKey(dl => dl.Id);
         }
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
@@ -58,7 +53,5 @@ namespace Anidopt.Data
         public DbSet<Anidopt.Models.Sex> Sex { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Estimation> Estimation { get; set; } = default!;
-
-        public DbSet<Anidopt.Models.Detail> Detail { get; set; } = default!;
     }
 }

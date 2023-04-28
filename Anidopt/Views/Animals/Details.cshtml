@@ -92,22 +92,6 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Descriptor.DescriptorType.Name)
                             </td>
-                            <td>
-                                <table class="table">
-                                    <thead>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var detail in item.Details)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => detail.Description)
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </td>
                         </tr>
                     }
                 </tbody>
