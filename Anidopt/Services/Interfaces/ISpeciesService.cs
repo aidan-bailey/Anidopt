@@ -9,4 +9,6 @@ public interface ISpeciesService
     Task<Species?> GetSpeciesByIdAsync(int id);
     bool SpeciesExistsById(int id);
     Task EnsureSpeciesDeletionById(int id);
+    Task AddSpeciesAsync(Species species);
+    Task UpdateSpeciesAsync(Species species);
 }

@@ -1,73 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Anidopt.Data;
-using Anidopt.Models;
+﻿using Anidopt.Models;
 using Anidopt.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Controllers
 {
     public class SpeciesController : Controller
     {
-        private readonly AnidoptContext _context;
-        private readonly ISpeciesService _SpeciesService;
+        private readonly ISpeciesService _speciesService;
 
-        public SpeciesController(AnidoptContext context, ISpeciesService SpeciesService)
+        public SpeciesController(ISpeciesService SpeciesService)
         {
-            _context = context;
-            _SpeciesService = SpeciesService;
+            _speciesService = SpeciesService;
         }
 
         // GET: Speciess
         public async Task<IActionResult> Index()
         {
-            if (!_SpeciesService.Initialised) return Problem("Entity set 'AnidoptContext.Species'  is null.");
-            var Speciess = await _SpeciesService.GetSpeciesAsync();
-            return View(Speciess);
+            if (!_speciesService.Initialised) return Problem("Entity set 'AnidoptContext.Species'  is null.");
+            var speciess = await _speciesService.GetSpeciesAsync();
+            return View(speciess);
         }
 
         // GET: Speciess/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || !_SpeciesService.Initialised) return NotFound();
-            var Species = await _SpeciesService.GetSpeciesByIdAsync((int)id);
-            if (Species == null) return NotFound();
-            return View(Species);
+            if (id == null || !_speciesService.Initialised) return NotFound();
+            var species = await _speciesService.GetSpeciesByIdAsync((int)id);
+            if (species == null) return NotFound();
+            return View(species);
         }
 
         // GET: Speciess/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: Speciess/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Species Species)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Species species)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(Species);
-                await _context.SaveChangesAsync();
+                await _speciesService.AddSpeciesAsync(species);
                 return RedirectToAction(nameof(Index));
             }
-            return View(Species);
+            return View(species);
         }
 
         // GET: Speciess/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || !_SpeciesService.Initialised) return NotFound();
-            var Species = await _SpeciesService.GetSpeciesByIdAsync((int)id);
-            if (Species == null) return NotFound();
-            return View(Species);
+            if (id == null || !_speciesService.Initialised) return NotFound();
+            var species = await _speciesService.GetSpeciesByIdAsync((int)id);
+            if (species == null) return NotFound();
+            return View(species);
         }
 
         // POST: Speciess/Edit/5
@@ -75,34 +63,32 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Species Species)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Species species)
         {
-            if (id != Species.Id) return NotFound();
-
+            if (id != species.Id) return NotFound();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(Species);
-                    await _context.SaveChangesAsync();
+                    await _speciesService.UpdateSpeciesAsync(species);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_SpeciesService.SpeciesExistsById(Species.Id)) return NotFound();
+                    if (!_speciesService.SpeciesExistsById(species.Id)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(Species);
+            return View(species);
         }
 
         // GET: Speciess/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || !_SpeciesService.Initialised) return NotFound();
-            var Species = await _SpeciesService.GetSpeciesByIdAsync((int)id);
-            if (Species == null) return NotFound();
-            return View(Species);
+            if (id == null || !_speciesService.Initialised) return NotFound();
+            var species = await _speciesService.GetSpeciesByIdAsync((int)id);
+            if (species == null) return NotFound();
+            return View(species);
         }
 
         // POST: Speciess/Delete/5
@@ -110,8 +96,8 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (!_SpeciesService.Initialised) return Problem("Entity set 'AnidoptContext.Species'  is null.");
-            await _SpeciesService.EnsureSpeciesDeletionById(id);
+            if (!_speciesService.Initialised) return Problem("Entity set 'AnidoptContext.Species'  is null.");
+            await _speciesService.EnsureSpeciesDeletionById(id);
             return RedirectToAction(nameof(Index));
         }
     }

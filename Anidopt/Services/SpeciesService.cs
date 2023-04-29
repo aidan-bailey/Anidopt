@@ -28,4 +28,16 @@ public class SpeciesService: ISpeciesService
         if (Species != null) _context.Species.Remove(Species);
         await _context.SaveChangesAsync();
     }
+
+    public async Task AddSpeciesAsync(Species Species)
+    {
+        _context.Species.Add(Species);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateSpeciesAsync(Species species)
+    {
+        _context.Species.Update(species);
+        await _context.SaveChangesAsync();
+    }
 }
