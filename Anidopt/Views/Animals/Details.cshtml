@@ -72,13 +72,13 @@
                 <thead>
                     <tr>
                         <th>
+                            Id
+                        </th>
+                        <th>
                             Name
                         </th>
                         <th>
                             Type
-                        </th>
-                        <th>
-                            Details
                         </th>
                     </tr>
                 </thead>
@@ -86,6 +86,9 @@
                     @foreach (var item in Model.DescriptorLinks)
                     {
                         <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descriptor.Id)
+                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Descriptor.Name)
                             </td>
