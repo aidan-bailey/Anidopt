@@ -18,6 +18,7 @@ builder.Services.AddTransient<IOrganisationService, OrganisationService>();
 builder.Services.AddTransient<IBreedService, BreedService>();
 builder.Services.AddTransient<ISexService, SexService>();
 builder.Services.AddTransient<IDescriptorService, DescriptorService>();
+builder.Services.AddTransient<IDescriptorLinkService, DescriptorLinkService>();
 
 var app = builder.Build();
 
