@@ -1,43 +1,12 @@
 ﻿using Anidopt.Data;
 using Anidopt.Models;
 using Anidopt.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Services;
 
-public class SpeciesService: ISpeciesService
+public class SpeciesService : ServiceBase<Species>, ISpeciesService
 {
-    private readonly AnidoptContext _context;
-
-    public SpeciesService(AnidoptContext context)
+    public SpeciesService(AnidoptContext context) : base(context)
     {
-        _context = context;
-    }
-
-    public bool Initialised => _context.Breed != null;
-
-    public async Task<Species?> GetSpeciesByIdAsync(int id) => await _context.Species.FindAsync(id);
-
-    public async Task<List<Species>> GetSpeciesAsync() => await _context.Species.ToListAsync();
-
-    public bool SpeciesExistsById(int id) => _context.Species.Any(e => e.Id == id);
-
-    public async Task EnsureSpeciesDeletionById(int id)
-    {
-        var Species = await GetSpeciesByIdAsync(id);
-        if (Species != null) _context.Species.Remove(Species);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task AddSpeciesAsync(Species Species)
-    {
-        _context.Species.Add(Species);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task UpdateSpeciesAsync(Species species)
-    {
-        _context.Species.Update(species);
-        await _context.SaveChangesAsync();
     }
 }

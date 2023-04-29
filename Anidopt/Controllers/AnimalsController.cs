@@ -46,7 +46,7 @@ public class AnimalsController : Controller
     // GET: Animals/Create
     public async Task<IActionResult> Create()
     {
-        var species = await _speciesService.GetSpeciesAsync();
+        var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name");
         var breeds = await _breedService.GetBreedsAsync();
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name");
@@ -72,7 +72,7 @@ public class AnimalsController : Controller
         }
         var organisations = await _organisationService.GetOrganisationsAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
-        var species = await _speciesService.GetSpeciesAsync();
+        var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", (int)animal.Breed?.SpeciesId);
         var breeds = await _breedService.GetBreedsAsync();
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
@@ -89,7 +89,7 @@ public class AnimalsController : Controller
         if (animal == null) return NotFound();
         var organisations = await _organisationService.GetOrganisationsAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
-        var species = await _speciesService.GetSpeciesAsync();
+        var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
         var breeds = await _breedService.GetBreedsForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
@@ -122,7 +122,7 @@ public class AnimalsController : Controller
         }
         var organisations = await _organisationService.GetOrganisationsAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
-        var species = await _speciesService.GetSpeciesAsync();
+        var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
         var breeds = await _breedService.GetBreedsForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);

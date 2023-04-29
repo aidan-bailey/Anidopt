@@ -39,7 +39,7 @@ namespace Anidopt.Controllers
         // GET: Breeds/Create
         public async Task<IActionResult> Create()
         {
-            var Speciess = await _SpeciesService.GetSpeciesAsync();
+            var Speciess = await _SpeciesService.GetAllAsync();
             ViewBag.Speciess = Speciess.Select(at => new SelectListItem
             {
                 Text = at.Name,
@@ -69,7 +69,7 @@ namespace Anidopt.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            var Speciess = await _SpeciesService.GetSpeciesAsync();
+            var Speciess = await _SpeciesService.GetAllAsync();
             ViewBag.Speciess = Speciess.Select(at => new SelectListItem
             {
                 Text = at.Name,
@@ -85,7 +85,7 @@ namespace Anidopt.Controllers
             if (id == null || !_breedService.Initialised) return NotFound();
             var breed = await _breedService.GetBreedByIdAsync((int)id);
             if (breed == null) return NotFound();
-            var Speciess = await _SpeciesService.GetSpeciesAsync();
+            var Speciess = await _SpeciesService.GetAllAsync();
             ViewBag.Speciess = Speciess.Select(at => new SelectListItem
             {
                 Text = at.Name,
@@ -116,7 +116,7 @@ namespace Anidopt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            var Speciess = await _SpeciesService.GetSpeciesAsync();
+            var Speciess = await _SpeciesService.GetAllAsync();
             ViewBag.Speciess = Speciess.Select(at => new SelectListItem
             {
                 Text = at.Name,

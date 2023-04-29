@@ -18,7 +18,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Index()
         {
             if (!_speciesService.Initialised) return Problem("Entity set 'AnidoptContext.Species'  is null.");
-            var speciess = await _speciesService.GetSpeciesAsync();
+            var speciess = await _speciesService.GetAllAsync();
             return View(speciess);
         }
 
@@ -26,7 +26,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || !_speciesService.Initialised) return NotFound();
-            var species = await _speciesService.GetSpeciesByIdAsync((int)id);
+            var species = await _speciesService.GetByIdAsync((int)id);
             if (species == null) return NotFound();
             return View(species);
         }
@@ -43,7 +43,7 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _speciesService.AddSpeciesAsync(species);
+                await _speciesService.AddAsync(species);
                 return RedirectToAction(nameof(Index));
             }
             return View(species);
@@ -53,7 +53,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || !_speciesService.Initialised) return NotFound();
-            var species = await _speciesService.GetSpeciesByIdAsync((int)id);
+            var species = await _speciesService.GetByIdAsync((int)id);
             if (species == null) return NotFound();
             return View(species);
         }
@@ -70,11 +70,11 @@ namespace Anidopt.Controllers
             {
                 try
                 {
-                    await _speciesService.UpdateSpeciesAsync(species);
+                    await _speciesService.UpdateAsync(species);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_speciesService.SpeciesExistsById(species.Id)) return NotFound();
+                    if (!_speciesService.ExistsById(species.Id)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
@@ -86,7 +86,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || !_speciesService.Initialised) return NotFound();
-            var species = await _speciesService.GetSpeciesByIdAsync((int)id);
+            var species = await _speciesService.GetByIdAsync((int)id);
             if (species == null) return NotFound();
             return View(species);
         }
@@ -97,7 +97,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!_speciesService.Initialised) return Problem("Entity set 'AnidoptContext.Species'  is null.");
-            await _speciesService.EnsureSpeciesDeletionById(id);
+            await _speciesService.EnsureDeletionById(id);
             return RedirectToAction(nameof(Index));
         }
     }

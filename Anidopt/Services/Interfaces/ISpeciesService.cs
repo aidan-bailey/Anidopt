@@ -2,13 +2,6 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface ISpeciesService
+public interface ISpeciesService : IServiceBase<Species>
 {
-    bool Initialised { get; }
-    Task<List<Species>> GetSpeciesAsync();
-    Task<Species?> GetSpeciesByIdAsync(int id);
-    bool SpeciesExistsById(int id);
-    Task EnsureSpeciesDeletionById(int id);
-    Task AddSpeciesAsync(Species species);
-    Task UpdateSpeciesAsync(Species species);
 }
