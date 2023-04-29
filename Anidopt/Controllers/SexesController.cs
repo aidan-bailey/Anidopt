@@ -7,49 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Anidopt.Data;
 using Anidopt.Models;
+using Anidopt.Services.Interfaces;
 
 namespace Anidopt.Controllers
 {
     public class SexesController : Controller
     {
         private readonly AnidoptContext _context;
+        private readonly ISexService _sexService;
 
-        public SexesController(AnidoptContext context)
+        public SexesController(AnidoptContext context, ISexService sexService)
         {
             _context = context;
+            _sexService = sexService;
         }
 
         // GET: Sexes
-        public async Task<IActionResult> Index()
-        {
-              return _context.Sex != null ? 
-                          View(await _context.Sex.ToListAsync()) :
-                          Problem("Entity set 'AnidoptContext.Sex'  is null.");
-        }
+        public async Task<IActionResult> Index() => _sexService.Initialised
+            ? View(await _sexService.GetSexAsync()) 
+            : Problem("Entity set 'AnidoptContext.Sex'  is null.");
 
         // GET: Sexes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Sex == null)
-            {
-                return NotFound();
-            }
-
-            var sex = await _context.Sex
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (sex == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null || !_sexService.Initialised) return NotFound();
+            var sex = await _sexService.GetSexByIdAsync((int)id);
+            if (sex == null) return NotFound();
             return View(sex);
         }
 
         // GET: Sexes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: Sexes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -70,16 +58,9 @@ namespace Anidopt.Controllers
         // GET: Sexes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Sex == null)
-            {
-                return NotFound();
-            }
-
-            var sex = await _context.Sex.FindAsync(id);
-            if (sex == null)
-            {
-                return NotFound();
-            }
+            if (id == null || !_sexService.Initialised) return NotFound();
+            var sex = await _sexService.GetSexByIdAsync((int)id);
+            if (sex == null) return NotFound();
             return View(sex);
         }
 
@@ -90,11 +71,7 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Sex sex)
         {
-            if (id != sex.Id)
-            {
-                return NotFound();
-            }
-
+            if (id != sex.Id) return NotFound();
             if (ModelState.IsValid)
             {
                 try
@@ -104,14 +81,8 @@ namespace Anidopt.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SexExists(sex.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!await _sexService.SexExistsByIdAsync(sex.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -121,18 +92,9 @@ namespace Anidopt.Controllers
         // GET: Sexes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Sex == null)
-            {
-                return NotFound();
-            }
-
-            var sex = await _context.Sex
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (sex == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null || !_sexService.Initialised) return NotFound();
+            var sex = await _sexService.GetSexByIdAsync((int)id);
+            if (sex == null) return NotFound();
             return View(sex);
         }
 
@@ -141,23 +103,9 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Sex == null)
-            {
-                return Problem("Entity set 'AnidoptContext.Sex'  is null.");
-            }
-            var sex = await _context.Sex.FindAsync(id);
-            if (sex != null)
-            {
-                _context.Sex.Remove(sex);
-            }
-            
-            await _context.SaveChangesAsync();
+            if (!_sexService.Initialised) return Problem("Entity set 'AnidoptContext.Sex'  is null.");
+            await _sexService.EnsureSexDeletionByIdAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool SexExists(int id)
-        {
-          return (_context.Sex?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
