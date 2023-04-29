@@ -24,14 +24,14 @@ namespace Anidopt.Controllers
 
         // GET: Sexes
         public async Task<IActionResult> Index() => _sexService.Initialised
-            ? View(await _sexService.GetSexAsync()) 
+            ? View(await _sexService.GetAllAsync()) 
             : Problem("Entity set 'AnidoptContext.Sex'  is null.");
 
         // GET: Sexes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || !_sexService.Initialised) return NotFound();
-            var sex = await _sexService.GetSexByIdAsync((int)id);
+            var sex = await _sexService.GetByIdAsync((int)id);
             if (sex == null) return NotFound();
             return View(sex);
         }
@@ -59,7 +59,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || !_sexService.Initialised) return NotFound();
-            var sex = await _sexService.GetSexByIdAsync((int)id);
+            var sex = await _sexService.GetByIdAsync((int)id);
             if (sex == null) return NotFound();
             return View(sex);
         }
@@ -81,7 +81,7 @@ namespace Anidopt.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _sexService.SexExistsByIdAsync(sex.Id)) return NotFound();
+                    if (!await _sexService.ExistsByIdAsync(sex.Id)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
@@ -93,7 +93,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || !_sexService.Initialised) return NotFound();
-            var sex = await _sexService.GetSexByIdAsync((int)id);
+            var sex = await _sexService.GetByIdAsync((int)id);
             if (sex == null) return NotFound();
             return View(sex);
         }
@@ -104,7 +104,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!_sexService.Initialised) return Problem("Entity set 'AnidoptContext.Sex'  is null.");
-            await _sexService.EnsureSexDeletionByIdAsync(id);
+            await _sexService.EnsureDeletionByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

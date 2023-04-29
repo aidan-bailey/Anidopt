@@ -58,7 +58,7 @@ namespace Anidopt.Controllers
         {
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name");
             ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name");
-            ViewBag.Sexes = new SelectList(await _sexService.GetSexAsync(), "Id", "Name");
+            ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name");
             return View();
         }
 
@@ -77,7 +77,7 @@ namespace Anidopt.Controllers
             }
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
             ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name", estimation.BreedId);
-            ViewBag.Sexes = new SelectList(await _sexService.GetSexAsync(), "Id", "Name", estimation.SexId);
+            ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
             return View(estimation);
         }
 
@@ -96,7 +96,7 @@ namespace Anidopt.Controllers
             }
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
             ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name", estimation.BreedId);
-            ViewBag.Sexes = new SelectList(await _sexService.GetSexAsync(), "Id", "Name", estimation.SexId);
+            ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
             return View(estimation);
         }
 
@@ -134,7 +134,7 @@ namespace Anidopt.Controllers
             }
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
             ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name", estimation.BreedId);
-            ViewBag.Sexes = new SelectList(await _sexService.GetSexAsync(), "Id", "Name", estimation.SexId);
+            ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
             return View(estimation);
         }
 

@@ -97,7 +97,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!_speciesService.Initialised) return Problem("Entity set 'AnidoptContext.Species'  is null.");
-            await _speciesService.EnsureDeletionById(id);
+            await _speciesService.EnsureDeletionByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -2,11 +2,6 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface ISexService
+public interface ISexService : IServiceBase<Sex>
 {
-    bool Initialised { get; }
-    Task<List<Sex>> GetSexAsync();
-    Task<Sex?> GetSexByIdAsync(int id);
-    Task<bool> SexExistsByIdAsync(int id);
-    Task EnsureSexDeletionByIdAsync(int id);
 }

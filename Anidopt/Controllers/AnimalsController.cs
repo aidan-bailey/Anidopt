@@ -52,7 +52,7 @@ public class AnimalsController : Controller
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name");
         var organisations = await _organisationService.GetOrganisationsAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name");
-        var sexes = await _sexService.GetSexAsync();
+        var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name");
         return View();
     }
@@ -76,7 +76,7 @@ public class AnimalsController : Controller
         ViewBag.Species = new SelectList(species, "Id", "Name", (int)animal.Breed?.SpeciesId);
         var breeds = await _breedService.GetBreedsAsync();
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
-        var sexes = await _sexService.GetSexAsync();
+        var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
         return View(animal);
     }
@@ -93,7 +93,7 @@ public class AnimalsController : Controller
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
         var breeds = await _breedService.GetBreedsForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
-        var sexes = await _sexService.GetSexAsync();
+        var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
         return View(animal);
     }
@@ -126,7 +126,7 @@ public class AnimalsController : Controller
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
         var breeds = await _breedService.GetBreedsForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
-        var sexes = await _sexService.GetSexAsync();
+        var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
         return View(animal);
     }

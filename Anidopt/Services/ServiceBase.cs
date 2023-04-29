@@ -24,7 +24,7 @@ public class ServiceBase<T> : IServiceBase<T> where T : class
         await _context.SaveChangesAsync();
     }
 
-    public async Task EnsureDeletionById(int id)
+    public async Task EnsureDeletionByIdAsync(int id)
     {
         var entity = await GetByIdAsync(id);
         if (entity != null)
@@ -45,4 +45,6 @@ public class ServiceBase<T> : IServiceBase<T> where T : class
         _dbSet.Update(entity);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> ExistsByIdAsync(int id) => (await _dbSet.FindAsync(id)) != null;
 }

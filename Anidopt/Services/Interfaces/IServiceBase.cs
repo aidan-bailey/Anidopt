@@ -8,7 +8,8 @@ public interface IServiceBase<T> where T : class
     Task<List<T>> GetAllAsync();
     Task<T?> GetByIdAsync(int id);
     bool ExistsById(int id);
-    Task EnsureDeletionById(int id);
+    Task<bool> ExistsByIdAsync(int id);
+    Task EnsureDeletionByIdAsync(int id);
     Task AddAsync(T entity);
     Task UpdateAsync(T entity);
 }
