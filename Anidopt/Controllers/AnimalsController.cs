@@ -9,16 +9,14 @@ namespace Anidopt.Controllers;
 
 public class AnimalsController : Controller
 {
-    private readonly AnidoptContext _context;
     private readonly IAnimalService _animalService;
     private readonly IBreedService _breedService;
     private readonly ISpeciesService _speciesService;
     private readonly IOrganisationService _organisationService;
     private readonly ISexService _sexService;
 
-    public AnimalsController(AnidoptContext context, IAnimalService animalService, ISpeciesService speciesService, IBreedService breedService, IOrganisationService organisationService, ISexService sexService)
+    public AnimalsController(IAnimalService animalService, ISpeciesService speciesService, IBreedService breedService, IOrganisationService organisationService, ISexService sexService)
     {
-        _context = context;
         _animalService = animalService;
         _breedService = breedService;
         _speciesService = speciesService;
@@ -66,8 +64,7 @@ public class AnimalsController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Add(animal);
-            await _context.SaveChangesAsync();
+            await _animalService.AddAsync(animal);
             return RedirectToAction(nameof(Index));
         }
         var organisations = await _organisationService.GetAllAsync();
@@ -110,8 +107,7 @@ public class AnimalsController : Controller
         {
             try
             {
-                _context.Update(animal);
-                await _context.SaveChangesAsync();
+                await _animalService.UpdateAsync(animal);
             }
             catch (DbUpdateConcurrencyException)
             {
