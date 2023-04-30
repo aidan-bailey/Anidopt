@@ -16,16 +16,16 @@ public class OrganisationService: IOrganisationService
 
     public bool Initialised => _context.Organisation != null;
 
-    public bool OrganisationExistsById(int id) => _context.Organisation.Any(e => e.Id == id);
+    public bool ExistsById(int id) => _context.Organisation.Any(e => e.Id == id);
 
-    public async Task EnsureOrganisationDeletionById(int id)
+    public async Task EnsureDeletionById(int id)
     {
-        var organisation = await GetOrganisationByIdAsync(id);
+        var organisation = await GetByIdAsync(id);
         if (organisation != null) _context.Organisation.Remove(organisation);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Organisation?> GetOrganisationByIdAsync(int id) => await _context.Organisation.FindAsync(id);
+    public async Task<Organisation?> GetByIdAsync(int id) => await _context.Organisation.FindAsync(id);
 
-    public async Task<List<Organisation>> GetOrganisationsAsync() => await _context.Organisation.ToListAsync();
+    public async Task<List<Organisation>> GetAllAsync() => await _context.Organisation.ToListAsync();
 }
