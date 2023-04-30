@@ -30,7 +30,7 @@ public class AnimalsController : Controller
     public async Task<IActionResult> Index()
     {
         if (!_animalService.Initialised) Problem("Entity set 'AnidoptContext.Animal'  is null.");
-        var animals = await _animalService.GetAnimalsAsync();
+        var animals = await _animalService.GetAllAsync();
         return View(animals);
     }
 
@@ -38,7 +38,7 @@ public class AnimalsController : Controller
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null || !_animalService.Initialised) return NotFound();
-        var animal = await _animalService.GetAnimalByIdAsync((int)id);
+        var animal = await _animalService.GetByIdAsync((int)id);
         if (animal == null) return NotFound();
         return View(animal);
     }
@@ -85,7 +85,7 @@ public class AnimalsController : Controller
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null || !_animalService.Initialised) return NotFound();
-        var animal = await _animalService.GetAnimalByIdAsync((int)id);
+        var animal = await _animalService.GetByIdAsync((int)id);
         if (animal == null) return NotFound();
         var organisations = await _organisationService.GetAllAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
@@ -115,7 +115,7 @@ public class AnimalsController : Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!(await _animalService.AnimalExistsByIdAsync(animal.Id))) return NotFound();
+                if (!(await _animalService.ExistsByIdAsync(animal.Id))) return NotFound();
                 else throw;
             }
             return RedirectToAction(nameof(Index));
@@ -135,7 +135,7 @@ public class AnimalsController : Controller
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null || !_animalService.Initialised) return NotFound();
-        var animal = await _animalService.GetAnimalByIdAsync((int)id);
+        var animal = await _animalService.GetByIdAsync((int)id);
         if (animal == null) return NotFound();
         return View(animal);
     }
@@ -146,7 +146,7 @@ public class AnimalsController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         if (!_animalService.Initialised) return Problem("Entity set 'AnidoptContext.Animal'  is null.");
-        await _animalService.EnsureAnimalDeletionByIdAsync(id);
+        await _animalService.EnsureDeletionByIdAsync(id);
         return RedirectToAction(nameof(Index));
     }
 }

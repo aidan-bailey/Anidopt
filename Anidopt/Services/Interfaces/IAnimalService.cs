@@ -2,11 +2,6 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface IAnimalService
+public interface IAnimalService : IEntityServiceBase<Animal>
 {
-    bool Initialised { get; }
-    Task<List<Animal>> GetAnimalsAsync();
-    Task<Animal?> GetAnimalByIdAsync(int id);
-    Task<bool> AnimalExistsByIdAsync(int id);
-    Task EnsureAnimalDeletionByIdAsync(int id);
 }

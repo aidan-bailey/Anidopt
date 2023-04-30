@@ -1,18 +1,14 @@
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-[PrimaryKey(nameof(Id))]
-public class Animal
+public class Animal : EntityModelBase
 {
 
     /*********************
      * NATIVE PROPERTIES *
      *********************/
-
-    public int Id { get; set; }
  
     [StringLength(32, MinimumLength = 1)]
     [Required]
