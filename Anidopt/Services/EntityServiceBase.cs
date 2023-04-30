@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Services;
 
-public partial class EntityServiceBase<T> : IEntityServiceBase<T> where T : EntityBase
+public partial class EntityServiceBase<T> : IEntityServiceBase<T> where T : EntityModelBase
 {
     private readonly AnidoptContext _context;
     private readonly DbSet<T> _dbSet;

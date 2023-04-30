@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Anidopt.Models;
 
-public class Sex: EntityBase
+public class Sex: EntityModelBase
 {
     [Required]
     public string? Name { get; set; }

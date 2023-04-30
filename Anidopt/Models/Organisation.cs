@@ -4,7 +4,7 @@ namespace Anidopt.Models;
 
 #pragma warning disable CS8618
 
-public class Organisation : EntityBase
+public class Organisation : EntityModelBase
 {
     [Required]
     [StringLength(32, MinimumLength = 1)]

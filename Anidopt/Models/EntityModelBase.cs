@@ -3,7 +3,7 @@
 namespace Anidopt.Models;
 
 [PrimaryKey(nameof(Id))]
-public partial class EntityBase
+public partial class EntityModelBase
 {
     public int Id { get; set; }
 }
