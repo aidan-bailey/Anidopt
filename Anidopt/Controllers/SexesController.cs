@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Anidopt.Data;
 using Anidopt.Models;
 using Anidopt.Services.Interfaces;
 
@@ -13,12 +7,10 @@ namespace Anidopt.Controllers
 {
     public class SexesController : Controller
     {
-        private readonly AnidoptContext _context;
         private readonly ISexService _sexService;
 
-        public SexesController(AnidoptContext context, ISexService sexService)
+        public SexesController(ISexService sexService)
         {
-            _context = context;
             _sexService = sexService;
         }
 
@@ -48,8 +40,7 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sex);
-                await _context.SaveChangesAsync();
+                await _sexService.AddAsync(sex);
                 return RedirectToAction(nameof(Index));
             }
             return View(sex);
@@ -76,8 +67,7 @@ namespace Anidopt.Controllers
             {
                 try
                 {
-                    _context.Update(sex);
-                    await _context.SaveChangesAsync();
+                    await _sexService.UpdateAsync(sex);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
