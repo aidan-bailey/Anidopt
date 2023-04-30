@@ -1,56 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Anidopt.Data;
 using Anidopt.Models;
+using Anidopt.Services.Interfaces;
 
 namespace Anidopt.Controllers
 {
     public class DescriptorLinksController : Controller
     {
-        private readonly AnidoptContext _context;
+        private readonly IDescriptorLinkService _descriptorLinkService;
+        private readonly IAnimalService _animalService;
+        private readonly IDescriptorService _descriptorService;
 
-        public DescriptorLinksController(AnidoptContext context)
+        public DescriptorLinksController(IDescriptorLinkService descriptorLinkService, IAnimalService animalService, IDescriptorService descriptorService)
         {
-            _context = context;
+            _descriptorLinkService = descriptorLinkService;
+            _animalService = animalService;
+            _descriptorService = descriptorService;
         }
 
         // GET: DescriptorLinks
         public async Task<IActionResult> Index()
         {
-            var anidoptContext = _context.DescriptorLink.Include(i => i.Animal).Include(i => i.Descriptor);
-            return View(await anidoptContext.ToListAsync());
+            return View(await _descriptorLinkService.GetAllAsync());
         }
 
         // GET: DescriptorLinks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.DescriptorLink == null)
-            {
+            if (id == null || !_descriptorLinkService.Initialised)
                 return NotFound();
-            }
-
-            var DescriptorLink = await _context.DescriptorLink
-                .Include(i => i.Animal)
-                .Include(i => i.Descriptor)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var DescriptorLink = await _descriptorLinkService.GetByIdAsync(id.Value);
             if (DescriptorLink == null)
-            {
                 return NotFound();
-            }
-
             return View(DescriptorLink);
         }
 
         // GET: DescriptorLinks/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name");
-            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name");
+            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name");
+            ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name");
             return View();
         }
 
@@ -59,35 +49,29 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AnimalId,DescriptorId,DetailId")] DescriptorLink DescriptorLink)
+        public async Task<IActionResult> Create([Bind("Id,AnimalId,DescriptorId,DetailId")] DescriptorLink descriptorLink)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(DescriptorLink);
-                await _context.SaveChangesAsync();
+                await _descriptorLinkService.AddAsync(descriptorLink);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", DescriptorLink.AnimalId);
-            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", DescriptorLink.DescriptorId);
-            return View(DescriptorLink);
+            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", descriptorLink.AnimalId);
+            ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name", descriptorLink.DescriptorId);
+            return View(descriptorLink);
         }
 
         // GET: DescriptorLinks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.DescriptorLink == null)
-            {
+            if (id == null || !_descriptorLinkService.Initialised)
                 return NotFound();
-            }
-
-            var DescriptorLink = await _context.DescriptorLink.FindAsync(id);
-            if (DescriptorLink == null)
-            {
+            var descriptorLink = await _descriptorLinkService.GetByIdAsync(id.Value);
+            if (descriptorLink == null)
                 return NotFound();
-            }
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", DescriptorLink.AnimalId);
-            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", DescriptorLink.DescriptorId);
-            return View(DescriptorLink);
+            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", descriptorLink.AnimalId);
+            ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name", descriptorLink.DescriptorId);
+            return View(descriptorLink);
         }
 
         // POST: DescriptorLinks/Edit/5
@@ -95,54 +79,39 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AnimalId,DescriptorId,DetailId")] DescriptorLink DescriptorLink)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AnimalId,DescriptorId,DetailId")] DescriptorLink descriptorLink)
         {
-            if (id != DescriptorLink.Id)
-            {
+            if (id != descriptorLink.Id)
                 return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(DescriptorLink);
-                    await _context.SaveChangesAsync();
+                    await _descriptorLinkService.UpdateAsync(descriptorLink);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DescriptorLinkExists(DescriptorLink.Id))
-                    {
+                    if (!_descriptorLinkService.ExistsById(descriptorLink.Id))
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", DescriptorLink.AnimalId);
-            ViewData["DescriptorId"] = new SelectList(_context.Descriptor, "Id", "Name", DescriptorLink.DescriptorId);
-            return View(DescriptorLink);
+            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", descriptorLink.AnimalId);
+            ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name", descriptorLink.DescriptorId);
+            return View(descriptorLink);
         }
 
         // GET: DescriptorLinks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.DescriptorLink == null)
-            {
+            if (id == null || !_descriptorLinkService.Initialised)
                 return NotFound();
-            }
-
-            var DescriptorLink = await _context.DescriptorLink.Include(i => i.Animal).Include(i => i.Descriptor)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (DescriptorLink == null)
-            {
+            var descriptorLink = await _descriptorLinkService.GetByIdAsync(id.Value);
+            if (descriptorLink == null)
                 return NotFound();
-            }
-
-            return View(DescriptorLink);
+            return View(descriptorLink);
         }
 
         // POST: DescriptorLinks/Delete/5
@@ -150,23 +119,10 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.DescriptorLink == null)
-            {
+            if (!_descriptorLinkService.Initialised)
                 return Problem("Entity set 'AnidoptContext.DescriptorLink'  is null.");
-            }
-            var DescriptorLink = await _context.DescriptorLink.FindAsync(id);
-            if (DescriptorLink != null)
-            {
-                _context.DescriptorLink.Remove(DescriptorLink);
-            }
-            
-            await _context.SaveChangesAsync();
+            await _descriptorLinkService.EnsureDeletionByIdAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool DescriptorLinkExists(int id)
-        {
-          return (_context.DescriptorLink?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
