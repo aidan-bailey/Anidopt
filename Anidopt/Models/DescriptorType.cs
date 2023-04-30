@@ -2,9 +2,8 @@
 
 namespace Anidopt.Models;
 
-public class DescriptorType
+public class DescriptorType : EntityModelBase
 {
-    public int Id { get; set; }
     [Required]
     public string? Name { get; set; }
 }

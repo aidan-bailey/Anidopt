@@ -2,11 +2,6 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface IDescriptorTypeService
+public interface IDescriptorTypeService : IEntityServiceBase<DescriptorType>
 {
-    bool Initialised { get; }
-    Task<List<DescriptorType>> GetDescriptorTypesAsync();
-    Task<DescriptorType?> GetDescriptorTypeByIdAsync(int id);
-    Task<bool> DescriptorTypeExistsByIdAsync(int id);
-    Task EnsureDescriptorTypeDeletionByIdAsync(int id);
 }

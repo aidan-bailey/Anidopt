@@ -1,47 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Anidopt.Data;
 using Anidopt.Models;
+using Anidopt.Services.Interfaces;
 
 namespace Anidopt.Controllers
 {
     public class DescriptorTypesController : Controller
     {
-        private readonly AnidoptContext _context;
+        private readonly IDescriptorTypeService _descriptorTypeService;
 
-        public DescriptorTypesController(AnidoptContext context)
+        public DescriptorTypesController(IDescriptorTypeService descriptorTypeService)
         {
-            _context = context;
+            _descriptorTypeService = descriptorTypeService;
         }
 
         // GET: DescriptorTypes
         public async Task<IActionResult> Index()
         {
-              return _context.DescriptorType != null ? 
-                          View(await _context.DescriptorType.ToListAsync()) :
+              return _descriptorTypeService.Initialised ? 
+                          View(await _descriptorTypeService.GetAllAsync()) :
                           Problem("Entity set 'AnidoptContext.DescriptorType'  is null.");
         }
 
         // GET: DescriptorTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.DescriptorType == null)
-            {
+            if (id == null || !_descriptorTypeService.Initialised)
                 return NotFound();
-            }
-
-            var descriptorType = await _context.DescriptorType
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var descriptorType = await _descriptorTypeService.GetByIdAsync((int)id);
             if (descriptorType == null)
-            {
                 return NotFound();
-            }
-
             return View(descriptorType);
         }
 
@@ -60,8 +48,7 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(descriptorType);
-                await _context.SaveChangesAsync();
+                await _descriptorTypeService.AddAsync(descriptorType);
                 return RedirectToAction(nameof(Index));
             }
             return View(descriptorType);
@@ -70,16 +57,11 @@ namespace Anidopt.Controllers
         // GET: DescriptorTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.DescriptorType == null)
-            {
+            if (id == null || !_descriptorTypeService.Initialised)
                 return NotFound();
-            }
-
-            var descriptorType = await _context.DescriptorType.FindAsync(id);
+            var descriptorType = await _descriptorTypeService.GetByIdAsync((int)id);
             if (descriptorType == null)
-            {
                 return NotFound();
-            }
             return View(descriptorType);
         }
 
@@ -91,27 +73,19 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] DescriptorType descriptorType)
         {
             if (id != descriptorType.Id)
-            {
                 return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(descriptorType);
-                    await _context.SaveChangesAsync();
+                    await _descriptorTypeService.UpdateAsync(descriptorType);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DescriptorTypeExists(descriptorType.Id))
-                    {
+                    if (!await _descriptorTypeService.ExistsByIdAsync(descriptorType.Id))
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -121,18 +95,11 @@ namespace Anidopt.Controllers
         // GET: DescriptorTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.DescriptorType == null)
-            {
+            if (id == null || !_descriptorTypeService.Initialised)
                 return NotFound();
-            }
-
-            var descriptorType = await _context.DescriptorType
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var descriptorType = await _descriptorTypeService.GetByIdAsync((int)id);
             if (descriptorType == null)
-            {
                 return NotFound();
-            }
-
             return View(descriptorType);
         }
 
@@ -141,23 +108,10 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.DescriptorType == null)
-            {
+            if (!_descriptorTypeService.Initialised)
                 return Problem("Entity set 'AnidoptContext.DescriptorType'  is null.");
-            }
-            var descriptorType = await _context.DescriptorType.FindAsync(id);
-            if (descriptorType != null)
-            {
-                _context.DescriptorType.Remove(descriptorType);
-            }
-            
-            await _context.SaveChangesAsync();
+            await _descriptorTypeService.EnsureDeletionByIdAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool DescriptorTypeExists(int id)
-        {
-          return (_context.DescriptorType?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
