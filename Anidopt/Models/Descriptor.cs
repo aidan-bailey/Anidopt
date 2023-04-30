@@ -2,9 +2,8 @@
 
 namespace Anidopt.Models;
 
-public class Descriptor
+public class Descriptor : EntityModelBase
 {
-    public int Id { get; set; }
     public virtual DescriptorType? DescriptorType { get; set; }
     [Required]
     public int DescriptorTypeId { get; set; }

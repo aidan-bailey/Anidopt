@@ -2,11 +2,6 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface IDescriptorLinkService
+public interface IDescriptorLinkService : IEntityServiceBase<DescriptorLink>
 {
-    bool Initialised { get; }
-    Task<List<DescriptorLink>> GetDescriptorLinksAsync();
-    Task<DescriptorLink?> GetDescriptorLinkByIdAsync(int id);
-    Task<bool> DescriptorLinkExistsByIdAsync(int id);
-    Task EnsureDescriptorLinkDeletionByIdAsync(int id);
 }

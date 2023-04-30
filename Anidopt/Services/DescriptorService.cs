@@ -5,30 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Services;
 
-public class DescriptorService : IDescriptorService
+public class DescriptorService : EntityServiceBase<Descriptor>, IDescriptorService
 {
-    private readonly AnidoptContext _context;
-
-    public DescriptorService(AnidoptContext context)
+    public DescriptorService(AnidoptContext context) : base(context)
     {
-        _context = context;
     }
 
-    public bool Initialised => _context.Descriptor != null;
-
-    public async Task<List<Descriptor>> GetDescriptorsAsync() => await _context.Descriptor.ToListAsync();
-
-    public async Task<Descriptor?> GetDescriptorByIdAsync(int id) => await _context.Descriptor.FindAsync(id);
-
-    public async Task<bool> DescriptorExistsByIdAsync(int id) => await _context.Descriptor.AnyAsync(e => e.Id == id);
-
-    public async Task EnsureDescriptorDeletionByIdAsync(int id)
-    {
-        var descriptor = await GetDescriptorByIdAsync(id);
-        if (descriptor != null)
-            _context.Descriptor.Remove(descriptor);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<List<Descriptor>> GetDescriptorsForAnimalByIdAsync(int id) => await _context.DescriptorLink.Where(dl => dl.AnimalId == id).Select(dl => dl.Descriptor).ToListAsync();
+    public async Task<List<Descriptor>> GetForAnimalByIdAsync(int id) => await _context.DescriptorLink.Where(dl => dl.AnimalId == id).Select(dl => dl.Descriptor).ToListAsync();
 }

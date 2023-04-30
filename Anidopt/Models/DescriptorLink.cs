@@ -2,9 +2,8 @@
 
 namespace Anidopt.Models;
 
-public class DescriptorLink
+public class DescriptorLink : EntityModelBase
 {
-    public int Id { get; set; }
     public virtual Animal? Animal { get; set; }
     [Required]
     public int AnimalId { get; set; }
