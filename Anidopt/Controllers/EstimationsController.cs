@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Anidopt.Data;
 using Anidopt.Models;
 using Anidopt.Services.Interfaces;
 
@@ -13,14 +8,14 @@ namespace Anidopt.Controllers
 {
     public class EstimationsController : Controller
     {
-        private readonly AnidoptContext _context;
+        private readonly IEstimationService _estimationService;
         private readonly ISpeciesService _speciesService;
         private readonly IBreedService _breedService;
         private readonly ISexService _sexService;
 
-        public EstimationsController(AnidoptContext context, ISpeciesService speciesService, IBreedService breedService, ISexService sexService)
+        public EstimationsController(IEstimationService estimationService, ISpeciesService speciesService, IBreedService breedService, ISexService sexService)
         {
-            _context = context;
+            _estimationService = estimationService;
             _speciesService = speciesService;
             _breedService = breedService;
             _sexService = sexService;
@@ -29,27 +24,17 @@ namespace Anidopt.Controllers
         // GET: Estimations
         public async Task<IActionResult> Index()
         {
-            var anidoptContext = _context.Estimation.Include(e => e.Breed).Include(e => e.Sex);
-            return View(await anidoptContext.ToListAsync());
+            return View(await _estimationService.GetAllAsync());
         }
 
         // GET: Estimations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Estimation == null)
-            {
+            if (id == null || !_estimationService.Initialised)
                 return NotFound();
-            }
-
-            var estimation = await _context.Estimation
-                .Include(e => e.Breed)
-                .Include(e => e.Sex)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var estimation = await _estimationService.GetByIdAsync((int)id);
             if (estimation == null)
-            {
                 return NotFound();
-            }
-
             return View(estimation);
         }
 
@@ -71,8 +56,7 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(estimation);
-                await _context.SaveChangesAsync();
+                await _estimationService.AddAsync(estimation);
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
@@ -84,16 +68,12 @@ namespace Anidopt.Controllers
         // GET: Estimations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Estimation == null)
-            {
+            if (id == null || !_estimationService.Initialised)
                 return NotFound();
-            }
 
-            var estimation = await _context.Estimation.FindAsync(id);
+            var estimation = await _estimationService.GetByIdAsync((int)id);
             if (estimation == null)
-            {
                 return NotFound();
-            }
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
             ViewBag.Breeds = new SelectList(await _breedService.GetAllAsync(), "Id", "Name", estimation.BreedId);
             ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
@@ -108,27 +88,18 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Height,Weight,BreedId,SexId")] Estimation estimation)
         {
             if (id != estimation.Id)
-            {
                 return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(estimation);
-                    await _context.SaveChangesAsync();
+                    await _estimationService.UpdateAsync(estimation);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EstimationExists(estimation.Id))
-                    {
+                    if (!_estimationService.ExistsById(estimation.Id))
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -141,20 +112,11 @@ namespace Anidopt.Controllers
         // GET: Estimations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Estimation == null)
-            {
+            if (id == null || !_estimationService.Initialised)
                 return NotFound();
-            }
-
-            var estimation = await _context.Estimation
-                .Include(e => e.Breed)
-                .Include(e => e.Sex)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var estimation = await _estimationService.GetByIdAsync((int)id);
             if (estimation == null)
-            {
                 return NotFound();
-            }
-
             return View(estimation);
         }
 
@@ -163,23 +125,10 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Estimation == null)
-            {
+            if (!_estimationService.Initialised)
                 return Problem("Entity set 'AnidoptContext.Estimation'  is null.");
-            }
-            var estimation = await _context.Estimation.FindAsync(id);
-            if (estimation != null)
-            {
-                _context.Estimation.Remove(estimation);
-            }
-            
-            await _context.SaveChangesAsync();
+            await _estimationService.EnsureDeletionByIdAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool EstimationExists(int id)
-        {
-          return (_context.Estimation?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

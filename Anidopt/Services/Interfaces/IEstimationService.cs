@@ -2,11 +2,6 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface IEstimationService
+public interface IEstimationService : IEntityServiceBase<Estimation>
 {
-    bool Initialised { get; }
-    Task<List<Estimation>> GetEstimationsAsync();
-    Task<Estimation?> GetEstimationByIdAsync(int id);
-    Task<bool> EstimationExistsByIdAsync(int id);
-    Task EnsureEstimationDeletionByIdAsync(int id);
 }

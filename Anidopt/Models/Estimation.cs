@@ -1,18 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-[PrimaryKey(nameof(Id))]
-public class Estimation
+public class Estimation : EntityModelBase
 {
     /*********************
      * NATIVE PROPERTIES *
      *********************/
-
-    public int Id { get; set; }
-
+    
     [Required]
     [Range(1, float.MaxValue)]
     public float Height { get; set; }
