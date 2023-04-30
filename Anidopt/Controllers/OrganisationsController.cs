@@ -8,12 +8,10 @@ namespace Anidopt.Controllers
 {
     public class OrganisationsController : Controller
     {
-        private readonly AnidoptContext _context;
         private readonly IOrganisationService _organisationService;
 
-        public OrganisationsController(AnidoptContext context, IOrganisationService organisationService)
+        public OrganisationsController(IOrganisationService organisationService)
         {
-            _context = context;
             _organisationService = organisationService;
         }
 
@@ -49,8 +47,7 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(organisation);
-                await _context.SaveChangesAsync();
+                await _organisationService.AddAsync(organisation);
                 return RedirectToAction(nameof(Index));
             }
             return View(organisation);
@@ -78,8 +75,7 @@ namespace Anidopt.Controllers
             {
                 try
                 {
-                    _context.Update(organisation);
-                    await _context.SaveChangesAsync();
+                    await _organisationService.UpdateAsync(organisation);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -105,7 +101,7 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Organisation == null) return Problem("Entity set 'AnidoptContext.Organisation'  is null.");
+            if (!_organisationService.Initialised) return Problem("Entity set 'AnidoptContext.Organisation'  is null.");
             await _organisationService.EnsureDeletionByIdAsync((int)id);
             return RedirectToAction(nameof(Index));
         }
