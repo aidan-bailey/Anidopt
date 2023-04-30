@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Services;
 
-public class ServiceBase<T> : IServiceBase<T> where T : EntityBase
+public class EntityServiceBase<T> : IEntityServiceBase<T> where T : EntityBase
 {
     private readonly AnidoptContext _context;
     private readonly DbSet<T> _dbSet;
 
     public bool Initialised => _dbSet != null;
 
-    public ServiceBase(AnidoptContext context)
+    public EntityServiceBase(AnidoptContext context)
     {
         _context = context;
         _dbSet = context.Set<T>();

@@ -2,6 +2,6 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface ISexService : IServiceBase<Sex>
+public interface ISexService : IEntityServiceBase<Sex>
 {
 }

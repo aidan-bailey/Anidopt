@@ -2,6 +2,6 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface ISpeciesService : IServiceBase<Species>
+public interface ISpeciesService : IEntityServiceBase<Species>
 {
 }
