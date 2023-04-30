@@ -36,12 +36,8 @@ namespace Anidopt.Controllers
         // GET: Breeds/Create
         public async Task<IActionResult> Create()
         {
-            var Speciess = await _speciesService.GetAllAsync();
-            ViewBag.Speciess = Speciess.Select(at => new SelectListItem
-            {
-                Text = at.Name,
-                Value = at.Id.ToString()
-            });
+            var speciess = await _speciesService.GetAllAsync();
+            ViewBag.Speciess = new SelectList(speciess, "Id", "Name");
             return View();
         }
 
@@ -66,12 +62,7 @@ namespace Anidopt.Controllers
                 return RedirectToAction(nameof(Index));
             }
             var speciess = await _speciesService.GetAllAsync();
-            ViewBag.Speciess = speciess.Select(at => new SelectListItem
-            {
-                Text = at.Name,
-                Value = at.Id.ToString(),
-                Selected = breed.SpeciesId == at.Id
-            });
+            ViewBag.Speciess = new SelectList(speciess, "Id", "Name", breed.SpeciesId);
             return View(breed);
         }
 
@@ -82,11 +73,7 @@ namespace Anidopt.Controllers
             var breed = await _breedService.GetByIdAsync((int)id);
             if (breed == null) return NotFound();
             var speciess = await _speciesService.GetAllAsync();
-            ViewBag.Speciess = speciess.Select(at => new SelectListItem
-            {
-                Text = at.Name,
-                Value = at.Id.ToString()
-            });
+            ViewBag.Speciess = new SelectList(speciess, "Id", "Name", breed.SpeciesId);
             return View(breed);
         }
 
@@ -112,12 +99,7 @@ namespace Anidopt.Controllers
                 return RedirectToAction(nameof(Index));
             }
             var speciess = await _speciesService.GetAllAsync();
-            ViewBag.Speciess = speciess.Select(at => new SelectListItem
-            {
-                Text = at.Name,
-                Value = at.Id.ToString(),
-                Selected = breed.SpeciesId == at.Id
-            });
+            ViewBag.Speciess = new SelectList(speciess, "Id", "Name", breed.SpeciesId);
             return View(breed);
         }
 
