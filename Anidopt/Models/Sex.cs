@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Anidopt.Models;
 
-[PrimaryKey(nameof(Id))]
-public class Sex
+public class Sex: EntityBase
 {
-    public int Id { get; set; }
-
     [Required]
     public string? Name { get; set; }
 }

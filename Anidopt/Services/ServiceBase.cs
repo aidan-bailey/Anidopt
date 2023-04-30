@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Services;
 
-public class ServiceBase<T> : IServiceBase<T> where T : class
+public class ServiceBase<T> : IServiceBase<T> where T : EntityBase
 {
     private readonly AnidoptContext _context;
     private readonly DbSet<T> _dbSet;
@@ -34,7 +34,7 @@ public class ServiceBase<T> : IServiceBase<T> where T : class
         }
     }
 
-    public bool ExistsById(int id) => _dbSet.Find(id) != null;
+    public bool ExistsById(int id) => _dbSet.Any(e => e.Id == id);
 
     public async Task<List<T>> GetAllAsync() => await _dbSet.ToListAsync();
 
