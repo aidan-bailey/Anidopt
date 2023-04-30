@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-public class Breed
+public class Breed : EntityModelBase
 {
-    public int Id { get; set; }
     [StringLength(32, MinimumLength = 1)]
     [Required]
     public string? Name { get; set; }

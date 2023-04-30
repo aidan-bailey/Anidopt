@@ -46,7 +46,7 @@ public class AnimalsController : Controller
     {
         var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name");
-        var breeds = await _breedService.GetBreedsAsync();
+        var breeds = await _breedService.GetAllAsync();
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name");
         var organisations = await _organisationService.GetAllAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name");
@@ -71,7 +71,7 @@ public class AnimalsController : Controller
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
         var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", (int)animal.Breed?.SpeciesId);
-        var breeds = await _breedService.GetBreedsAsync();
+        var breeds = await _breedService.GetAllAsync();
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
         var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
@@ -88,7 +88,7 @@ public class AnimalsController : Controller
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
         var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
-        var breeds = await _breedService.GetBreedsForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
+        var breeds = await _breedService.GetForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
         var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
@@ -120,7 +120,7 @@ public class AnimalsController : Controller
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
         var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
-        var breeds = await _breedService.GetBreedsForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
+        var breeds = await _breedService.GetForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
         var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);

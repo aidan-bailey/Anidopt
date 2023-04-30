@@ -7,8 +7,8 @@ namespace Anidopt.Services;
 
 public partial class EntityServiceBase<T> : IEntityServiceBase<T> where T : EntityModelBase
 {
-    private readonly AnidoptContext _context;
-    private readonly DbSet<T> _dbSet;
+    internal readonly AnidoptContext _context;
+    internal readonly DbSet<T> _dbSet;
 
     public bool Initialised => _dbSet != null;
 

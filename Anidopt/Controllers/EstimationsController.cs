@@ -57,7 +57,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name");
-            ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name");
+            ViewBag.Breeds = new SelectList(await _breedService.GetAllAsync(), "Id", "Name");
             ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name");
             return View();
         }
@@ -76,7 +76,7 @@ namespace Anidopt.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
-            ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name", estimation.BreedId);
+            ViewBag.Breeds = new SelectList(await _breedService.GetAllAsync(), "Id", "Name", estimation.BreedId);
             ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
             return View(estimation);
         }
@@ -95,7 +95,7 @@ namespace Anidopt.Controllers
                 return NotFound();
             }
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
-            ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name", estimation.BreedId);
+            ViewBag.Breeds = new SelectList(await _breedService.GetAllAsync(), "Id", "Name", estimation.BreedId);
             ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
             return View(estimation);
         }
@@ -133,7 +133,7 @@ namespace Anidopt.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
-            ViewBag.Breeds = new SelectList(await _breedService.GetBreedsAsync(), "Id", "Name", estimation.BreedId);
+            ViewBag.Breeds = new SelectList(await _breedService.GetAllAsync(), "Id", "Name", estimation.BreedId);
             ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
             return View(estimation);
         }

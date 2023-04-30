@@ -9,29 +9,27 @@ namespace Anidopt.Controllers
 {
     public class BreedsController : Controller
     {
-        private readonly AnidoptContext _context;
         private readonly IBreedService _breedService;
-        private readonly ISpeciesService _SpeciesService;
+        private readonly ISpeciesService _speciesService;
 
-        public BreedsController(AnidoptContext context, IBreedService breedService, ISpeciesService SpeciesService)
+        public BreedsController(IBreedService breedService, ISpeciesService speciesService)
         {
-            _context = context;
             _breedService = breedService;
-            _SpeciesService = SpeciesService;
+            _speciesService = speciesService;
         }
 
         // GET: Breeds
         public async Task<IActionResult> Index()
         {
             if (!_breedService.Initialised) return Problem("Entity set 'AnidoptContext.Breed'  is null.");
-            return View(await _breedService.GetBreedsAsync());
+            return View(await _breedService.GetAllAsync());
         }
 
         // GET: Breeds/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || !_breedService.Initialised) return NotFound();
-            var breed = await _breedService.GetBreedByIdAsync((int)id);
+            var breed = await _breedService.GetByIdAsync((int)id);
             if (breed == null) return NotFound();
             return View(breed);
         }
@@ -39,7 +37,7 @@ namespace Anidopt.Controllers
         // GET: Breeds/Create
         public async Task<IActionResult> Create()
         {
-            var Speciess = await _SpeciesService.GetAllAsync();
+            var Speciess = await _speciesService.GetAllAsync();
             ViewBag.Speciess = Speciess.Select(at => new SelectListItem
             {
                 Text = at.Name,
@@ -52,7 +50,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> ForSpecies(int? id)
         {
             if (id == null) return NotFound();
-            var breeds = await _breedService.GetBreedsForSpeciesByIdAsync((int)id);
+            var breeds = await _breedService.GetForSpeciesByIdAsync((int)id);
             return Ok(breeds);
         }
 
@@ -65,12 +63,11 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(breed);
-                await _context.SaveChangesAsync();
+                await _breedService.AddAsync(breed);
                 return RedirectToAction(nameof(Index));
             }
-            var Speciess = await _SpeciesService.GetAllAsync();
-            ViewBag.Speciess = Speciess.Select(at => new SelectListItem
+            var speciess = await _speciesService.GetAllAsync();
+            ViewBag.Speciess = speciess.Select(at => new SelectListItem
             {
                 Text = at.Name,
                 Value = at.Id.ToString(),
@@ -83,10 +80,10 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || !_breedService.Initialised) return NotFound();
-            var breed = await _breedService.GetBreedByIdAsync((int)id);
+            var breed = await _breedService.GetByIdAsync((int)id);
             if (breed == null) return NotFound();
-            var Speciess = await _SpeciesService.GetAllAsync();
-            ViewBag.Speciess = Speciess.Select(at => new SelectListItem
+            var speciess = await _speciesService.GetAllAsync();
+            ViewBag.Speciess = speciess.Select(at => new SelectListItem
             {
                 Text = at.Name,
                 Value = at.Id.ToString()
@@ -106,18 +103,17 @@ namespace Anidopt.Controllers
             {
                 try
                 {
-                    _context.Update(breed);
-                    await _context.SaveChangesAsync();
+                    await _breedService.UpdateAsync(breed);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_breedService.BreedExistsById(breed.Id)) return NotFound();
+                    if (!_breedService.ExistsById(breed.Id)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            var Speciess = await _SpeciesService.GetAllAsync();
-            ViewBag.Speciess = Speciess.Select(at => new SelectListItem
+            var speciess = await _speciesService.GetAllAsync();
+            ViewBag.Speciess = speciess.Select(at => new SelectListItem
             {
                 Text = at.Name,
                 Value = at.Id.ToString(),
@@ -130,7 +126,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || !_breedService.Initialised) return NotFound();
-            var breed = await _breedService.GetBreedByIdAsync((int)id);
+            var breed = await _breedService.GetByIdAsync((int)id);
             if (breed == null) return NotFound();
             return View(breed);
         }
@@ -141,7 +137,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!_breedService.Initialised) return Problem("Entity set 'AnidoptContext.Breed'  is null.");
-            await _breedService.EnsureBreedDeletionById((int)id);
+            await _breedService.EnsureDeletionByIdAsync((int)id);
             return RedirectToAction(nameof(Index));
         }
     }
