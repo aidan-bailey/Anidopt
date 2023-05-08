@@ -17,5 +17,5 @@ public class Picture : EntityModelBase
     public bool Showcase { get; set; }
 
     [ForeignKey(nameof(AnimalId))]
-    public Animal Animal { get; set; }
+    public virtual Animal Animal { get; set; }
 }
