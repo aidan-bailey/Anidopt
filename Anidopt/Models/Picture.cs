@@ -8,7 +8,7 @@ namespace Anidopt.Models;
 public class Picture : EntityModelBase
 {
     [Required]
-    public byte[] Image { get; set; } = new byte[] { };
+    public byte[] Image { get; set; }
 
     [Required]
     public int AnimalId { get; set; }
