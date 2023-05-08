@@ -1,42 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Anidopt.Models;
+using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Anidopt.Data;
-using Anidopt.Models;
 
 namespace Anidopt.Controllers
 {
     public class PicturesController : Controller
     {
-        private readonly AnidoptContext _context;
+        private readonly IPictureService _pictureService;
 
-        public PicturesController(AnidoptContext context)
+        public PicturesController(IPictureService pictureService)
         {
-            _context = context;
+            _pictureService = pictureService;
         }
 
         // GET: Pictures
         public async Task<IActionResult> Index()
         {
-            var anidoptContext = _context.Picture.Include(p => p.Animal);
-            return View(await anidoptContext.ToListAsync());
+            return View(await _pictureService.GetAllAsync());
         }
 
         // GET: Pictures/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Picture == null)
+            if (id == null || !_pictureService.Initialised)
             {
                 return NotFound();
             }
 
-            var picture = await _context.Picture
-                .Include(p => p.Animal)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var picture = await _pictureService.GetByIdAsync(id.Value);
             if (picture == null)
             {
                 return NotFound();
@@ -46,9 +39,9 @@ namespace Anidopt.Controllers
         }
 
         // GET: Pictures/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name");
+            ViewData["AnimalId"] = new SelectList(await _pictureService.GetAllAsync(), "Id", "Name");
             return View();
         }
 
@@ -61,28 +54,27 @@ namespace Anidopt.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(picture);
-                await _context.SaveChangesAsync();
+                await _pictureService.AddAsync(picture);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", picture.AnimalId);
+            ViewData["AnimalId"] = new SelectList(await _pictureService.GetAllAsync(), "Id", "Name", picture.AnimalId);
             return View(picture);
         }
 
         // GET: Pictures/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Picture == null)
+            if (id == null || !_pictureService.Initialised)
             {
                 return NotFound();
             }
 
-            var picture = await _context.Picture.FindAsync(id);
+            var picture = await _pictureService.GetByIdAsync(id.Value);
             if (picture == null)
             {
                 return NotFound();
             }
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", picture.AnimalId);
+            ViewData["AnimalId"] = new SelectList(await _pictureService.GetAllAsync(), "Id", "Name", picture.AnimalId);
             return View(picture);
         }
 
@@ -102,12 +94,11 @@ namespace Anidopt.Controllers
             {
                 try
                 {
-                    _context.Update(picture);
-                    await _context.SaveChangesAsync();
+                    await _pictureService.UpdateAsync(picture);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PictureExists(picture.Id))
+                    if (!_pictureService.ExistsById(picture.Id))
                     {
                         return NotFound();
                     }
@@ -118,21 +109,19 @@ namespace Anidopt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", picture.AnimalId);
+            ViewData["AnimalId"] = new SelectList(await _pictureService.GetAllAsync(), "Id", "Name", picture.AnimalId);
             return View(picture);
         }
 
         // GET: Pictures/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Picture == null)
+            if (id == null || !_pictureService.Initialised)
             {
                 return NotFound();
             }
 
-            var picture = await _context.Picture
-                .Include(p => p.Animal)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var picture = await _pictureService.GetByIdAsync(id.Value);
             if (picture == null)
             {
                 return NotFound();
@@ -146,23 +135,12 @@ namespace Anidopt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Picture == null)
+            if (!_pictureService.Initialised)
             {
                 return Problem("Entity set 'AnidoptContext.Picture'  is null.");
             }
-            var picture = await _context.Picture.FindAsync(id);
-            if (picture != null)
-            {
-                _context.Picture.Remove(picture);
-            }
-            
-            await _context.SaveChangesAsync();
+            await _pictureService.EnsureDeletionByIdAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PictureExists(int id)
-        {
-          return (_context.Picture?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
