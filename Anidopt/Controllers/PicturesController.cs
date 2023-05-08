@@ -24,17 +24,9 @@ namespace Anidopt.Controllers
         // GET: Pictures/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || !_pictureService.Initialised)
-            {
-                return NotFound();
-            }
-
+            if (id == null || !_pictureService.Initialised) return NotFound();
             var picture = await _pictureService.GetByIdAsync(id.Value);
-            if (picture == null)
-            {
-                return NotFound();
-            }
-
+            if (picture == null) return NotFound();
             return View(picture);
         }
 
@@ -65,15 +57,11 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || !_pictureService.Initialised)
-            {
                 return NotFound();
-            }
 
             var picture = await _pictureService.GetByIdAsync(id.Value);
             if (picture == null)
-            {
                 return NotFound();
-            }
             ViewData["AnimalId"] = new SelectList(await _pictureService.GetAllAsync(), "Id", "Name", picture.AnimalId);
             return View(picture);
         }
@@ -86,9 +74,7 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Image,AnimalId,Showcase,Id")] Picture picture)
         {
             if (id != picture.Id)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -99,9 +85,7 @@ namespace Anidopt.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!_pictureService.ExistsById(picture.Id))
-                    {
                         return NotFound();
-                    }
                     else
                     {
                         throw;
@@ -117,16 +101,10 @@ namespace Anidopt.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || !_pictureService.Initialised)
-            {
                 return NotFound();
-            }
-
             var picture = await _pictureService.GetByIdAsync(id.Value);
             if (picture == null)
-            {
                 return NotFound();
-            }
-
             return View(picture);
         }
 
