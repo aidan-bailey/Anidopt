@@ -9,10 +9,12 @@ namespace Anidopt.Controllers
     public class PicturesController : Controller
     {
         private readonly IPictureService _pictureService;
+        private readonly IAnimalService _animalService;
 
-        public PicturesController(IPictureService pictureService)
+        public PicturesController(IPictureService pictureService, IAnimalService animalService)
         {
             _pictureService = pictureService;
+            _animalService = animalService;
         }
 
         // GET: Pictures
@@ -33,7 +35,7 @@ namespace Anidopt.Controllers
         // GET: Pictures/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["AnimalId"] = new SelectList(await _pictureService.GetAllAsync(), "Id", "Name");
+            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name");
             return View();
         }
 
@@ -49,7 +51,7 @@ namespace Anidopt.Controllers
                 await _pictureService.AddAsync(picture);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnimalId"] = new SelectList(await _pictureService.GetAllAsync(), "Id", "Name", picture.AnimalId);
+            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", picture.AnimalId);
             return View(picture);
         }
 
@@ -62,7 +64,7 @@ namespace Anidopt.Controllers
             var picture = await _pictureService.GetByIdAsync(id.Value);
             if (picture == null)
                 return NotFound();
-            ViewData["AnimalId"] = new SelectList(await _pictureService.GetAllAsync(), "Id", "Name", picture.AnimalId);
+            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", picture.AnimalId);
             return View(picture);
         }
 
@@ -93,7 +95,7 @@ namespace Anidopt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AnimalId"] = new SelectList(await _pictureService.GetAllAsync(), "Id", "Name", picture.AnimalId);
+            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", picture.AnimalId);
             return View(picture);
         }
 
