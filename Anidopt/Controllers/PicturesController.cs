@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.IO.Compression;
+using System.Linq;
 
 namespace Anidopt.Controllers
 {
@@ -21,15 +22,23 @@ namespace Anidopt.Controllers
         // GET: Pictures
         public async Task<IActionResult> Index()
         {
-            return View(await _pictureService.GetAllAsync());
+            var pictures = await _pictureService.GetAllAsync();
+            var imagesBase64 = pictures.ToDictionary(
+                p => p.Id, 
+                p => "data:image/png;base64," + Convert.ToBase64String(p.Image)
+            );
+            ViewBag.ImagesBase64 = imagesBase64;
+            return View(pictures);
         }
 
         // GET: Pictures/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || !_pictureService.Initialised) return NotFound();
-            var picture = await _pictureService.GetByIdAsync(id.Value);
+            var picture = await _pictureService.GetByIdAsync(id.Value); 
             if (picture == null) return NotFound();
+            ViewBag.ImageBase64 = Convert.ToBase64String(picture.Image);
+            picture.Image = null;
             return View(picture);
         }
 
