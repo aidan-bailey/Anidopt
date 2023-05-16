@@ -3,8 +3,6 @@ using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.IO.Compression;
-using System.Linq;
 
 namespace Anidopt.Controllers
 {
@@ -27,8 +25,6 @@ namespace Anidopt.Controllers
                 p => p.Id, 
                 p => "data:image/png;base64," + Convert.ToBase64String(p.Image)
             );
-            foreach (var picture in pictures)
-                picture.Image = null;
             ViewBag.ImagesBase64 = imagesBase64;
             return View(pictures);
         }
