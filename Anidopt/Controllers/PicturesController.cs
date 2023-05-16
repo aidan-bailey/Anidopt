@@ -88,6 +88,7 @@ namespace Anidopt.Controllers
             var picture = await _pictureService.GetByIdAsync(id.Value);
             if (picture == null)
                 return NotFound();
+            ViewBag.ImageBase64 = "data:image/png;base64," + Convert.ToBase64String(picture.Image);
             ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", picture.AnimalId);
             return View(picture);
         }
