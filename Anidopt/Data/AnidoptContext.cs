@@ -53,5 +53,7 @@ namespace Anidopt.Data
         public DbSet<Anidopt.Models.Sex> Sex { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Estimation> Estimation { get; set; } = default!;
+
+        public DbSet<Anidopt.Models.Picture> Picture { get; set; } = default!;
     }
 }
