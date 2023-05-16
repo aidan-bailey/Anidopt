@@ -27,6 +27,8 @@ namespace Anidopt.Controllers
                 p => p.Id, 
                 p => "data:image/png;base64," + Convert.ToBase64String(p.Image)
             );
+            foreach (var picture in pictures)
+                picture.Image = null;
             ViewBag.ImagesBase64 = imagesBase64;
             return View(pictures);
         }
