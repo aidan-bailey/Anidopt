@@ -35,7 +35,7 @@ namespace Anidopt.Controllers
             if (id == null || !_pictureService.Initialised) return NotFound();
             var picture = await _pictureService.GetByIdAsync(id.Value); 
             if (picture == null) return NotFound();
-            ViewBag.ImageBase64 = Convert.ToBase64String(picture.Image);
+            ViewBag.ImageBase64 = "data:image/png;base64," + Convert.ToBase64String(picture.Image);
             return View(picture);
         }
 
