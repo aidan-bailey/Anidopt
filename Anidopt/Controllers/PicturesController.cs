@@ -3,6 +3,7 @@ using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.IO.Compression;
 
 namespace Anidopt.Controllers
 {
@@ -44,15 +45,32 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Image,AnimalId,Showcase,Id")] Picture picture)
+        public async Task<IActionResult> Create([Bind("AnimalId,Showcase,Id,FormFile")] PictureUpload pictureUpload)
         {
             if (ModelState.IsValid)
             {
-                await _pictureService.AddAsync(picture);
-                return RedirectToAction(nameof(Index));
+                if (!PictureUpload.SupportedImageTypes.Contains(pictureUpload.FormFile.ContentType))
+                {
+                    ModelState.AddModelError("FormFile", "File is bad type.");
+                }
+                else
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await pictureUpload.FormFile.CopyToAsync(memoryStream);
+                        var picture = new Picture
+                        {
+                            Image = memoryStream.ToArray(),
+                            AnimalId = pictureUpload.AnimalId,
+                            Showcase = pictureUpload.Showcase
+                        };
+                        await _pictureService.AddAsync(picture);
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", picture.AnimalId);
-            return View(picture);
+            ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", pictureUpload.AnimalId);
+            return View(pictureUpload);
         }
 
         // GET: Pictures/Edit/5

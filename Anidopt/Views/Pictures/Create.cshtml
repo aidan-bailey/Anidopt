@@ -1,4 +1,4 @@
-﻿@model Anidopt.Models.Picture
+﻿@model Anidopt.Models.PictureUpload
 
 @{
     ViewData["Title"] = "Create";
@@ -10,12 +10,12 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+                <label asp-for="FormFile" class="control-label"></label>
+                <input asp-for="FormFile" class="form-control" />
+                <span asp-validation-for="FormFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AnimalId" class="control-label"></label>

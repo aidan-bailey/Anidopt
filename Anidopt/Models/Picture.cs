@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
 public class Picture : EntityModelBase
 {
     [Required]
@@ -17,5 +15,5 @@ public class Picture : EntityModelBase
     public bool Showcase { get; set; }
 
     [ForeignKey(nameof(AnimalId))]
-    public virtual Animal Animal { get; set; }
+    public virtual Animal? Animal { get; set; }
 }
