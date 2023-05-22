@@ -92,5 +92,9 @@ app.MapControllerRoute(
     name: "register",
     pattern: "register",
     defaults: new { controller = "Account", action = "Register" });
+app.MapControllerRoute(
+    name: "login",
+    pattern: "login",
+    defaults: new { controller = "Account", action = "Login" });
 
 app.Run();
