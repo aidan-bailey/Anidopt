@@ -9,9 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AnidoptContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AnidoptContext") ?? throw new InvalidOperationException("Connection string 'AnidoptContext' not found.")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AnidoptContext>();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AnidoptContext>();
 
-//builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AnidoptContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AnidoptContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -31,12 +31,12 @@ builder.Services.AddTransient<IPictureService, PictureService>();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
-    //options.Password.RequireDigit = true;
-    //options.Password.RequireLowercase = true;
-    //options.Password.RequireNonAlphanumeric = true;
-    //options.Password.RequireUppercase = true;
-    //options.Password.RequiredLength = 6;
-    //options.Password.RequiredUniqueChars = 1;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
 
     // Lockout settings.
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
