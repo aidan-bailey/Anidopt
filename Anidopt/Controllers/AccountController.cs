@@ -29,7 +29,10 @@ public class AccountController : Controller
 
     public IActionResult Register()
     {
-        return View();
+        if (_signInManager.IsSignedIn(User))
+            return RedirectToAction("Account");
+        else
+            return View();
     }
 
     [HttpPost]
@@ -68,14 +71,14 @@ public class AccountController : Controller
     #region Login
 
     [HttpGet]
-    [AllowAnonymous]
     public IActionResult Login()
     {
+        if (_signInManager.IsSignedIn(User))
+            return RedirectToAction("Account");
         return View();
     }
 
     [HttpPost]
-    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginViewModel user)
     {
         if (ModelState.IsValid)
@@ -96,7 +99,8 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Logout()
     {
-        await _signInManager.SignOutAsync();
+        if (_signInManager.IsSignedIn(User))
+            await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
 
