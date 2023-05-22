@@ -13,6 +13,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AnidoptContext>();
 
 // Services
 builder.Services.AddTransient<ISpeciesService, SpeciesService>();
