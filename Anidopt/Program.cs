@@ -2,6 +2,8 @@ using Anidopt.Data;
 using Anidopt.Models;
 using Anidopt.Services;
 using Anidopt.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +14,13 @@ builder.Services.AddDbContext<AnidoptContext>(options =>
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AnidoptContext>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AnidoptContext>();
+
+// Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
+        options => builder.Configuration.Bind("JwtSettings", options))
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+        options => builder.Configuration.Bind("CookieSettings", options));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
