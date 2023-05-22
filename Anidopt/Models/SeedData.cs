@@ -1,4 +1,5 @@
 ﻿using Anidopt.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Models;
@@ -160,8 +161,23 @@ public static class SeedData
 
             context.Database.EnsureDeleted(); // TODO - this is obviously bad!!!
             context.Database.EnsureCreated();
-
             context.SeedOrganisations().SeedSexes().SeedSpecies().SeedBreeds().SeedAnimals().SeedDescriptorTypes().SeedDescriptors().SeedDescriptorLinks();
+
+            // Site Admin
+
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var siteAdmin = new IdentityRole("SiteAdmin");
+            roleManager.CreateAsync(siteAdmin).Wait();
+
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var adminUser = new IdentityUser
+            {
+                UserName = "admin@anidopt.org",
+                Email = "admin@anidopt.org",
+            };
+            userManager.CreateAsync(adminUser, "Aa!12345").Wait();
+            userManager.AddToRoleAsync(adminUser, "SiteAdmin").Wait();
+            context.SaveChanges();
         }
     }
 }

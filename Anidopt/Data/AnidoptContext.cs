@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Anidopt.Models;
-using System.Reflection.Emit;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Anidopt.Data
 {
-    public class AnidoptContext : DbContext
+    public class AnidoptContext : IdentityDbContext
     {
         public AnidoptContext(DbContextOptions<AnidoptContext> options)
             : base(options)
@@ -21,7 +20,7 @@ namespace Anidopt.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
+            base.OnModelCreating(builder);
             builder.Entity<Species>()
                 .HasIndex(at => at.Name)
                 .IsUnique();
