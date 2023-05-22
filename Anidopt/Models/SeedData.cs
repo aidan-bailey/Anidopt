@@ -177,6 +177,7 @@ public static class SeedData
             };
             userManager.CreateAsync(adminUser, "Aa!12345").Wait();
             userManager.AddToRoleAsync(adminUser, "SiteAdmin").Wait();
+            context.SaveChanges();
         }
     }
 }
