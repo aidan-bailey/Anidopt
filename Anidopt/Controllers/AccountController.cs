@@ -16,6 +16,8 @@ public class AccountController : Controller
         _signInManager = signInManager;
     }
 
+    #region Register
+
     public IActionResult Register()
     {
         return View();
@@ -51,4 +53,6 @@ public class AccountController : Controller
         }
         return View(model);
     }
+
+    #endregion
 }
