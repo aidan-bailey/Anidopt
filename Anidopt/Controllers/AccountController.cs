@@ -4,19 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Anidopt.Controllers;
 
-public class RegisterController : Controller
+public class AccountController : Controller
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
 
-    public RegisterController(UserManager<IdentityUser> userManager,
+    public AccountController(UserManager<IdentityUser> userManager,
                                   SignInManager<IdentityUser> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
     }
 
-    public IActionResult Index()
+    public IActionResult Register()
     {
         return View();
     }
