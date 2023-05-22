@@ -65,6 +65,7 @@ public class AccountController : Controller
     {
         return View();
     }
+
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> Login(LoginViewModel user)
@@ -82,6 +83,13 @@ public class AccountController : Controller
 
         }
         return View(user);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Home");
     }
 
     #endregion
