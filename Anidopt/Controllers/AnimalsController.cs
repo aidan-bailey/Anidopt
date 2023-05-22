@@ -1,12 +1,14 @@
 ﻿using Anidopt.Data;
 using Anidopt.Models;
 using Anidopt.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Controllers;
 
+[Authorize(Roles = "SiteAdmin")]
 public class AnimalsController : Controller
 {
     private readonly IAnimalService _animalService;
@@ -25,6 +27,7 @@ public class AnimalsController : Controller
     }
 
     // GET: Animals
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         if (!_animalService.Initialised) Problem("Entity set 'AnidoptContext.Animal'  is null.");
