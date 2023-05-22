@@ -2,7 +2,7 @@
 
 namespace Anidopt.ViewModels;
 
-public class RegistrationViewModel
+public class RegisterViewModel
 {
     [Required(ErrorMessage = "Please enter First Name")]
     [Display(Name = "First Name")]
@@ -22,7 +22,7 @@ public class RegistrationViewModel
     [Required(ErrorMessage = "Please enter confirm password")]
     [Compare("Password", ErrorMessage = "Confirm password doesn't match")]
     [DataType(DataType.Password)]
-    public string Confirmpwd { get; set; }
+    public string ConfirmPassword { get; set; }
 
     [Required]
     [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail id is not valid")]
