@@ -9,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AnidoptContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AnidoptContext") ?? throw new InvalidOperationException("Connection string 'AnidoptContext' not found.")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AnidoptContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AnidoptContext>();
+
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AnidoptContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
