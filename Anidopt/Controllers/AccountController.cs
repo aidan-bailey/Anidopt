@@ -17,6 +17,14 @@ public class AccountController : Controller
         _signInManager = signInManager;
     }
 
+    public async Task<IActionResult> Account()
+    {
+        if (_signInManager.IsSignedIn(User))
+            return View(await _userManager.GetUserAsync(User));
+        else
+            return RedirectToAction("Login");
+    }
+
     #region Register
 
     public IActionResult Register()
