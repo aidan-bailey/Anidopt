@@ -10,11 +10,11 @@ using Anidopt.Models;
 
 namespace Anidopt.Controllers
 {
-    public class UsersController : Controller
+    public class AnidoptUsersController : Controller
     {
         private readonly AnidoptContext _context;
 
-        public UsersController(AnidoptContext context)
+        public AnidoptUsersController(AnidoptContext context)
         {
             _context = context;
         }
@@ -22,20 +22,20 @@ namespace Anidopt.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-              return _context.User != null ? 
-                          View(await _context.User.ToListAsync()) :
+              return _context.AnidoptUser != null ? 
+                          View(await _context.AnidoptUser.ToListAsync()) :
                           Problem("Entity set 'AnidoptContext.User'  is null.");
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? id)
         {
-            if (id == null || _context.User == null)
+            if (id == null || _context.AnidoptUser == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var user = await _context.AnidoptUser
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -56,7 +56,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] User user)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] AnidoptUser user)
         {
             if (ModelState.IsValid)
             {
@@ -70,12 +70,12 @@ namespace Anidopt.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.User == null)
+            if (id == null || _context.AnidoptUser == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.AnidoptUser.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace Anidopt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] User user)
+        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] AnidoptUser user)
         {
             if (id != user.Id)
             {
@@ -119,14 +119,14 @@ namespace Anidopt.Controllers
         }
 
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
-            if (id == null || _context.User == null)
+            if (id == null || _context.AnidoptUser == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var user = await _context.AnidoptUser
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -139,25 +139,25 @@ namespace Anidopt.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.User == null)
+            if (_context.AnidoptUser == null)
             {
                 return Problem("Entity set 'AnidoptContext.User'  is null.");
             }
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.AnidoptUser.FindAsync(id);
             if (user != null)
             {
-                _context.User.Remove(user);
+                _context.AnidoptUser.Remove(user);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool UserExists(string id)
         {
-          return (_context.User?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.AnidoptUser?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

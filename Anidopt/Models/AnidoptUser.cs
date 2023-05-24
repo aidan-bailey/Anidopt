@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Anidopt.Models;
 
-public class User : IdentityUser<int>
+public class AnidoptUser : IdentityUser
 {
     [Required]
     public string FirstName { get; set; } = null!;

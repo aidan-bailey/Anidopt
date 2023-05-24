@@ -1,4 +1,5 @@
-﻿using Anidopt.ViewModels;
+﻿using Anidopt.Models;
+using Anidopt.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,12 +7,12 @@ namespace Anidopt.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<AnidoptUser> _userManager;
+    private readonly SignInManager<AnidoptUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AccountController(UserManager<IdentityUser> userManager,
-                                  SignInManager<IdentityUser> signInManager,
+    public AccountController(UserManager<AnidoptUser> userManager,
+                                  SignInManager<AnidoptUser> signInManager,
                                   RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
@@ -42,7 +43,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new IdentityUser
+            var user = new AnidoptUser
             {
                 UserName = model.Email,
                 Email = model.Email,

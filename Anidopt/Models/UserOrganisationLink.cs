@@ -10,7 +10,7 @@ public class UserOrganisationLink : EntityModelBase
     public string UserId { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    public virtual IdentityUser? User { get; set; }
+    public virtual AnidoptUser? User { get; set; }
 
     [Required]
     public int OrganisationId { get; set; }

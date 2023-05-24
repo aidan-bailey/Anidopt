@@ -57,6 +57,6 @@ namespace Anidopt.Data
 
         public DbSet<Anidopt.Models.UserOrganisationLink> UserOrganisationLink { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.User> User { get; set; } = default!;
+        public DbSet<Anidopt.Models.AnidoptUser> AnidoptUser { get; set; } = default!;
     }
 }
