@@ -7,7 +7,7 @@ namespace Anidopt.Models;
 public class UserOrganisationLink : EntityModelBase
 {
     [Required]
-    public int UserId { get; set; }
+    public string UserId { get; set; }
 
     [ForeignKey(nameof(UserId))]
     public virtual IdentityUser? User { get; set; }
