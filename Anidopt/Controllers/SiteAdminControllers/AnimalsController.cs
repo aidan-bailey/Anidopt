@@ -17,6 +17,8 @@ public class AnimalsController : Controller
     private readonly IOrganisationService _organisationService;
     private readonly ISexService _sexService;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/Animals/" + name + ".cshtml";
+
     public AnimalsController(IAnimalService animalService, ISpeciesService speciesService, IBreedService breedService, IOrganisationService organisationService, ISexService sexService)
     {
         _animalService = animalService;
@@ -32,7 +34,7 @@ public class AnimalsController : Controller
     {
         if (!_animalService.Initialised) Problem("Entity set 'AnidoptContext.Animal'  is null.");
         var animals = await _animalService.GetAllAsync();
-        return View(animals);
+        return View(ViewPath("Index"), animals);
     }
 
     // GET: Animals/Details/5
@@ -41,7 +43,7 @@ public class AnimalsController : Controller
         if (id == null || !_animalService.Initialised) return NotFound();
         var animal = await _animalService.GetByIdAsync((int)id);
         if (animal == null) return NotFound();
-        return View(animal);
+        return View(ViewPath("Details"), animal);
     }
 
     // GET: Animals/Create
@@ -55,7 +57,7 @@ public class AnimalsController : Controller
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name");
         var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name");
-        return View();
+        return View(ViewPath("Create"));
     }
 
     // POST: Animals/Create
@@ -78,7 +80,7 @@ public class AnimalsController : Controller
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
         var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
-        return View(animal);
+        return View(ViewPath("Create"), animal);
     }
 
     // GET: Animals/Edit/5
@@ -95,7 +97,7 @@ public class AnimalsController : Controller
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
         var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
-        return View(animal);
+        return View(ViewPath("Edit"), animal);
     }
 
     // POST: Animals/Edit/5
@@ -127,7 +129,7 @@ public class AnimalsController : Controller
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
         var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
-        return View(animal);
+        return View(ViewPath("Edit"), animal);
     }
 
     // GET: Animals/Delete/5
@@ -136,7 +138,7 @@ public class AnimalsController : Controller
         if (id == null || !_animalService.Initialised) return NotFound();
         var animal = await _animalService.GetByIdAsync((int)id);
         if (animal == null) return NotFound();
-        return View(animal);
+        return View(ViewPath("Delete"), animal);
     }
 
     // POST: Animals/Delete/5

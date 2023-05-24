@@ -13,6 +13,8 @@ public class BreedsController : Controller
     private readonly IBreedService _breedService;
     private readonly ISpeciesService _speciesService;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/Breeds/" + name + ".cshtml";
+
     public BreedsController(IBreedService breedService, ISpeciesService speciesService)
     {
         _breedService = breedService;
@@ -23,7 +25,7 @@ public class BreedsController : Controller
     public async Task<IActionResult> Index()
     {
         if (!_breedService.Initialised) return Problem("Entity set 'AnidoptContext.Breed'  is null.");
-        return View(await _breedService.GetAllAsync());
+        return View(ViewPath("Index"), await _breedService.GetAllAsync());
     }
 
     // GET: Breeds/Details/5
@@ -32,7 +34,7 @@ public class BreedsController : Controller
         if (id == null || !_breedService.Initialised) return NotFound();
         var breed = await _breedService.GetByIdAsync((int)id);
         if (breed == null) return NotFound();
-        return View(breed);
+        return View(ViewPath("Details"), breed);
     }
 
     // GET: Breeds/Create
@@ -40,7 +42,7 @@ public class BreedsController : Controller
     {
         var speciess = await _speciesService.GetAllAsync();
         ViewBag.Speciess = new SelectList(speciess, "Id", "Name");
-        return View();
+        return View(ViewPath("Create"));
     }
 
     // GET: Breeds/ForSpecies
@@ -65,7 +67,7 @@ public class BreedsController : Controller
         }
         var speciess = await _speciesService.GetAllAsync();
         ViewBag.Speciess = new SelectList(speciess, "Id", "Name", breed.SpeciesId);
-        return View(breed);
+        return View(ViewPath("Create"), breed);
     }
 
     // GET: Breeds/Edit/5
@@ -76,7 +78,7 @@ public class BreedsController : Controller
         if (breed == null) return NotFound();
         var speciess = await _speciesService.GetAllAsync();
         ViewBag.Speciess = new SelectList(speciess, "Id", "Name", breed.SpeciesId);
-        return View(breed);
+        return View(ViewPath("Edit"), breed);
     }
 
     // POST: Breeds/Edit/5
@@ -102,7 +104,7 @@ public class BreedsController : Controller
         }
         var speciess = await _speciesService.GetAllAsync();
         ViewBag.Speciess = new SelectList(speciess, "Id", "Name", breed.SpeciesId);
-        return View(breed);
+        return View(ViewPath("Edit"), breed);
     }
 
     // GET: Breeds/Delete/5
@@ -111,7 +113,7 @@ public class BreedsController : Controller
         if (id == null || !_breedService.Initialised) return NotFound();
         var breed = await _breedService.GetByIdAsync((int)id);
         if (breed == null) return NotFound();
-        return View(breed);
+        return View(ViewPath("Delete"), breed);
     }
 
     // POST: Breeds/Delete/5

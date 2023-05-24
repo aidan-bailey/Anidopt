@@ -14,6 +14,8 @@ namespace Anidopt.Controllers.SiteAdminControllers
     {
         private readonly AnidoptContext _context;
 
+        private string ViewPath(string name) => "~/Views/SiteAdmin/AnidoptUsers/" + name + ".cshtml";
+
         public AnidoptUsersController(AnidoptContext context)
         {
             _context = context;
@@ -23,7 +25,7 @@ namespace Anidopt.Controllers.SiteAdminControllers
         public async Task<IActionResult> Index()
         {
             return _context.AnidoptUser != null ?
-                        View(await _context.AnidoptUser.ToListAsync()) :
+                        View(ViewPath("Index"), await _context.AnidoptUser.ToListAsync()) :
                         Problem("Entity set 'AnidoptContext.User'  is null.");
         }
 
@@ -42,13 +44,13 @@ namespace Anidopt.Controllers.SiteAdminControllers
                 return NotFound();
             }
 
-            return View(user);
+            return View(ViewPath("Details"), user);
         }
 
         // GET: Users/Create
         public IActionResult Create()
         {
-            return View();
+            return View(ViewPath("Create"));
         }
 
         // POST: Users/Create
@@ -64,7 +66,7 @@ namespace Anidopt.Controllers.SiteAdminControllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(ViewPath("Create"), user);
         }
 
         // GET: Users/Edit/5
@@ -80,7 +82,7 @@ namespace Anidopt.Controllers.SiteAdminControllers
             {
                 return NotFound();
             }
-            return View(user);
+            return View(ViewPath("Edit"), user);
         }
 
         // POST: Users/Edit/5
@@ -115,7 +117,7 @@ namespace Anidopt.Controllers.SiteAdminControllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(ViewPath("Edit"), user);
         }
 
         // GET: Users/Delete/5
@@ -133,7 +135,7 @@ namespace Anidopt.Controllers.SiteAdminControllers
                 return NotFound();
             }
 
-            return View(user);
+            return View(ViewPath("Edit"), user);
         }
 
         // POST: Users/Delete/5

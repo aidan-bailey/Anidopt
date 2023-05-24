@@ -12,6 +12,8 @@ public class SexesController : Controller
 {
     private readonly ISexService _sexService;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/Sexes/" + name + ".cshtml";
+
     public SexesController(ISexService sexService)
     {
         _sexService = sexService;
@@ -28,7 +30,7 @@ public class SexesController : Controller
         if (id == null || !_sexService.Initialised) return NotFound();
         var sex = await _sexService.GetByIdAsync((int)id);
         if (sex == null) return NotFound();
-        return View(sex);
+        return View(ViewPath("Details"), sex);
     }
 
     // GET: Sexes/Create
@@ -46,7 +48,7 @@ public class SexesController : Controller
             await _sexService.AddAsync(sex);
             return RedirectToAction(nameof(Index));
         }
-        return View(sex);
+        return View(ViewPath("Create"), sex);
     }
 
     // GET: Sexes/Edit/5
@@ -55,7 +57,7 @@ public class SexesController : Controller
         if (id == null || !_sexService.Initialised) return NotFound();
         var sex = await _sexService.GetByIdAsync((int)id);
         if (sex == null) return NotFound();
-        return View(sex);
+        return View(ViewPath("Edit"), sex);
     }
 
     // POST: Sexes/Edit/5
@@ -79,7 +81,7 @@ public class SexesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(sex);
+        return View(ViewPath("Edit"), sex);
     }
 
     // GET: Sexes/Delete/5
@@ -88,7 +90,7 @@ public class SexesController : Controller
         if (id == null || !_sexService.Initialised) return NotFound();
         var sex = await _sexService.GetByIdAsync((int)id);
         if (sex == null) return NotFound();
-        return View(sex);
+        return View(ViewPath("Delete"), sex);
     }
 
     // POST: Sexes/Delete/5

@@ -12,6 +12,8 @@ public class DescriptorTypesController : Controller
 {
     private readonly IDescriptorTypeService _descriptorTypeService;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/DescriptorTypes/" + name + ".cshtml";
+
     public DescriptorTypesController(IDescriptorTypeService descriptorTypeService)
     {
         _descriptorTypeService = descriptorTypeService;
@@ -21,7 +23,7 @@ public class DescriptorTypesController : Controller
     public async Task<IActionResult> Index()
     {
         return _descriptorTypeService.Initialised ?
-                    View(await _descriptorTypeService.GetAllAsync()) :
+                    View(ViewPath("Index"), await _descriptorTypeService.GetAllAsync()) :
                     Problem("Entity set 'AnidoptContext.DescriptorType'  is null.");
     }
 
@@ -33,13 +35,13 @@ public class DescriptorTypesController : Controller
         var descriptorType = await _descriptorTypeService.GetByIdAsync((int)id);
         if (descriptorType == null)
             return NotFound();
-        return View(descriptorType);
+        return View(ViewPath("Details"), descriptorType);
     }
 
     // GET: DescriptorTypes/Create
     public IActionResult Create()
     {
-        return View();
+        return View(ViewPath("Create"));
     }
 
     // POST: DescriptorTypes/Create
@@ -54,7 +56,7 @@ public class DescriptorTypesController : Controller
             await _descriptorTypeService.AddAsync(descriptorType);
             return RedirectToAction(nameof(Index));
         }
-        return View(descriptorType);
+        return View(ViewPath("Create"), descriptorType);
     }
 
     // GET: DescriptorTypes/Edit/5
@@ -65,7 +67,7 @@ public class DescriptorTypesController : Controller
         var descriptorType = await _descriptorTypeService.GetByIdAsync((int)id);
         if (descriptorType == null)
             return NotFound();
-        return View(descriptorType);
+        return View(ViewPath("Edit"), descriptorType);
     }
 
     // POST: DescriptorTypes/Edit/5
@@ -92,7 +94,7 @@ public class DescriptorTypesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(descriptorType);
+        return View(ViewPath("Edit"), descriptorType);
     }
 
     // GET: DescriptorTypes/Delete/5
@@ -103,7 +105,7 @@ public class DescriptorTypesController : Controller
         var descriptorType = await _descriptorTypeService.GetByIdAsync((int)id);
         if (descriptorType == null)
             return NotFound();
-        return View(descriptorType);
+        return View(ViewPath("Delete"), descriptorType);
     }
 
     // POST: DescriptorTypes/Delete/5

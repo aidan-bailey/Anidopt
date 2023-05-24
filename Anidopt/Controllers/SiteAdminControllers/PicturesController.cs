@@ -14,6 +14,8 @@ public class PicturesController : Controller
     private readonly IPictureService _pictureService;
     private readonly IAnimalService _animalService;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/Pictures/" + name + ".cshtml";
+
     public PicturesController(IPictureService pictureService, IAnimalService animalService)
     {
         _pictureService = pictureService;
@@ -29,7 +31,7 @@ public class PicturesController : Controller
             p => "data:image/png;base64," + Convert.ToBase64String(p.Image)
         );
         ViewBag.ImagesBase64 = imagesBase64;
-        return View(pictures);
+        return View(ViewPath("Index"), pictures);
     }
 
     // GET: Pictures/Details/5
@@ -39,14 +41,14 @@ public class PicturesController : Controller
         var picture = await _pictureService.GetByIdAsync(id.Value);
         if (picture == null) return NotFound();
         ViewBag.ImageBase64 = "data:image/png;base64," + Convert.ToBase64String(picture.Image);
-        return View(picture);
+        return View(ViewPath("Details"), picture);
     }
 
     // GET: Pictures/Create
     public async Task<IActionResult> Create()
     {
         ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name");
-        return View();
+        return View(ViewPath("Create"));
     }
 
     // POST: Pictures/Create
@@ -79,7 +81,7 @@ public class PicturesController : Controller
             }
         }
         ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", pictureUpload.AnimalId);
-        return View(pictureUpload);
+        return View(ViewPath("Create"), pictureUpload);
     }
 
     // GET: Pictures/Edit/5
@@ -93,7 +95,7 @@ public class PicturesController : Controller
             return NotFound();
         ViewBag.ImageBase64 = "data:image/png;base64," + Convert.ToBase64String(picture.Image);
         ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", picture.AnimalId);
-        return View(picture);
+        return View(ViewPath("Edit"), picture);
     }
 
     // POST: Pictures/Edit/5
@@ -124,7 +126,7 @@ public class PicturesController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", picture.AnimalId);
-        return View(picture);
+        return View(ViewPath("Edit"), picture);
     }
 
     // GET: Pictures/Delete/5
@@ -135,7 +137,7 @@ public class PicturesController : Controller
         var picture = await _pictureService.GetByIdAsync(id.Value);
         if (picture == null)
             return NotFound();
-        return View(picture);
+        return View(ViewPath("Delete"), picture);
     }
 
     // POST: Pictures/Delete/5

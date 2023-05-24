@@ -11,6 +11,8 @@ public class SpeciesController : Controller
 {
     private readonly ISpeciesService _speciesService;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/Species/" + name + ".cshtml";
+
     public SpeciesController(ISpeciesService SpeciesService)
     {
         _speciesService = SpeciesService;
@@ -21,7 +23,7 @@ public class SpeciesController : Controller
     {
         if (!_speciesService.Initialised) return Problem("Entity set 'AnidoptContext.Species'  is null.");
         var speciess = await _speciesService.GetAllAsync();
-        return View(speciess);
+        return View(ViewPath("Index"), speciess);
     }
 
     // GET: Speciess/Details/5
@@ -30,7 +32,7 @@ public class SpeciesController : Controller
         if (id == null || !_speciesService.Initialised) return NotFound();
         var species = await _speciesService.GetByIdAsync((int)id);
         if (species == null) return NotFound();
-        return View(species);
+        return View(ViewPath("Details"), species);
     }
 
     // GET: Speciess/Create
@@ -48,7 +50,7 @@ public class SpeciesController : Controller
             await _speciesService.AddAsync(species);
             return RedirectToAction(nameof(Index));
         }
-        return View(species);
+        return View(ViewPath("Create"), species);
     }
 
     // GET: Speciess/Edit/5
@@ -57,7 +59,7 @@ public class SpeciesController : Controller
         if (id == null || !_speciesService.Initialised) return NotFound();
         var species = await _speciesService.GetByIdAsync((int)id);
         if (species == null) return NotFound();
-        return View(species);
+        return View(ViewPath("Edit"), species);
     }
 
     // POST: Speciess/Edit/5
@@ -81,7 +83,7 @@ public class SpeciesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(species);
+        return View(ViewPath("Edit"), species);
     }
 
     // GET: Speciess/Delete/5
@@ -90,7 +92,7 @@ public class SpeciesController : Controller
         if (id == null || !_speciesService.Initialised) return NotFound();
         var species = await _speciesService.GetByIdAsync((int)id);
         if (species == null) return NotFound();
-        return View(species);
+        return View(ViewPath("Delete"), species);
     }
 
     // POST: Speciess/Delete/5

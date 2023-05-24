@@ -13,6 +13,8 @@ public class OrganisationsController : Controller
 {
     private readonly IOrganisationService _organisationService;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/DescriptorLinks/" + name + ".cshtml";
+
     public OrganisationsController(IOrganisationService organisationService)
     {
         _organisationService = organisationService;
@@ -23,7 +25,7 @@ public class OrganisationsController : Controller
     {
         if (!_organisationService.Initialised) return Problem("Entity set 'AnidoptContext.Organisation'  is null.");
         var organisations = await _organisationService.GetAllAsync();
-        return View(organisations);
+        return View(ViewPath("Index"), organisations);
     }
 
     // GET: Organisations/Details/5
@@ -32,13 +34,13 @@ public class OrganisationsController : Controller
         if (id == null || !_organisationService.Initialised) return NotFound();
         var organisation = await _organisationService.GetByIdAsync((int)id);
         if (organisation == null) return NotFound();
-        return View(organisation);
+        return View(ViewPath("Details"), organisation);
     }
 
     // GET: Organisations/Create
     public IActionResult Create()
     {
-        return View();
+        return View(ViewPath("Create"));
     }
 
     // POST: Organisations/Create
@@ -53,7 +55,7 @@ public class OrganisationsController : Controller
             await _organisationService.AddAsync(organisation);
             return RedirectToAction(nameof(Index));
         }
-        return View(organisation);
+        return View(ViewPath("Create"), organisation);
     }
 
     // GET: Organisations/Edit/5
@@ -62,7 +64,7 @@ public class OrganisationsController : Controller
         if (id == null || !_organisationService.Initialised) return NotFound();
         var organisation = await _organisationService.GetByIdAsync((int)id);
         if (organisation == null) return NotFound();
-        return View(organisation);
+        return View(ViewPath("Edit"), organisation);
     }
 
     // POST: Organisations/Edit/5
@@ -87,7 +89,7 @@ public class OrganisationsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(organisation);
+        return View(ViewPath("Edit"), organisation);
     }
 
     // GET: Organisations/Delete/5
@@ -96,7 +98,7 @@ public class OrganisationsController : Controller
         if (id == null || !_organisationService.Initialised) return NotFound();
         var organisation = await _organisationService.GetByIdAsync((int)id);
         if (organisation == null) return NotFound();
-        return View(organisation);
+        return View(ViewPath("Delete"), organisation);
     }
 
     // POST: Organisations/Delete/5

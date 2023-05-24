@@ -15,6 +15,8 @@ public class DescriptorLinksController : Controller
     private readonly IAnimalService _animalService;
     private readonly IDescriptorService _descriptorService;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/DescriptorLinks/" + name + ".cshtml";
+
     public DescriptorLinksController(IDescriptorLinkService descriptorLinkService, IAnimalService animalService, IDescriptorService descriptorService)
     {
         _descriptorLinkService = descriptorLinkService;
@@ -25,7 +27,7 @@ public class DescriptorLinksController : Controller
     // GET: DescriptorLinks
     public async Task<IActionResult> Index()
     {
-        return View(await _descriptorLinkService.GetAllAsync());
+        return View(ViewPath("Index"), await _descriptorLinkService.GetAllAsync());
     }
 
     // GET: DescriptorLinks/Details/5
@@ -36,7 +38,7 @@ public class DescriptorLinksController : Controller
         var DescriptorLink = await _descriptorLinkService.GetByIdAsync(id.Value);
         if (DescriptorLink == null)
             return NotFound();
-        return View(DescriptorLink);
+        return View(ViewPath("Details"), DescriptorLink);
     }
 
     // GET: DescriptorLinks/Create
@@ -44,7 +46,7 @@ public class DescriptorLinksController : Controller
     {
         ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name");
         ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name");
-        return View();
+        return View(ViewPath("Create"));
     }
 
     // POST: DescriptorLinks/Create
@@ -61,7 +63,7 @@ public class DescriptorLinksController : Controller
         }
         ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", descriptorLink.AnimalId);
         ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name", descriptorLink.DescriptorId);
-        return View(descriptorLink);
+        return View(ViewPath("Create"), descriptorLink);
     }
 
     // GET: DescriptorLinks/Edit/5
@@ -74,7 +76,7 @@ public class DescriptorLinksController : Controller
             return NotFound();
         ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", descriptorLink.AnimalId);
         ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name", descriptorLink.DescriptorId);
-        return View(descriptorLink);
+        return View(ViewPath("Edit"), descriptorLink);
     }
 
     // POST: DescriptorLinks/Edit/5
@@ -103,7 +105,7 @@ public class DescriptorLinksController : Controller
         }
         ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", descriptorLink.AnimalId);
         ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name", descriptorLink.DescriptorId);
-        return View(descriptorLink);
+        return View(ViewPath("Edit"), descriptorLink);
     }
 
     // GET: DescriptorLinks/Delete/5
@@ -114,7 +116,7 @@ public class DescriptorLinksController : Controller
         var descriptorLink = await _descriptorLinkService.GetByIdAsync(id.Value);
         if (descriptorLink == null)
             return NotFound();
-        return View(descriptorLink);
+        return View(ViewPath("Delete"), descriptorLink);
     }
 
     // POST: DescriptorLinks/Delete/5

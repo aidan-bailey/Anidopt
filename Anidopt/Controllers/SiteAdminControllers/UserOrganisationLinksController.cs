@@ -12,6 +12,8 @@ public class UserOrganisationLinksController : Controller
 {
     private readonly AnidoptContext _context;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/UserOrganisationLinks/" + name + ".cshtml";
+
     public UserOrganisationLinksController(AnidoptContext context)
     {
         _context = context;
@@ -21,7 +23,7 @@ public class UserOrganisationLinksController : Controller
     public async Task<IActionResult> Index()
     {
         var anidoptContext = _context.UserOrganisationLink.Include(u => u.Organisation).Include(u => u.User);
-        return View(await anidoptContext.ToListAsync());
+        return View(ViewPath("Index"), await anidoptContext.ToListAsync());
     }
 
     // GET: UserOrganisationLinks/Details/5
@@ -41,7 +43,7 @@ public class UserOrganisationLinksController : Controller
             return NotFound();
         }
 
-        return View(userOrganisationLink);
+        return View(ViewPath("Details"), userOrganisationLink);
     }
 
     // GET: UserOrganisationLinks/Create
@@ -49,7 +51,7 @@ public class UserOrganisationLinksController : Controller
     {
         ViewData["OrganisationId"] = new SelectList(_context.Organisation, "Id", "Name");
         ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-        return View();
+        return View(ViewPath("Create"));
     }
 
     // POST: UserOrganisationLinks/Create
@@ -67,7 +69,7 @@ public class UserOrganisationLinksController : Controller
         }
         ViewData["OrganisationId"] = new SelectList(_context.Organisation, "Id", "Name", userOrganisationLink.OrganisationId);
         ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userOrganisationLink.UserId);
-        return View(userOrganisationLink);
+        return View(ViewPath("Create"), userOrganisationLink);
     }
 
     // GET: UserOrganisationLinks/Edit/5
@@ -85,7 +87,7 @@ public class UserOrganisationLinksController : Controller
         }
         ViewData["OrganisationId"] = new SelectList(_context.Organisation, "Id", "Name", userOrganisationLink.OrganisationId);
         ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userOrganisationLink.UserId);
-        return View(userOrganisationLink);
+        return View(ViewPath("Edit"), userOrganisationLink);
     }
 
     // POST: UserOrganisationLinks/Edit/5
@@ -122,7 +124,7 @@ public class UserOrganisationLinksController : Controller
         }
         ViewData["OrganisationId"] = new SelectList(_context.Organisation, "Id", "Name", userOrganisationLink.OrganisationId);
         ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userOrganisationLink.UserId);
-        return View(userOrganisationLink);
+        return View(ViewPath("Edit"), userOrganisationLink);
     }
 
     // GET: UserOrganisationLinks/Delete/5
@@ -142,7 +144,7 @@ public class UserOrganisationLinksController : Controller
             return NotFound();
         }
 
-        return View(userOrganisationLink);
+        return View(ViewPath("Delete"), userOrganisationLink);
     }
 
     // POST: UserOrganisationLinks/Delete/5

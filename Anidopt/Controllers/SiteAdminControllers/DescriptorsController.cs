@@ -14,6 +14,8 @@ public class DescriptorsController : Controller
     private readonly IDescriptorService _descriptorService;
     private readonly IDescriptorTypeService _descriptorTypeService;
 
+    private string ViewPath(string name) => "~/Views/SiteAdmin/Descriptors/" + name + ".cshtml";
+
     public DescriptorsController(IDescriptorService descriptorService, IDescriptorTypeService descriptorTypeService)
     {
         _descriptorService = descriptorService;
@@ -23,7 +25,7 @@ public class DescriptorsController : Controller
     // GET: Descriptors
     public async Task<IActionResult> Index()
     {
-        return View(await _descriptorService.GetAllAsync());
+        return View(ViewPath("Index"), await _descriptorService.GetAllAsync());
     }
 
     // GET: Descriptors/Details/5
@@ -34,14 +36,14 @@ public class DescriptorsController : Controller
         var descriptor = await _descriptorService.GetByIdAsync((int)id);
         if (descriptor == null)
             return NotFound();
-        return View(descriptor);
+        return View(ViewPath("Details"), descriptor);
     }
 
     // GET: Descriptors/Create
     public async Task<IActionResult> Create()
     {
         ViewData["DescriptorTypeId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name");
-        return View();
+        return View(ViewPath("Create"));
     }
 
     // POST: Descriptors/Create
@@ -57,7 +59,7 @@ public class DescriptorsController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["DescriptorTypeId"] = new SelectList(await _descriptorTypeService.GetAllAsync(), "Id", "Name", descriptor.DescriptorTypeId);
-        return View(descriptor);
+        return View(ViewPath("Create"), descriptor);
     }
 
     // GET: Descriptors/Edit/5
@@ -69,7 +71,7 @@ public class DescriptorsController : Controller
         if (descriptor == null)
             return NotFound();
         ViewData["DescriptorTypeId"] = new SelectList(await _descriptorTypeService.GetAllAsync(), "Id", "Name", descriptor.DescriptorTypeId);
-        return View(descriptor);
+        return View(ViewPath("Edit"), descriptor);
     }
 
     // POST: Descriptors/Edit/5
@@ -97,7 +99,7 @@ public class DescriptorsController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["DescriptorTypeId"] = new SelectList(await _descriptorTypeService.GetAllAsync(), "Id", "Name", descriptor.DescriptorTypeId);
-        return View(descriptor);
+        return View(ViewPath("Edit"), descriptor);
     }
 
     // GET: Descriptors/Delete/5
@@ -108,7 +110,7 @@ public class DescriptorsController : Controller
         var descriptor = await _descriptorService.GetByIdAsync((int)id);
         if (descriptor == null)
             return NotFound();
-        return View(descriptor);
+        return View(ViewPath("Delete"), descriptor);
     }
 
     // POST: Descriptors/Delete/5
