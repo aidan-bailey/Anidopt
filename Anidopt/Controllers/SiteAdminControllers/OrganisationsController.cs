@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 [Authorize(Roles = "SiteAdmin")]
 public class OrganisationsController : Controller
@@ -105,7 +105,7 @@ public class OrganisationsController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         if (!_organisationService.Initialised) return Problem("Entity set 'AnidoptContext.Organisation'  is null.");
-        await _organisationService.EnsureDeletionByIdAsync((int)id);
+        await _organisationService.EnsureDeletionByIdAsync(id);
         return RedirectToAction(nameof(Index));
     }
 }

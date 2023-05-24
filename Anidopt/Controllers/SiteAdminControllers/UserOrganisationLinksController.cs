@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 [Authorize(Roles = "SiteAdmin")]
 public class UserOrganisationLinksController : Controller
@@ -159,13 +159,13 @@ public class UserOrganisationLinksController : Controller
         {
             _context.UserOrganisationLink.Remove(userOrganisationLink);
         }
-        
+
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool UserOrganisationLinkExists(int id)
     {
-      return (_context.UserOrganisationLink?.Any(e => e.Id == id)).GetValueOrDefault();
+        return (_context.UserOrganisationLink?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }

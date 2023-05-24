@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 [Authorize(Roles = "SiteAdmin")]
 public class BreedsController : Controller
@@ -120,7 +120,7 @@ public class BreedsController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         if (!_breedService.Initialised) return Problem("Entity set 'AnidoptContext.Breed'  is null.");
-        await _breedService.EnsureDeletionByIdAsync((int)id);
+        await _breedService.EnsureDeletionByIdAsync(id);
         return RedirectToAction(nameof(Index));
     }
 }

@@ -6,7 +6,7 @@ using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 [Authorize(Roles = "SiteAdmin")]
 public class EstimationsController : Controller

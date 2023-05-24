@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 [Authorize(Roles = "SiteAdmin")]
 public class DescriptorsController : Controller

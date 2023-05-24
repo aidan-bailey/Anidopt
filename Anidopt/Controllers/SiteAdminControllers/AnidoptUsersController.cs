@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Anidopt.Data;
 using Anidopt.Models;
 
-namespace Anidopt.Controllers
+namespace Anidopt.Controllers.SiteAdminControllers
 {
     public class AnidoptUsersController : Controller
     {
@@ -22,9 +22,9 @@ namespace Anidopt.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-              return _context.AnidoptUser != null ? 
-                          View(await _context.AnidoptUser.ToListAsync()) :
-                          Problem("Entity set 'AnidoptContext.User'  is null.");
+            return _context.AnidoptUser != null ?
+                        View(await _context.AnidoptUser.ToListAsync()) :
+                        Problem("Entity set 'AnidoptContext.User'  is null.");
         }
 
         // GET: Users/Details/5
@@ -150,14 +150,14 @@ namespace Anidopt.Controllers
             {
                 _context.AnidoptUser.Remove(user);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool UserExists(string id)
         {
-          return (_context.AnidoptUser?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.AnidoptUser?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

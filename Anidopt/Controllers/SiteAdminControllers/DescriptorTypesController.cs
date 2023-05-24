@@ -5,7 +5,7 @@ using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 [Authorize(Roles = "SiteAdmin")]
 public class DescriptorTypesController : Controller
@@ -20,9 +20,9 @@ public class DescriptorTypesController : Controller
     // GET: DescriptorTypes
     public async Task<IActionResult> Index()
     {
-          return _descriptorTypeService.Initialised ? 
-                      View(await _descriptorTypeService.GetAllAsync()) :
-                      Problem("Entity set 'AnidoptContext.DescriptorType'  is null.");
+        return _descriptorTypeService.Initialised ?
+                    View(await _descriptorTypeService.GetAllAsync()) :
+                    Problem("Entity set 'AnidoptContext.DescriptorType'  is null.");
     }
 
     // GET: DescriptorTypes/Details/5

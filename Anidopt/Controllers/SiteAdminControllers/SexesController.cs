@@ -5,7 +5,7 @@ using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 [Authorize(Roles = "SiteAdmin")]
 public class SexesController : Controller
@@ -19,7 +19,7 @@ public class SexesController : Controller
 
     // GET: Sexes
     public async Task<IActionResult> Index() => _sexService.Initialised
-        ? View(await _sexService.GetAllAsync()) 
+        ? View(await _sexService.GetAllAsync())
         : Problem("Entity set 'AnidoptContext.Sex'  is null.");
 
     // GET: Sexes/Details/5

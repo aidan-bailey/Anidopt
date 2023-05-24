@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 [Authorize(Roles = "SiteAdmin")]
 public class AnimalsController : Controller
@@ -91,7 +91,7 @@ public class AnimalsController : Controller
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
         var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
-        var breeds = await _breedService.GetForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
+        var breeds = await _breedService.GetForSpeciesByIdAsync((int)animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
         var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
@@ -114,7 +114,7 @@ public class AnimalsController : Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!(await _animalService.ExistsByIdAsync(animal.Id))) return NotFound();
+                if (!await _animalService.ExistsByIdAsync(animal.Id)) return NotFound();
                 else throw;
             }
             return RedirectToAction(nameof(Index));
@@ -123,7 +123,7 @@ public class AnimalsController : Controller
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
         var species = await _speciesService.GetAllAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
-        var breeds = await _breedService.GetForSpeciesByIdAsync((int) animal.Breed?.SpeciesId);
+        var breeds = await _breedService.GetForSpeciesByIdAsync((int)animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
         var sexes = await _sexService.GetAllAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);

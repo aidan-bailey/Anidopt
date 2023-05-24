@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 [Authorize(Roles = "SiteAdmin")]
 public class PicturesController : Controller
@@ -25,7 +25,7 @@ public class PicturesController : Controller
     {
         var pictures = await _pictureService.GetAllAsync();
         var imagesBase64 = pictures.ToDictionary(
-            p => p.Id, 
+            p => p.Id,
             p => "data:image/png;base64," + Convert.ToBase64String(p.Image)
         );
         ViewBag.ImagesBase64 = imagesBase64;
@@ -36,7 +36,7 @@ public class PicturesController : Controller
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null || !_pictureService.Initialised) return NotFound();
-        var picture = await _pictureService.GetByIdAsync(id.Value); 
+        var picture = await _pictureService.GetByIdAsync(id.Value);
         if (picture == null) return NotFound();
         ViewBag.ImageBase64 = "data:image/png;base64," + Convert.ToBase64String(picture.Image);
         return View(picture);
