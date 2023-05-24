@@ -1,4 +1,4 @@
-namespace Anidopt.Models;
+namespace Anidopt.ViewModels;
 
 public class ErrorViewModel
 {
