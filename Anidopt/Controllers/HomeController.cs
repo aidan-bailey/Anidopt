@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Anidopt.Models;
+using Anidopt.ViewModels;
 
 namespace Anidopt.Controllers;
 
