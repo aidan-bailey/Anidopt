@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Anidopt.Controllers;
 
-[Authorize("SiteAdmin")]
+//[Authorize(Roles = "SiteAdmin")]
 public class SiteAdminController : Controller
 {
-    public IActionResult Index()
+    public IActionResult AdminPanel()
     {
         return View();
     }
