@@ -152,6 +152,12 @@ public static class SeedData
         }
     );
 
+    private static AnidoptContext AddRoles(this AnidoptContext context) => context.Seed(
+        new IdentityRole("SiteAdmin"),
+        new IdentityRole("OrganisationAdmin"),
+        new IdentityRole("OrganisationUser")
+    );
+
     public static void Initialize(IServiceProvider serviceProvider)
     {
         using (var context = new AnidoptContext(
@@ -161,13 +167,9 @@ public static class SeedData
 
             context.Database.EnsureDeleted(); // TODO - this is obviously bad!!!
             context.Database.EnsureCreated();
-            context.SeedOrganisations().SeedSexes().SeedSpecies().SeedBreeds().SeedAnimals().SeedDescriptorTypes().SeedDescriptors().SeedDescriptorLinks();
+            context.SeedOrganisations().SeedSexes().SeedSpecies().SeedBreeds().SeedAnimals().SeedDescriptorTypes().SeedDescriptors().SeedDescriptorLinks().AddRoles();
 
             // Site Admin
-
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var siteAdmin = new IdentityRole("SiteAdmin");
-            roleManager.CreateAsync(siteAdmin).Wait();
 
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var adminUser = new IdentityUser
