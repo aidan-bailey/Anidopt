@@ -1,8 +1,8 @@
-﻿using Anidopt.Data;
+﻿using Anidopt.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Anidopt.Models;
+namespace Anidopt.Data;
 
 public static class SeedData
 {
