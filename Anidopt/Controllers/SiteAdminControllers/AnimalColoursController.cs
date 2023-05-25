@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Anidopt.Data;
 using Anidopt.Models;
 
-namespace Anidopt.Controllers
+namespace Anidopt.Controllers.SiteAdminControllers
 {
     public class AnimalColoursController : Controller
     {
         private readonly AnidoptContext _context;
+
+        private string ViewPath(string name) => "~/Views/SiteAdmin/AnimalColours/" + name + ".cshtml";
 
         public AnimalColoursController(AnidoptContext context)
         {
@@ -22,9 +24,9 @@ namespace Anidopt.Controllers
         // GET: AnimalColours
         public async Task<IActionResult> Index()
         {
-              return _context.AnimalColour != null ? 
-                          View(await _context.AnimalColour.ToListAsync()) :
-                          Problem("Entity set 'AnidoptContext.AnimalColour'  is null.");
+            return _context.AnimalColour != null ?
+                        View(ViewPath("Index"), await _context.AnimalColour.ToListAsync()) :
+                        Problem("Entity set 'AnidoptContext.AnimalColour'  is null.");
         }
 
         // GET: AnimalColours/Details/5
@@ -42,13 +44,13 @@ namespace Anidopt.Controllers
                 return NotFound();
             }
 
-            return View(animalColour);
+            return View(ViewPath("Details"), animalColour);
         }
 
         // GET: AnimalColours/Create
         public IActionResult Create()
         {
-            return View();
+            return View(ViewPath("Create"));
         }
 
         // POST: AnimalColours/Create
@@ -64,7 +66,7 @@ namespace Anidopt.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(animalColour);
+            return View(ViewPath("Create"), animalColour);
         }
 
         // GET: AnimalColours/Edit/5
@@ -80,7 +82,7 @@ namespace Anidopt.Controllers
             {
                 return NotFound();
             }
-            return View(animalColour);
+            return View(ViewPath("Edit"), animalColour);
         }
 
         // POST: AnimalColours/Edit/5
@@ -115,7 +117,7 @@ namespace Anidopt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(animalColour);
+            return View(ViewPath("Edit"), animalColour);
         }
 
         // GET: AnimalColours/Delete/5
@@ -133,7 +135,7 @@ namespace Anidopt.Controllers
                 return NotFound();
             }
 
-            return View(animalColour);
+            return View(ViewPath("Delete"), animalColour);
         }
 
         // POST: AnimalColours/Delete/5
@@ -150,14 +152,14 @@ namespace Anidopt.Controllers
             {
                 _context.AnimalColour.Remove(animalColour);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AnimalColourExists(int id)
         {
-          return (_context.AnimalColour?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.AnimalColour?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
