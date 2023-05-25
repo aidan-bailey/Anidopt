@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-public class AnimalColourLink
+public class AnimalColourLink : EntityModelBase
 {
     [Required]
     public string? AnimalId { get; set; }
