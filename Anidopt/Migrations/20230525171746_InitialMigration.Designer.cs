@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anidopt.Migrations
 {
     [DbContext(typeof(AnidoptContext))]
-    [Migration("20230522201506_InitialMigration")]
+    [Migration("20230525171746_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -71,6 +71,48 @@ namespace Anidopt.Migrations
                     b.HasIndex("SexId");
 
                     b.ToTable("Animal");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.AnimalColour", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Colour")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AnimalColour");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.AnimalColourLink", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AnimalId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ColourId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
+
+                    b.HasIndex("ColourId");
+
+                    b.ToTable("AnimalColourLink");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Breed", b =>
@@ -277,6 +319,33 @@ namespace Anidopt.Migrations
                     b.ToTable("Species");
                 });
 
+            modelBuilder.Entity("Anidopt.Models.UserOrganisationLink", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrganisationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganisationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserOrganisationLink");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -341,6 +410,10 @@ namespace Anidopt.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -392,6 +465,10 @@ namespace Anidopt.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -475,6 +552,21 @@ namespace Anidopt.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Anidopt.Models.AnidoptUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("AnidoptUser");
+                });
+
             modelBuilder.Entity("Anidopt.Models.Animal", b =>
                 {
                     b.HasOne("Anidopt.Models.Breed", "Breed")
@@ -500,6 +592,25 @@ namespace Anidopt.Migrations
                     b.Navigation("Organisation");
 
                     b.Navigation("Sex");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.AnimalColourLink", b =>
+                {
+                    b.HasOne("Anidopt.Models.Animal", "Animal")
+                        .WithMany("AnimalColourLinks")
+                        .HasForeignKey("AnimalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Anidopt.Models.AnimalColour", "Colour")
+                        .WithMany()
+                        .HasForeignKey("ColourId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Animal");
+
+                    b.Navigation("Colour");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Breed", b =>
@@ -573,6 +684,25 @@ namespace Anidopt.Migrations
                     b.Navigation("Animal");
                 });
 
+            modelBuilder.Entity("Anidopt.Models.UserOrganisationLink", b =>
+                {
+                    b.HasOne("Anidopt.Models.Organisation", "Organisation")
+                        .WithMany()
+                        .HasForeignKey("OrganisationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Anidopt.Models.AnidoptUser", "User")
+                        .WithMany("UserOrganisationLinks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organisation");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -626,12 +756,19 @@ namespace Anidopt.Migrations
 
             modelBuilder.Entity("Anidopt.Models.Animal", b =>
                 {
+                    b.Navigation("AnimalColourLinks");
+
                     b.Navigation("DescriptorLinks");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Organisation", b =>
                 {
                     b.Navigation("Animals");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.AnidoptUser", b =>
+                {
+                    b.Navigation("UserOrganisationLinks");
                 });
 #pragma warning restore 612, 618
         }

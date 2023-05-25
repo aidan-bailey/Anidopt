@@ -58,5 +58,9 @@ namespace Anidopt.Data
         public DbSet<Anidopt.Models.UserOrganisationLink> UserOrganisationLink { get; set; } = default!;
 
         public DbSet<Anidopt.Models.AnidoptUser> AnidoptUser { get; set; } = default!;
+
+        public DbSet<Anidopt.Models.AnimalColour> AnimalColour { get; set; } = default!;
+
+        public DbSet<Anidopt.Models.AnimalColourLink> AnimalColourLink { get; set; } = default!;
     }
 }
