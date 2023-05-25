@@ -6,7 +6,7 @@ namespace Anidopt.Models;
 public class AnimalColourLink : EntityModelBase
 {
     [Required]
-    public string? AnimalId { get; set; }
+    public int? AnimalId { get; set; }
 
     [ForeignKey(nameof(AnimalId))]
     public virtual Animal? Animal { get; set; }
