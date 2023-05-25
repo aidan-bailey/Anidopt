@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace Anidopt.Controllers;
+namespace Anidopt.Controllers.SiteAdminControllers;
 
 public class AnimalColourLinksController : Controller
 {
     private readonly AnidoptContext _context;
+
+    private string ViewPath(string name) => "~/Views/SiteAdmin/AnimalColourLinks/" + name + ".cshtml";
 
     public AnimalColourLinksController(AnidoptContext context)
     {
@@ -19,7 +21,7 @@ public class AnimalColourLinksController : Controller
     public async Task<IActionResult> Index()
     {
         var anidoptContext = _context.AnimalColourLink.Include(a => a.Animal).Include(a => a.Colour);
-        return View(await anidoptContext.ToListAsync());
+        return View(ViewPath("Index"), await anidoptContext.ToListAsync());
     }
 
     // GET: AnimalColourLinks/Details/5
@@ -39,7 +41,7 @@ public class AnimalColourLinksController : Controller
             return NotFound();
         }
 
-        return View(animalColourLink);
+        return View(ViewPath("Details"), animalColourLink);
     }
 
     // GET: AnimalColourLinks/Create
@@ -47,7 +49,7 @@ public class AnimalColourLinksController : Controller
     {
         ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name");
         ViewData["ColourId"] = new SelectList(_context.AnimalColour, "Id", "Colour");
-        return View();
+        return View(ViewPath("Create"));
     }
 
     // POST: AnimalColourLinks/Create
@@ -65,7 +67,7 @@ public class AnimalColourLinksController : Controller
         }
         ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", animalColourLink.AnimalId);
         ViewData["ColourId"] = new SelectList(_context.AnimalColour, "Id", "Colour", animalColourLink.ColourId);
-        return View(animalColourLink);
+        return View(ViewPath("Create"), animalColourLink);
     }
 
     // GET: AnimalColourLinks/Edit/5
@@ -83,7 +85,7 @@ public class AnimalColourLinksController : Controller
         }
         ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", animalColourLink.AnimalId);
         ViewData["ColourId"] = new SelectList(_context.AnimalColour, "Id", "Colour", animalColourLink.ColourId);
-        return View(animalColourLink);
+        return View(ViewPath("Edit"), animalColourLink);
     }
 
     // POST: AnimalColourLinks/Edit/5
@@ -120,7 +122,7 @@ public class AnimalColourLinksController : Controller
         }
         ViewData["AnimalId"] = new SelectList(_context.Animal, "Id", "Name", animalColourLink.AnimalId);
         ViewData["ColourId"] = new SelectList(_context.AnimalColour, "Id", "Colour", animalColourLink.ColourId);
-        return View(animalColourLink);
+        return View(ViewPath("Edit"), animalColourLink);
     }
 
     // GET: AnimalColourLinks/Delete/5
@@ -140,7 +142,7 @@ public class AnimalColourLinksController : Controller
             return NotFound();
         }
 
-        return View(animalColourLink);
+        return View(ViewPath("Delete"), animalColourLink);
     }
 
     // POST: AnimalColourLinks/Delete/5
@@ -157,13 +159,13 @@ public class AnimalColourLinksController : Controller
         {
             _context.AnimalColourLink.Remove(animalColourLink);
         }
-        
+
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool AnimalColourLinkExists(int id)
     {
-      return (_context.AnimalColourLink?.Any(e => e.Id == id)).GetValueOrDefault();
+        return (_context.AnimalColourLink?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }
