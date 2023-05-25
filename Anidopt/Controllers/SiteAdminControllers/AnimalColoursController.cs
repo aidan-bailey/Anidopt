@@ -1,10 +1,12 @@
 ﻿using Anidopt.Data;
 using Anidopt.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Controllers.SiteAdminControllers;
 
+[Authorize(Roles = "SiteAdmin")]
 public class AnimalColoursController : Controller
 {
     private readonly AnidoptContext _context;
