@@ -1,4 +1,4 @@
-﻿@model IdentityUser
+﻿@model AnidoptUser
 
 @{
     ViewData["Title"] = "Account";
@@ -10,10 +10,16 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            @Html.DisplayNameFor(model => model.FirstName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Email)
@@ -21,5 +27,23 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EmailConfirmed)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EmailConfirmed)
+        </dd>
+        @if (Model.UserOrganisationLinks != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UserOrganisationLinks)
+            </dt>
+            <dd class="col-sm-10">
+                @foreach (var item in Model.UserOrganisationLinks)
+                {
+                    @Html.DisplayFor(modelItem => item.Organisation.Name)
+                }
+            </dd>
+        }
     </dl>
 </div>

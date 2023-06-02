@@ -7,7 +7,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Account" asp-action="Account">Hello @UserManager.GetUserName(User)!</a>
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Index">Hello @UserManager.GetUserName(User)!</a>
         </li>
         @if (User.IsInRole("SiteAdmin"))
         {

@@ -33,7 +33,7 @@ public class AccountController : Controller
     public IActionResult Register()
     {
         if (_signInManager.IsSignedIn(User))
-            return RedirectToAction("Account");
+            return RedirectToAction("Index");
         else
             return View();
     }
@@ -77,7 +77,7 @@ public class AccountController : Controller
     public IActionResult Login()
     {
         if (_signInManager.IsSignedIn(User))
-            return RedirectToAction("Account");
+            return RedirectToAction("Index");
         return View();
     }
 
