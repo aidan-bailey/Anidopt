@@ -1,6 +1,8 @@
 ﻿using Anidopt.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Data;
 
 namespace Anidopt.Data;
 
@@ -19,7 +21,7 @@ public static class SeedData
     private static AnidoptContext SeedOrganisations(this AnidoptContext context) => context.Seed(
         new Organisation
         {
-            Name = "Mdzananda"
+            Name = "TestOrganisation"
         }
     );
 
@@ -77,7 +79,7 @@ public static class SeedData
         {
             Name = "Ginny",
             BirthDay = new DateTime(2016, 12, 16),
-            Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
+            Organisation = context.Organisation.Where(o => o.Name == "TestOrganisation").First(),
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
             Sex = context.Sex.Where(s => s.Name == "Female").First(),
             Description = "Ginny is a playful little pup who loves a good snooze.",
@@ -88,7 +90,7 @@ public static class SeedData
         {
             Name = "Layla",
             BirthDay = new DateTime(2016, 12, 16),
-            Organisation = context.Organisation.Where(o => o.Name == "Mdzananda").First(),
+            Organisation = context.Organisation.Where(o => o.Name == "TestOrganisation").First(),
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
             Sex = context.Sex.Where(s => s.Name == "Female").First(),
             Weight = 0,
@@ -152,6 +154,62 @@ public static class SeedData
         }
     );
 
+    private static AnidoptContext SeedRoles(this AnidoptContext context, IServiceProvider serviceProvider)
+    {
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        roleManager.CreateAsync(new IdentityRole("SiteAdmin")).Wait();
+        roleManager.CreateAsync(new IdentityRole("OrganisationAdmin")).Wait();
+        roleManager.CreateAsync(new IdentityRole("OrganisationUser")).Wait();
+        return context;
+    }
+
+    private static AnidoptContext SeedUsers(this AnidoptContext context, IServiceProvider serviceProvider)
+    {
+        var userManager = serviceProvider.GetRequiredService<UserManager<AnidoptUser>>();
+        var siteAdmin = new AnidoptUser
+        {
+            FirstName = "Site",
+            LastName = "Admin",
+            UserName = "admin@anidopt.org",
+            Email = "admin@anidopt.org",
+        };
+        userManager.CreateAsync(siteAdmin, "1").Wait();
+        userManager.AddToRoleAsync(siteAdmin, "SiteAdmin").Wait();
+
+        var organisationAdmin = new AnidoptUser
+        {
+            FirstName = "Organisation",
+            LastName = "Admin",
+            UserName = "admin@testorganisation.org",
+            Email = "admin@testorganisation.org",
+        };
+        userManager.CreateAsync(organisationAdmin, "1").Wait();
+        userManager.AddToRoleAsync(organisationAdmin, "OrganisationAdmin").Wait();
+        context.UserOrganisationLink.Add(new UserOrganisationLink { 
+            IsAdmin = true, 
+            Organisation = context.Organisation.First(at => at.Name == "TestOrganisation"),
+            User = context.AnidoptUser.First(u => u.UserName == "admin@testorganisation.org")
+        });
+
+        var organisationUser = new AnidoptUser
+        {
+            FirstName = "Jane",
+            LastName = "Doe",
+            UserName = "jane@testorganisation.org",
+            Email = "jane@testorganisation.org",
+        };
+        userManager.CreateAsync(organisationUser, "1").Wait();
+        userManager.AddToRoleAsync(organisationUser, "OrganisationUser").Wait();
+        context.UserOrganisationLink.Add(new UserOrganisationLink
+        {
+            IsAdmin = true,
+            Organisation = context.Organisation.First(at => at.Name == "TestOrganisation"),
+            User = context.AnidoptUser.First(u => u.UserName == "jane@testorganisation.org")
+        });
+
+        return context;
+    }
+
     public static void Initialize(IServiceProvider serviceProvider)
     {
         using (var context = new AnidoptContext(
@@ -161,27 +219,18 @@ public static class SeedData
 
             context.Database.EnsureDeleted(); // TODO - this is obviously bad!!!
             context.Database.EnsureCreated();
-            context.SeedOrganisations().SeedSexes().SeedSpecies().SeedBreeds().SeedAnimals().SeedDescriptorTypes().SeedDescriptors().SeedDescriptorLinks();
-            context.Roles.Add(new IdentityRole("SiteAdmin"));
-            context.SaveChanges();
+            context
+                .SeedOrganisations()
+                .SeedSexes()
+                .SeedSpecies()
+                .SeedBreeds()
+                .SeedAnimals()
+                .SeedDescriptorTypes()
+                .SeedDescriptors()
+                .SeedDescriptorLinks()
+                .SeedRoles(serviceProvider)
+                .SeedUsers(serviceProvider);
 
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            roleManager.CreateAsync(new IdentityRole("SiteAdmin")).Wait();
-            roleManager.CreateAsync(new IdentityRole("OrganisationAdmin")).Wait();
-            roleManager.CreateAsync(new IdentityRole("OrganisationUser")).Wait();
-
-            // Site Admin
-
-            var userManager = serviceProvider.GetRequiredService<UserManager<AnidoptUser>>();
-            var adminUser = new AnidoptUser
-            {
-                FirstName = "Aidan",
-                LastName = "Bailey",
-                UserName = "admin@anidopt.org",
-                Email = "admin@anidopt.org",
-            };
-            userManager.CreateAsync(adminUser, "Aa!12345").Wait();
-            userManager.AddToRoleAsync(adminUser, "SiteAdmin").Wait();
             context.SaveChanges();
         }
     }
