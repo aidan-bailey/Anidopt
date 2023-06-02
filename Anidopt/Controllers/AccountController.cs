@@ -1,31 +1,78 @@
-﻿using Anidopt.Models;
+﻿using Anidopt.Data;
+using Anidopt.Models;
 using Anidopt.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 
 namespace Anidopt.Controllers;
 
 public class AccountController : Controller
 {
+    private readonly AnidoptContext _context;
     private readonly UserManager<AnidoptUser> _userManager;
     private readonly SignInManager<AnidoptUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AccountController(UserManager<AnidoptUser> userManager,
+    public AccountController(AnidoptContext context, UserManager<AnidoptUser> userManager,
                                   SignInManager<AnidoptUser> signInManager,
                                   RoleManager<IdentityRole> roleManager)
     {
+        _context = context;
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
     }
 
+    [Authorize]
     public async Task<IActionResult> Index()
     {
-        if (_signInManager.IsSignedIn(User))
-            return View(await _userManager.GetUserAsync(User));
-        else
-            return RedirectToAction("Login");
+        return View(await _userManager.GetUserAsync(User));
+    }
+
+    [Authorize]
+    public async Task<IActionResult> Edit()
+    {
+        return View(await _userManager.GetUserAsync(User));
+    }
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize]
+    public async Task<IActionResult> Edit([Bind("FirstName,LastName")] AnidoptUser anidoptUser)
+    {
+        var user = await _userManager.GetUserAsync(User);
+        user.FirstName = anidoptUser.FirstName;
+        user.LastName = anidoptUser.LastName;
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(user.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        return View(anidoptUser);
+    }
+    private bool UserExists(string id)
+    {
+        return (_context.AnidoptUser?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 
     #region Register
