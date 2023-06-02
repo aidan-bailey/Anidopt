@@ -20,7 +20,7 @@ public class AccountController : Controller
         _roleManager = roleManager;
     }
 
-    public async Task<IActionResult> Account()
+    public async Task<IActionResult> Index()
     {
         if (_signInManager.IsSignedIn(User))
             return View(await _userManager.GetUserAsync(User));
