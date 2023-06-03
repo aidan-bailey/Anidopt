@@ -26,4 +26,6 @@ Picture }o--|| Animal
 DescriptorType ||--o{ DescriptorLink
 DescriptorLink ||--|| Descriptor
 DescriptorLink }o--|| Animal
+Estimation ||--|{ Sex
+Estimation ||--|{ Breed
 @enduml
