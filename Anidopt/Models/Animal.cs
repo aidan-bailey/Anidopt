@@ -39,7 +39,7 @@ public class Animal : EntityModelBase
 
     #endregion
 
-    #region Virtual Properties
+    #region Proxy Properties
     
     [ForeignKey(nameof(SexId))]
     public virtual Sex? Sex { get; set; }
