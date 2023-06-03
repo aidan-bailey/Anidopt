@@ -110,6 +110,12 @@ namespace Anidopt.Data
                 .WithMany(d => d.DescriptorLinks)
                 .HasForeignKey(d => d.DescriptorId)
                 .HasPrincipalKey(dl => dl.Id);
+            // Many-To-One Animal
+            builder.Entity<DescriptorLink>()
+                .HasOne(dl => dl.Animal)
+                .WithMany(a => a.DescriptorLinks)
+                .HasForeignKey(a => a.AnimalId)
+                .HasPrincipalKey(dl => dl.Id);
             #endregion
         }
 
