@@ -17,6 +17,8 @@ public class Organisation : EntityModelBase
     #region Proxy Properties
 
     public virtual List<Animal>? Animals { get; set; }
+
+    public virtual List<UserOrganisationLink> UserOrganisationLinks { get; set; } = new List<UserOrganisationLink>();
     
     #endregion
 }
