@@ -1,55 +1,29 @@
 @startuml
-entity Sex {
-    Id: Int
-    Name: Str
-}
-entity Breed {
-    Id: Int
-    Name: Str
-}
-entity Type {
-    Id: Int
-    Name: Str
-}
-entity Animal {
-    Id: Int
-    Name: Str
-    Age: Int
-    SexId: Int
-    BreedId: Int
-    TypeId: Int
-    Size: Float
-    _Description: Str
-}
-entity DescriptorType {
-    Id: Int
-    Name: Str
-}
-entity Descriptor {
-    Id: Int
-    DescriptorTypeId: Id
-    _Title: Str
-}
-entity Link {
-    Id: Int
-    AnimalId: Int
-    DescriptorId: Int
-}
-entity AdditionalInfo {
-    Id: Int
-    LinkId: Int
-    Info: Str
-}
-entity Organisation {
-    Id: Int
-    Name: Str
-}
-Animal }o--|| Organisation
-DescriptorType ||--|| Descriptor
-Descriptor ||--o{ Link
-Animal ||--o{ Link
-AdditionalInfo }o--|| Link
-Breed ||--|| Animal
-Type ||--|| Animal
-Sex ||--|| Animal
+entity AnidoptUser {}
+entity Animal {}
+entity AnimalColour {}
+entity AnimalColourLink {}
+entity Breed {}
+entity Descriptor {}
+entity DescriptorLink {}
+entity DescriptorType {}
+entity Estimation {}
+entity Organisation {}
+entity Picture {}
+entity Sex {}
+entity Species {}
+entity UserOrganisationLink {}
+
+AnidoptUser ||--o{ UserOrganisationLink
+UserOrganisationLink }o--|| Organisation
+Animal -- Breed
+Animal }o-- Sex
+Species ||--|{ Breed
+Organisation ||--|{ Animal
+AnimalColour ||--o{ AnimalColourLink
+Animal ||--o{ AnimalColourLink
+Picture }o--|| Animal
+DescriptorType ||--o{ DescriptorLink
+DescriptorLink ||--|| Descriptor
+DescriptorLink }o--|| Animal
 @enduml
