@@ -12,10 +12,10 @@ public class UserOrganisationLink : EntityModelBase
     public string UserId { get; set; }
 
     [Required]
-    public int OrganisationId { get; set; }
+    public bool IsAdmin { get; set; }
 
     [Required]
-    public bool IsAdmin { get; set; }
+    public int OrganisationId { get; set; }
 
     #endregion
 
