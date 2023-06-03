@@ -117,6 +117,18 @@ namespace Anidopt.Data
                 .HasForeignKey(a => a.AnimalId)
                 .HasPrincipalKey(dl => dl.Id);
             #endregion
+            #region Species Constraints
+            // Name index
+            builder.Entity<Species>()
+                .HasIndex(s => s.Name)
+                .IsUnique();
+            // One-To-Many Breeds
+            builder.Entity<Species>()
+                .HasMany(s => s.Breeds)
+                .WithOne(b => b.Species)
+                .HasForeignKey(b => b.SpeciesId)
+                .HasPrincipalKey(s => s.Id);
+            #endregion
         }
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
