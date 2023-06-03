@@ -1,18 +1,110 @@
 @startuml
-entity AnidoptUser {}
-entity Animal {}
-entity AnimalColour {}
-entity AnimalColourLink {}
-entity Breed {}
-entity Descriptor {}
-entity DescriptorLink {}
-entity DescriptorType {}
-entity Estimation {}
-entity Organisation {}
-entity Picture {}
-entity Sex {}
-entity Species {}
-entity UserOrganisationLink {}
+skinparam linetype ortho
+
+entity AnidoptUser {
+    *Id : string <<PK>>
+    --
+    *FirstName : string
+    *LastName : string
+    *UserName : string
+    *Email : string
+    --
+}
+entity Animal {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    *BirthDay : DateTime
+    *Description : string
+    *Height : float
+    *Weight : float
+    --
+    *OrganisationId : int <<FK>>
+    *BreedId : int <<FK>>
+    *SexId : int <<FK>>
+}
+entity AnimalColour {
+    *Id : int <<PK>>
+    --
+    *Colour : string
+    --
+}
+entity AnimalColourLink {
+    *Id : int <<PK>>
+    --
+    --
+    *AnimalId : int <<FK>>
+    *ColourId : int <<FK>>
+}
+entity Breed {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+    *SpeciesId : int <<FK>>
+}
+entity Descriptor {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+    *DescriptorTypeId : int <<FK>>
+}
+entity DescriptorLink {
+    *Id : int <<PK>>
+    --
+    --
+    *AnimalId : int <<FK>>
+    *DescriptorId : int <<FK>>
+}
+entity DescriptorType {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+}
+entity Estimation {
+    *Id : int <<PK>>
+    --
+    *Height : float
+    *Weight : float
+    --
+    *BreedId : int <<FK>>
+    *SexId : int <<FK>>
+}
+entity Organisation {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+}
+entity Picture {
+    *Id : int <<PK>>
+    --
+    *Showcase : bool
+    --
+    *AnimalId : int <<FK>>
+}
+entity Sex {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+}
+entity Species {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+}
+entity UserOrganisationLink {
+    *Id : int <<PK>>
+    --
+    *IsAdmin : bool
+    --
+    *UserId : string <<FK>>
+    *OrganisationId : int <<FK>>
+}
 
 AnidoptUser ||--o{ UserOrganisationLink
 UserOrganisationLink }o--|| Organisation
@@ -23,8 +115,8 @@ Organisation ||--|{ Animal
 AnimalColour ||--o{ AnimalColourLink
 Animal ||--o{ AnimalColourLink
 Picture }o--|| Animal
-DescriptorType ||--o{ DescriptorLink
-DescriptorLink ||--|| Descriptor
+Descriptor ||--o{ DescriptorLink
+Descriptor }o--|| DescriptorType
 DescriptorLink }o--|| Animal
 Estimation ||--|{ Sex
 Estimation ||--|{ Breed
