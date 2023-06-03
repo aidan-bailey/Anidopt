@@ -10,4 +10,10 @@ public class AnimalColour : EntityModelBase
     public string Colour { get; set; } = default!;
 
     #endregion
+
+    #region Proxy Properties
+
+    public virtual List<AnimalColourLink> AnimalColourLinks { get; set; } = new List<AnimalColourLink>();
+
+    #endregion
 }
