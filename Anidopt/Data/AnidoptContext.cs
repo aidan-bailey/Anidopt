@@ -26,7 +26,7 @@ namespace Anidopt.Data
             builder.Entity<AnidoptUser>()
                 .HasIndex(at => at.UserName)
                 .IsUnique();
-            // UserOrganisationLink One-To-Many
+            // One-To-Many UserOrganisationLink
             builder.Entity<AnidoptUser>()
                 .HasMany(au => au.UserOrganisationLinks)
                 .WithOne(uol => uol.User)
@@ -38,13 +38,13 @@ namespace Anidopt.Data
             builder.Entity<UserOrganisationLink>()
                 .HasIndex(uol => new { uol.UserId, uol.OrganisationId })
                 .IsUnique();
-            // AnidoptUser Many-To-One
+            // Many-to-One AnidoptUser
             builder.Entity<UserOrganisationLink>()
                 .HasOne(uol => uol.User)
                 .WithMany(au => au.UserOrganisationLinks)
                 .HasForeignKey(au => au.UserId)
                 .HasPrincipalKey(uol => uol.Id);
-            // Organisation Many-To-One
+            // Many-to-One Organisation
             builder.Entity<UserOrganisationLink>()
                 .HasOne(uol => uol.Organisation)
                 .WithMany(o => o.UserOrganisationLinks)
@@ -56,13 +56,13 @@ namespace Anidopt.Data
             builder.Entity<Organisation>()
                 .HasIndex(o => o.Name)
                 .IsUnique();
-            // UserOrganisationLink One-To-Many
+            // One-To-Many UserOrganisationLink
             builder.Entity<Organisation>()
                 .HasMany(o => o.UserOrganisationLinks)
                 .WithOne(uol => uol.Organisation)
                 .HasForeignKey(uol => uol.OrganisationId)
                 .HasPrincipalKey(o => o.Id);
-            // Animal One-To-Many
+            // One-To-Many Animal
             builder.Entity<Organisation>()
                 .HasMany(o => o.Animals)
                 .WithOne(a => a.Organisation)
@@ -74,7 +74,7 @@ namespace Anidopt.Data
             builder.Entity<DescriptorType>()
                 .HasIndex(dt => dt.Name)
                 .IsUnique();
-            // Descriptor One-To-Many
+            // One-To-Many Descriptor
             builder.Entity<DescriptorType>()
                 .HasMany(dt => dt.Descriptors)
                 .WithOne(d => d.DescriptorType)
@@ -86,18 +86,30 @@ namespace Anidopt.Data
             builder.Entity<Descriptor>()
                 .HasIndex(d => new { d.Name, d.DescriptorTypeId })
                 .IsUnique();
-            // DescriptorType One-To-Many
+            // Many-To-One DescriptorType
             builder.Entity<Descriptor>()
                 .HasOne(d => d.DescriptorType)
                 .WithMany(dt => dt.Descriptors)
                 .HasForeignKey(dt => dt.DescriptorTypeId)
                 .HasPrincipalKey(d => d.Id);
-            // DescriptorLink One-To-Many
+            // One-To-Many DescriptorLink
             builder.Entity<Descriptor>()
                 .HasMany(d => d.DescriptorLinks)
                 .WithOne(dl => dl.Descriptor)
                 .HasForeignKey(dl => dl.DescriptorId)
                 .HasPrincipalKey(d => d.Id);
+            #endregion
+            #region DescriptorLink Constraints
+            // AnimalId, DescriptorId index
+            builder.Entity<DescriptorLink>()
+                .HasIndex(dl => new { dl.AnimalId, dl.DescriptorId })
+                .IsUnique();
+            // Many-To-One Descriptor
+            builder.Entity<DescriptorLink>()
+                .HasOne(dl => dl.Descriptor)
+                .WithMany(d => d.DescriptorLinks)
+                .HasForeignKey(d => d.DescriptorId)
+                .HasPrincipalKey(dl => dl.Id);
             #endregion
         }
 
