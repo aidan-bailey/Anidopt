@@ -8,4 +8,6 @@ public class Species: EntityModelBase
     [StringLength(32, MinimumLength = 1)]
     [Required]
     public string? Name { get; set; }
+
+    public virtual List<Breed> Breeds { get; set; } = new List<Breed>();
 }
