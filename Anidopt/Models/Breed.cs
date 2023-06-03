@@ -6,10 +6,20 @@ namespace Anidopt.Models;
 
 public class Breed : EntityModelBase
 {
+    #region Native Properties
+    
     [StringLength(32, MinimumLength = 1)]
     [Required]
     public string? Name { get; set; }
+
+    public int SpeciesId { get; set; }
+
+    #endregion
+
+    #region Proxy Properties
+
     [ForeignKey(nameof(SpeciesId))]
     public virtual Species? Species { get; set; }
-    public int SpeciesId { get; set; }
+
+    #endregion
 }
