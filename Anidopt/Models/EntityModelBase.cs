@@ -2,8 +2,7 @@
 
 namespace Anidopt.Models;
 
-[PrimaryKey(nameof(Id))]
-public partial class EntityModelBase
+public abstract class EntityModelBase
 {
     public int Id { get; set; }
 }
