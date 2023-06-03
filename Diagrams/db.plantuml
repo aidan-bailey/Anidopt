@@ -81,6 +81,7 @@ entity Organisation {
 entity Picture {
     *Id : int <<PK>>
     --
+    *Image : byte[]
     *Showcase : bool
     --
     *AnimalId : int <<FK>>
