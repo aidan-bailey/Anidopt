@@ -20,5 +20,7 @@ public class Descriptor : EntityModelBase
     [ForeignKey(nameof(DescriptorTypeId))]
     public virtual DescriptorType? DescriptorType { get; set; }
 
+    public virtual List<DescriptorLink> DescriptorLinks { get; set; } = new List<DescriptorLink>();
+
     #endregion
 }
