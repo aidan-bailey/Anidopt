@@ -114,7 +114,7 @@ UserOrganisationLink }o--|| Organisation
 Animal -- Breed
 Animal }o-- Sex
 Species ||--|{ Breed
-Organisation ||--|{ Animal
+Organisation ||--o{ Animal
 AnimalColour ||--o{ AnimalColourLink
 Animal ||--o{ AnimalColourLink
 Picture }o--|| Animal
