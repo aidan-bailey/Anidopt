@@ -6,7 +6,12 @@ namespace Anidopt.Models;
 public class Picture : EntityModelBase
 {
     #region Native Properties
-    
+    [Required]
+    public string Name { get; set; }
+
+    [Required]
+    public string Description { get;}
+
     [Required]
     public byte[] Image { get; set; }
 
