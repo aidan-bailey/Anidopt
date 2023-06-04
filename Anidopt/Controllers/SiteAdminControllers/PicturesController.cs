@@ -73,7 +73,7 @@ public class PicturesController : Controller
                     {
                         Image = memoryStream.ToArray(),
                         AnimalId = pictureUpload.AnimalId,
-                        Showcase = pictureUpload.Showcase
+                        Position = pictureUpload.Position
                     };
                     await _pictureService.AddAsync(picture);
                 }

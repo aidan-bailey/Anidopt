@@ -11,7 +11,7 @@ public class Picture : EntityModelBase
     public byte[] Image { get; set; }
 
     [Required]
-    public bool Showcase { get; set; }
+    public int Position { get; set; }
 
     [Required]
     public int AnimalId { get; set; }
