@@ -81,8 +81,10 @@ entity Organisation {
 entity Picture {
     *Id : int <<PK>>
     --
+    *Name : string
+    *Description : string
     *Image : byte[]
-    *Showcase : bool
+    *Position : int
     --
     *AnimalId : int <<FK>>
 }
@@ -119,6 +121,6 @@ Picture }o--|| Animal
 Descriptor ||--o{ DescriptorLink
 Descriptor }o--|| DescriptorType
 DescriptorLink }o--|| Animal
-Estimation ||--|{ Sex
-Estimation ||--|{ Breed
+Estimation }o--|| Sex
+Estimation }o--|| Breed
 @enduml
