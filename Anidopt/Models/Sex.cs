@@ -5,6 +5,14 @@ namespace Anidopt.Models;
 
 public class Sex: EntityModelBase
 {
+    #region Native Properties
     [Required]
     public string? Name { get; set; }
+    #endregion
+
+    #region Proxy Properties
+    public virtual List<Animal> Animals { get; set; }
+
+    public virtual List<Estimation> Estimations { get; set; }
+    #endregion
 }

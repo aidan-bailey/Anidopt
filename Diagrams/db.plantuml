@@ -1,55 +1,126 @@
 @startuml
-entity Sex {
-    Id: Int
-    Name: Str
-}
-entity Breed {
-    Id: Int
-    Name: Str
-}
-entity Type {
-    Id: Int
-    Name: Str
+skinparam linetype ortho
+
+entity AnidoptUser {
+    *Id : string <<PK>>
+    --
+    *FirstName : string
+    *LastName : string
+    *UserName : string
+    *Email : string
+    --
 }
 entity Animal {
-    Id: Int
-    Name: Str
-    Age: Int
-    SexId: Int
-    BreedId: Int
-    TypeId: Int
-    Size: Float
-    _Description: Str
+    *Id : int <<PK>>
+    --
+    *Name : string
+    *BirthDay : DateTime
+    *Description : string
+    *Height : float
+    *Weight : float
+    --
+    *OrganisationId : int <<FK>>
+    *BreedId : int <<FK>>
+    *SexId : int <<FK>>
 }
-entity DescriptorType {
-    Id: Int
-    Name: Str
+entity AnimalColour {
+    *Id : int <<PK>>
+    --
+    *Colour : string
+    --
+}
+entity AnimalColourLink {
+    *Id : int <<PK>>
+    --
+    --
+    *AnimalId : int <<FK>>
+    *ColourId : int <<FK>>
+}
+entity Breed {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+    *SpeciesId : int <<FK>>
 }
 entity Descriptor {
-    Id: Int
-    DescriptorTypeId: Id
-    _Title: Str
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+    *DescriptorTypeId : int <<FK>>
 }
-entity Link {
-    Id: Int
-    AnimalId: Int
-    DescriptorId: Int
+entity DescriptorLink {
+    *Id : int <<PK>>
+    --
+    --
+    *AnimalId : int <<FK>>
+    *DescriptorId : int <<FK>>
 }
-entity AdditionalInfo {
-    Id: Int
-    LinkId: Int
-    Info: Str
+entity DescriptorType {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+}
+entity Estimation {
+    *Id : int <<PK>>
+    --
+    *Height : float
+    *Weight : float
+    --
+    *BreedId : int <<FK>>
+    *SexId : int <<FK>>
 }
 entity Organisation {
-    Id: Int
-    Name: Str
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
 }
-Animal }o--|| Organisation
-DescriptorType ||--|| Descriptor
-Descriptor ||--o{ Link
-Animal ||--o{ Link
-AdditionalInfo }o--|| Link
-Breed ||--|| Animal
-Type ||--|| Animal
-Sex ||--|| Animal
+entity Picture {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    *Description : string
+    *Image : byte[]
+    *Position : int
+    --
+    *AnimalId : int <<FK>>
+}
+entity Sex {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+}
+entity Species {
+    *Id : int <<PK>>
+    --
+    *Name : string
+    --
+}
+entity UserOrganisationLink {
+    *Id : int <<PK>>
+    --
+    *IsAdmin : bool
+    --
+    *UserId : string <<FK>>
+    *OrganisationId : int <<FK>>
+}
+
+AnidoptUser ||--o{ UserOrganisationLink
+UserOrganisationLink }o--|| Organisation
+Animal }o--|| Breed
+Animal }o--|| Sex
+Species ||--o{ Breed
+Organisation ||--o{ Animal
+AnimalColour ||--o{ AnimalColourLink
+Animal ||--o{ AnimalColourLink
+Picture }o--|| Animal
+Descriptor ||--o{ DescriptorLink
+Descriptor }o--|| DescriptorType
+DescriptorLink }o--|| Animal
+Estimation }o--|| Sex
+Estimation }o--|| Breed
 @enduml

@@ -80,9 +80,12 @@ namespace Anidopt.Migrations
 
                     b.Property<string>("Colour")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Colour")
+                        .IsUnique();
 
                     b.ToTable("AnimalColour");
                 });
@@ -105,9 +108,10 @@ namespace Anidopt.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AnimalId");
-
                     b.HasIndex("ColourId");
+
+                    b.HasIndex("AnimalId", "ColourId")
+                        .IsUnique();
 
                     b.ToTable("AnimalColourLink");
                 });
@@ -130,10 +134,10 @@ namespace Anidopt.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.HasIndex("SpeciesId");
+
+                    b.HasIndex("Name", "SpeciesId")
+                        .IsUnique();
 
                     b.ToTable("Breed");
                 });
@@ -151,11 +155,14 @@ namespace Anidopt.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DescriptorTypeId");
+
+                    b.HasIndex("Name", "DescriptorTypeId")
+                        .IsUnique();
 
                     b.ToTable("Descriptor");
                 });
@@ -176,9 +183,10 @@ namespace Anidopt.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AnimalId");
-
                     b.HasIndex("DescriptorId");
+
+                    b.HasIndex("AnimalId", "DescriptorId")
+                        .IsUnique();
 
                     b.ToTable("DescriptorLink");
                 });
@@ -268,12 +276,19 @@ namespace Anidopt.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<bool>("Showcase")
-                        .HasColumnType("bit");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AnimalId");
+
+                    b.HasIndex("Name", "AnimalId")
+                        .IsUnique();
 
                     b.ToTable("Picture");
                 });
@@ -288,9 +303,12 @@ namespace Anidopt.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Sex");
                 });
@@ -338,7 +356,8 @@ namespace Anidopt.Migrations
 
                     b.HasIndex("OrganisationId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "OrganisationId")
+                        .IsUnique();
 
                     b.ToTable("UserOrganisationLink");
                 });
@@ -561,13 +580,17 @@ namespace Anidopt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.HasIndex("UserName")
+                        .IsUnique()
+                        .HasFilter("[UserName] IS NOT NULL");
+
                     b.HasDiscriminator().HasValue("AnidoptUser");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Animal", b =>
                 {
                     b.HasOne("Anidopt.Models.Breed", "Breed")
-                        .WithMany()
+                        .WithMany("Animals")
                         .HasForeignKey("BreedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -579,7 +602,7 @@ namespace Anidopt.Migrations
                         .IsRequired();
 
                     b.HasOne("Anidopt.Models.Sex", "Sex")
-                        .WithMany()
+                        .WithMany("Animals")
                         .HasForeignKey("SexId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -600,7 +623,7 @@ namespace Anidopt.Migrations
                         .IsRequired();
 
                     b.HasOne("Anidopt.Models.AnimalColour", "Colour")
-                        .WithMany()
+                        .WithMany("AnimalColourLinks")
                         .HasForeignKey("ColourId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -613,7 +636,7 @@ namespace Anidopt.Migrations
             modelBuilder.Entity("Anidopt.Models.Breed", b =>
                 {
                     b.HasOne("Anidopt.Models.Species", "Species")
-                        .WithMany()
+                        .WithMany("Breeds")
                         .HasForeignKey("SpeciesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -624,7 +647,7 @@ namespace Anidopt.Migrations
             modelBuilder.Entity("Anidopt.Models.Descriptor", b =>
                 {
                     b.HasOne("Anidopt.Models.DescriptorType", "DescriptorType")
-                        .WithMany()
+                        .WithMany("Descriptors")
                         .HasForeignKey("DescriptorTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -641,7 +664,7 @@ namespace Anidopt.Migrations
                         .IsRequired();
 
                     b.HasOne("Anidopt.Models.Descriptor", "Descriptor")
-                        .WithMany()
+                        .WithMany("DescriptorLinks")
                         .HasForeignKey("DescriptorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -654,13 +677,13 @@ namespace Anidopt.Migrations
             modelBuilder.Entity("Anidopt.Models.Estimation", b =>
                 {
                     b.HasOne("Anidopt.Models.Breed", "Breed")
-                        .WithMany()
+                        .WithMany("Estimations")
                         .HasForeignKey("BreedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Anidopt.Models.Sex", "Sex")
-                        .WithMany()
+                        .WithMany("Estimations")
                         .HasForeignKey("SexId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -673,7 +696,7 @@ namespace Anidopt.Migrations
             modelBuilder.Entity("Anidopt.Models.Picture", b =>
                 {
                     b.HasOne("Anidopt.Models.Animal", "Animal")
-                        .WithMany()
+                        .WithMany("Pictures")
                         .HasForeignKey("AnimalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -684,7 +707,7 @@ namespace Anidopt.Migrations
             modelBuilder.Entity("Anidopt.Models.UserOrganisationLink", b =>
                 {
                     b.HasOne("Anidopt.Models.Organisation", "Organisation")
-                        .WithMany()
+                        .WithMany("UserOrganisationLinks")
                         .HasForeignKey("OrganisationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -756,11 +779,49 @@ namespace Anidopt.Migrations
                     b.Navigation("AnimalColourLinks");
 
                     b.Navigation("DescriptorLinks");
+
+                    b.Navigation("Pictures");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.AnimalColour", b =>
+                {
+                    b.Navigation("AnimalColourLinks");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Breed", b =>
+                {
+                    b.Navigation("Animals");
+
+                    b.Navigation("Estimations");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Descriptor", b =>
+                {
+                    b.Navigation("DescriptorLinks");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.DescriptorType", b =>
+                {
+                    b.Navigation("Descriptors");
                 });
 
             modelBuilder.Entity("Anidopt.Models.Organisation", b =>
                 {
                     b.Navigation("Animals");
+
+                    b.Navigation("UserOrganisationLinks");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Sex", b =>
+                {
+                    b.Navigation("Animals");
+
+                    b.Navigation("Estimations");
+                });
+
+            modelBuilder.Entity("Anidopt.Models.Species", b =>
+                {
+                    b.Navigation("Breeds");
                 });
 
             modelBuilder.Entity("Anidopt.Models.AnidoptUser", b =>

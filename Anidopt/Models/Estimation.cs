@@ -5,9 +5,7 @@ namespace Anidopt.Models;
 
 public class Estimation : EntityModelBase
 {
-    /*********************
-     * NATIVE PROPERTIES *
-     *********************/
+    #region Native Properties
     
     [Required]
     [Range(1, float.MaxValue)]
@@ -17,23 +15,21 @@ public class Estimation : EntityModelBase
     [Range(1, float.MaxValue)]
     public float Weight { get; set; }
 
-    /****************
-     * FOREIGN KEYS *
-     ****************/
-
     [Required]
     public int BreedId { get; set; }
 
     [Required]
     public int SexId { get; set; }
 
-    /**********************
-     * VIRTUAL PROPERTIES *
-     **********************/
+    #endregion
+
+    #region Proxy Properties
 
     [ForeignKey(nameof(BreedId))]
     public virtual Breed? Breed { get; set; }
 
     [ForeignKey(nameof(SexId))]
     public virtual Sex? Sex { get; set; }
+
+    #endregion
 }

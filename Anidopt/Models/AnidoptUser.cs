@@ -11,5 +11,5 @@ public class AnidoptUser : IdentityUser
     [Required]
     public string LastName { get; set; } = null!;
 
-    public virtual ICollection<UserOrganisationLink>? UserOrganisationLinks { get; set; }
+    public virtual ICollection<UserOrganisationLink>? UserOrganisationLinks { get; set; } = new List<UserOrganisationLink>();
 }
