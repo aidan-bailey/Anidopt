@@ -141,6 +141,24 @@ namespace Anidopt.Data
                 .HasForeignKey(acl => acl.ColourId)
                 .HasPrincipalKey(ac => ac.Id);
             #endregion
+            #region AnimalColourLink Constraints
+            // AnimalId, ColourId index
+            builder.Entity<AnimalColourLink>()
+                .HasIndex(acl => new { acl.AnimalId, acl.ColourId })
+                .IsUnique();
+            // Many-To-One AnimalColours
+            builder.Entity<AnimalColourLink>()
+                .HasOne(acl => acl.Colour)
+                .WithMany(c => c.AnimalColourLinks)
+                .HasForeignKey(acl => acl.ColourId)
+                .HasPrincipalKey(c => c.Id);
+            // Many-To-One Animals
+            builder.Entity<AnimalColourLink>()
+                .HasOne(acl => acl.Animal)
+                .WithMany(a => a.AnimalColourLinks)
+                .HasForeignKey(a => a.ColourId)
+                .HasPrincipalKey(acl => acl.Id);
+            #endregion
         }
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
