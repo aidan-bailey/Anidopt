@@ -171,6 +171,48 @@ namespace Anidopt.Data
                 .HasForeignKey(a => a.AnimalId)
                 .HasPrincipalKey(p => p.Id);
             #endregion
+            #region Sex Constraints
+            // Name Index
+            builder.Entity<Sex>()
+                .HasIndex(s => s.Name)
+                .IsUnique();
+            // One-To-Many Animals
+            builder.Entity<Sex>()
+                .HasMany(s => s.Animals)
+                .WithOne(a => a.Sex)
+                .HasForeignKey(a => a.SexId)
+                .HasPrincipalKey(s => s.Id);
+            // One-To-Many Estimations
+            builder.Entity<Sex>()
+                .HasMany(s => s.Estimations)
+                .WithOne(e => e.Sex)
+                .HasForeignKey(e => e.SexId)
+                .HasPrincipalKey(s => s.Id);
+            #endregion
+            #region Breed Constraints
+            // Name, Species Index
+            builder.Entity<Breed>()
+                .HasIndex(b => new { b.Name, b.SpeciesId})
+                .IsUnique();
+            // Many-To-One Species
+            builder.Entity<Breed>()
+                .HasOne(b => b.Species)
+                .WithMany(s => s.Breeds)
+                .HasForeignKey(s => s.SpeciesId)
+                .HasPrincipalKey(b => b.Id);
+            // One-To-Many Estimations
+            builder.Entity<Breed>()
+                .HasMany(b => b.Estimations)
+                .WithOne(e => e.Breed)
+                .HasForeignKey(e => e.BreedId)
+                .HasPrincipalKey(b => b.Id);
+            // One-To-Many Animals
+            builder.Entity<Breed>()
+                .HasMany(b => b.Animals)
+                .WithOne(a => a.Breed)
+                .HasForeignKey(a => a.BreedId)
+                .HasPrincipalKey(b => b.Id);
+            #endregion
         }
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
