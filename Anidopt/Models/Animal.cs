@@ -54,5 +54,7 @@ public class Animal : EntityModelBase
 
     public virtual List<AnimalColourLink>? AnimalColourLinks { get; set; }
 
+    public virtual List<Picture> Pictures { get; set; }
+
     #endregion
 }
