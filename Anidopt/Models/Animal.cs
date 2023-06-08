@@ -10,7 +10,7 @@ public class Animal : EntityModelBase
     [StringLength(32, MinimumLength = 1)]
     [Required]
     public string? Name { get; set; }
-    
+
     [Required]
     public DateTime BirthDay { get; set; }
 
@@ -40,7 +40,7 @@ public class Animal : EntityModelBase
     #endregion
 
     #region Proxy Properties
-    
+
     [ForeignKey(nameof(SexId))]
     public virtual Sex? Sex { get; set; }
 
