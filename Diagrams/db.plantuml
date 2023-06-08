@@ -111,9 +111,9 @@ entity UserOrganisationLink {
 
 AnidoptUser ||--o{ UserOrganisationLink
 UserOrganisationLink }o--|| Organisation
-Animal -- Breed
-Animal }o-- Sex
-Species ||--|{ Breed
+Animal }o--|| Breed
+Animal }o--|| Sex
+Species ||--o{ Breed
 Organisation ||--o{ Animal
 AnimalColour ||--o{ AnimalColourLink
 Animal ||--o{ AnimalColourLink
