@@ -213,6 +213,44 @@ namespace Anidopt.Data
                 .HasForeignKey(a => a.BreedId)
                 .HasPrincipalKey(b => b.Id);
             #endregion
+            #region Animal Constraints
+            // Many-To-One Sex
+            builder.Entity<Animal>()
+                .HasOne(a => a.Sex)
+                .WithMany(s => s.Animals)
+                .HasForeignKey(a => a.SexId)
+                .HasPrincipalKey(s => s.Id);
+            // Many-To-One Breed
+            builder.Entity<Animal>()
+                .HasOne(a => a.Breed)
+                .WithMany(b => b.Animals)
+                .HasForeignKey(a => a.BreedId)
+                .HasPrincipalKey(b => b.Id);
+            // Many-To-One Organisation
+            builder.Entity<Animal>()
+                .HasOne(a => a.Organisation)
+                .WithMany(o => o.Animals)
+                .HasForeignKey(a => a.OrganisationId)
+                .HasPrincipalKey(o => o.Id);
+            // One-To-Many DescriptorLinks
+            builder.Entity<Animal>()
+                .HasMany(a => a.DescriptorLinks)
+                .WithOne(dl => dl.Animal)
+                .HasForeignKey(dl => dl.AnimalId)
+                .HasPrincipalKey (a => a.Id);
+            // One-To-Many AnimalColourLinks
+            builder.Entity<Animal>()
+                .HasMany(a => a.AnimalColourLinks)
+                .WithOne(acl => acl.Animal)
+                .HasForeignKey(acl => acl.AnimalId)
+                .HasPrincipalKey(a => a.Id);
+            // One-To-Many Pictures
+            builder.Entity<Animal>()
+                .HasMany(a => a.Pictures)
+                .WithOne(p => p.Animal)
+                .HasForeignKey(p => p.AnimalId)
+                .HasPrincipalKey(a => a.Id);
+            #endregion
         }
 
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
