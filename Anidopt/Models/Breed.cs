@@ -21,5 +21,9 @@ public class Breed : EntityModelBase
     [ForeignKey(nameof(SpeciesId))]
     public virtual Species? Species { get; set; }
 
+    public virtual List<Estimation> Estimations { get; set; }
+
+    public virtual List<Animal> Animals { get; set; }
+
     #endregion
 }
