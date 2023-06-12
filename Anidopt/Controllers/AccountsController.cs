@@ -35,8 +35,29 @@ public class AccountsController : Controller {
     }
 
     [Authorize]
-    public async Task<IActionResult> Edit() {
-        return View(await _userManager.GetUserAsync(User));
+    public async Task<IActionResult> Edit(int? id) {
+        if (id == null || _context.AnidoptUser == null) {
+            return NotFound();
+        }
+
+        var user = await _context.AnidoptUser.FindAsync(id);
+        if (user == null) {
+            return NotFound();
+        }
+
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser == null) {
+            return NotFound(); // TODO - Find a suitable response because something has clearly gone wrong.
+        }
+        if (user.Id == currentUser.Id) {
+            return View(user);
+        }
+
+        // TODO - this needs finishing
+        var organisationIds = currentUser.UserOrganisationLinks.Where(uol => uol.IsAdmin).Select(uol => uol.OrganisationId);
+        var users = await _context.AnidoptUser.Where(au => au.UserOrganisationLinks.Any(uol => organisationIds.Contains(uol.OrganisationId))).ToListAsync();
+
+        return View(user);
     }
 
 
