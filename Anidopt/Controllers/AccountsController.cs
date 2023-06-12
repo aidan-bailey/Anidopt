@@ -8,8 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Controllers;
 
-public class AccountsController : Controller
-{
+public class AccountsController : Controller {
     private readonly AnidoptContext _context;
     private readonly UserManager<AnidoptUser> _userManager;
     private readonly SignInManager<AnidoptUser> _signInManager;
@@ -17,8 +16,7 @@ public class AccountsController : Controller
 
     public AccountsController(AnidoptContext context, UserManager<AnidoptUser> userManager,
                                   SignInManager<AnidoptUser> signInManager,
-                                  RoleManager<IdentityRole> roleManager)
-    {
+                                  RoleManager<IdentityRole> roleManager) {
         _context = context;
         _userManager = userManager;
         _signInManager = signInManager;
@@ -26,8 +24,7 @@ public class AccountsController : Controller
     }
 
     [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
-    public async Task<IActionResult> Index()
-    {
+    public async Task<IActionResult> Index() {
         if (User.IsInRole("SiteAdmin")) {
             return View(await _context.AnidoptUser.ToListAsync());
         }
@@ -38,8 +35,7 @@ public class AccountsController : Controller
     }
 
     [Authorize]
-    public async Task<IActionResult> Edit()
-    {
+    public async Task<IActionResult> Edit() {
         return View(await _userManager.GetUserAsync(User));
     }
 
@@ -47,26 +43,18 @@ public class AccountsController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize]
-    public async Task<IActionResult> Edit([Bind("FirstName,LastName")] AnidoptUser anidoptUser)
-    {
+    public async Task<IActionResult> Edit([Bind("FirstName,LastName")] AnidoptUser anidoptUser) {
         var user = await _userManager.GetUserAsync(User);
         user.FirstName = anidoptUser.FirstName;
         user.LastName = anidoptUser.LastName;
-        if (ModelState.IsValid)
-        {
-            try
-            {
+        if (ModelState.IsValid) {
+            try {
                 _context.Update(user);
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(user.Id))
-                {
+            } catch (DbUpdateConcurrencyException) {
+                if (!UserExists(user.Id)) {
                     return NotFound();
-                }
-                else
-                {
+                } else {
                     throw;
                 }
             }
@@ -74,15 +62,13 @@ public class AccountsController : Controller
         }
         return View(anidoptUser);
     }
-    private bool UserExists(string id)
-    {
+    private bool UserExists(string id) {
         return (_context.AnidoptUser?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 
     #region Register
 
-    public IActionResult Register()
-    {
+    public IActionResult Register() {
         if (_signInManager.IsSignedIn(User))
             return RedirectToAction("Index");
         else
@@ -90,27 +76,22 @@ public class AccountsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register(RegisterViewModel model)
-    {
-        if (ModelState.IsValid)
-        {
-            var user = new AnidoptUser
-            {
+    public async Task<IActionResult> Register(RegisterViewModel model) {
+        if (ModelState.IsValid) {
+            var user = new AnidoptUser {
                 UserName = model.Email,
                 Email = model.Email,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (result.Succeeded)
-            {
+            if (result.Succeeded) {
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
                 return RedirectToAction("index", "Home");
             }
 
-            foreach (var error in result.Errors)
-            {
+            foreach (var error in result.Errors) {
                 ModelState.AddModelError("", error.Description);
             }
 
@@ -125,22 +106,18 @@ public class AccountsController : Controller
     #region Login
 
     [HttpGet]
-    public IActionResult Login()
-    {
+    public IActionResult Login() {
         if (_signInManager.IsSignedIn(User))
             return RedirectToAction("Index");
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel user)
-    {
-        if (ModelState.IsValid)
-        {
+    public async Task<IActionResult> Login(LoginViewModel user) {
+        if (ModelState.IsValid) {
             var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, user.RememberMe, false);
 
-            if (result.Succeeded)
-            {
+            if (result.Succeeded) {
                 return RedirectToAction("Index", "Home");
             }
 
@@ -151,8 +128,7 @@ public class AccountsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Logout()
-    {
+    public async Task<IActionResult> Logout() {
         if (_signInManager.IsSignedIn(User))
             await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
