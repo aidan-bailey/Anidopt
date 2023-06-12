@@ -5,15 +5,12 @@ namespace Anidopt.Models;
 
 public class Animal : EntityModelBase
 {
+    #region Native Properties
 
-    /*********************
-     * NATIVE PROPERTIES *
-     *********************/
- 
     [StringLength(32, MinimumLength = 1)]
     [Required]
     public string? Name { get; set; }
-    
+
     [Required]
     public DateTime BirthDay { get; set; }
 
@@ -27,10 +24,10 @@ public class Animal : EntityModelBase
     [Range(1, float.MaxValue)]
     public float Weight { get; set; }
 
-    /****************
-     * FOREIGN KEYS *
-     ****************/
-    
+    #endregion
+
+    #region Foreign Keys
+
     [Required]
     public int OrganisationId { get; set; }
 
@@ -40,9 +37,9 @@ public class Animal : EntityModelBase
     [Required]
     public int SexId { get; set; }
 
-    /**********************
-     * VIRTUAL PROPERTIES *
-     **********************/
+    #endregion
+
+    #region Proxy Properties
 
     [ForeignKey(nameof(SexId))]
     public virtual Sex? Sex { get; set; }
@@ -53,7 +50,11 @@ public class Animal : EntityModelBase
     [ForeignKey(nameof(OrganisationId))]
     public virtual Organisation? Organisation { get; set; }
 
-    public virtual List<DescriptorLink>? DescriptorLinks { get; set; }
+    public virtual List<DescriptorLink>? DescriptorLinks { get; set; } = new();
 
-    public virtual List<AnimalColourLink>? AnimalColourLinks { get; set; }
+    public virtual List<AnimalColourLink>? AnimalColourLinks { get; set; } = new();
+
+    public virtual List<Picture> Pictures { get; set; } = new();
+
+    #endregion
 }

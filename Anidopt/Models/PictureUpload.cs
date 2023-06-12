@@ -14,5 +14,5 @@ public class PictureUpload
     public int AnimalId { get; set; }
 
     [Required]
-    public bool Showcase { get; set; }
+    public int Position { get; set; }
 }
