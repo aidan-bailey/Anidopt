@@ -4,9 +4,7 @@ using Anidopt.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace Anidopt.Controllers;
 
@@ -27,10 +25,10 @@ public class AccountsController : Controller
         _roleManager = roleManager;
     }
 
-    [Authorize]
+    [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
     public async Task<IActionResult> Index()
     {
-        return View(await _userManager.GetUserAsync(User));
+        return View(await _context.AnidoptUser.ToListAsync());
     }
 
     [Authorize]
