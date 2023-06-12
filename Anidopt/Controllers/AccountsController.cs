@@ -10,14 +10,14 @@ using SQLitePCL;
 
 namespace Anidopt.Controllers;
 
-public class AccountController : Controller
+public class AccountsController : Controller
 {
     private readonly AnidoptContext _context;
     private readonly UserManager<AnidoptUser> _userManager;
     private readonly SignInManager<AnidoptUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AccountController(AnidoptContext context, UserManager<AnidoptUser> userManager,
+    public AccountsController(AnidoptContext context, UserManager<AnidoptUser> userManager,
                                   SignInManager<AnidoptUser> signInManager,
                                   RoleManager<IdentityRole> roleManager)
     {
