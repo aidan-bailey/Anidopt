@@ -15,5 +15,5 @@ public class AnidoptUser : IdentityUser
     public string LastName { get; set; } = null!;
 
     [DisplayName("Organisations")]
-    public virtual List<UserOrganisationLink>? UserOrganisationLinks { get; set; }
+    public virtual List<UserOrganisationLink> UserOrganisationLinks { get; set; } = new();
 }
