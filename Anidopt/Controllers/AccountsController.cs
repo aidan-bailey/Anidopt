@@ -28,7 +28,13 @@ public class AccountsController : Controller
     [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
     public async Task<IActionResult> Index()
     {
-        return View(await _context.AnidoptUser.ToListAsync());
+        if (User.IsInRole("SiteAdmin")) {
+            return View(await _context.AnidoptUser.ToListAsync());
+        }
+        var user = await _userManager.GetUserAsync(User);
+        var organisationIds = user.UserOrganisationLinks.Where(uol => uol.IsAdmin).Select(uol => uol.OrganisationId).ToList();
+        var users = await _context.AnidoptUser.Where(au => au.UserOrganisationLinks.Any(uol => organisationIds.Contains(uol.OrganisationId))).ToListAsync();
+        return View(users);
     }
 
     [Authorize]
