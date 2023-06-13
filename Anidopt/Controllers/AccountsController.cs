@@ -1,5 +1,5 @@
 ﻿using Anidopt.Data;
-using Anidopt.Models;
+using Anidopt.Identity;
 using Anidopt.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

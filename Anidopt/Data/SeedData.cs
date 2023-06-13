@@ -1,4 +1,5 @@
-﻿using Anidopt.Models;
+﻿using Anidopt.Identity;
+using Anidopt.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

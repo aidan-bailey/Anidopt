@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Anidopt.Models;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Anidopt.Models;
+namespace Anidopt.Identity;
 
-public class AnidoptUser : IdentityUser
-{
+public class AnidoptUser : IdentityUser {
     [DisplayName("First Name")]
     [Required]
     public string FirstName { get; set; } = null!;

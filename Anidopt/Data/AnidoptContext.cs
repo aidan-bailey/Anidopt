@@ -4,9 +4,9 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Anidopt.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Anidopt.Identity;
 
-namespace Anidopt.Data
-{
+namespace Anidopt.Data {
     public class AnidoptContext : IdentityDbContext
     {
         public AnidoptContext(DbContextOptions<AnidoptContext> options)
@@ -275,7 +275,7 @@ namespace Anidopt.Data
 
         public DbSet<Anidopt.Models.UserOrganisationLink> UserOrganisationLink { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.AnidoptUser> AnidoptUser { get; set; } = default!;
+        public DbSet<AnidoptUser> AnidoptUser { get; set; } = default!;
 
         public DbSet<Anidopt.Models.AnimalColour> AnimalColour { get; set; } = default!;
 

@@ -1,5 +1,5 @@
 using Anidopt.Data;
-using Anidopt.Models;
+using Anidopt.Identity;
 using Anidopt.Services;
 using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
