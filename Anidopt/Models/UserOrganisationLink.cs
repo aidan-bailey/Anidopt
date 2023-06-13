@@ -10,10 +10,10 @@ public class UserOrganisationLink : EntityModelBase
     #region Native Properties
 
     [Required]
-    public int UserId { get; set; }
+    public bool IsAdmin { get; set; }
 
     [Required]
-    public bool IsAdmin { get; set; }
+    public int UserId { get; set; }
 
     [Required]
     public int OrganisationId { get; set; }
