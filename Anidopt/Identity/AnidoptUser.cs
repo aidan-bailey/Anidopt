@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Anidopt.Identity;
 
-public class AnidoptUser : IdentityUser {
+public class AnidoptUser : IdentityUser<int> {
     [DisplayName("First Name")]
     [Required]
     public string FirstName { get; set; } = null!;

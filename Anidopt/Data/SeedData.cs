@@ -157,10 +157,10 @@ public static class SeedData
 
     private static AnidoptContext SeedRoles(this AnidoptContext context, IServiceProvider serviceProvider)
     {
-        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        roleManager.CreateAsync(new IdentityRole("SiteAdmin")).Wait();
-        roleManager.CreateAsync(new IdentityRole("OrganisationAdmin")).Wait();
-        roleManager.CreateAsync(new IdentityRole("OrganisationUser")).Wait();
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<AnidoptRole>>();
+        roleManager.CreateAsync(new AnidoptRole("SiteAdmin")).Wait();
+        roleManager.CreateAsync(new AnidoptRole("OrganisationAdmin")).Wait();
+        roleManager.CreateAsync(new AnidoptRole("OrganisationUser")).Wait();
         return context;
     }
 

@@ -13,7 +13,7 @@ builder.Services.AddDbContext<AnidoptContext>(options =>
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AnidoptContext>();
 
-builder.Services.AddIdentity<AnidoptUser, IdentityRole>().AddEntityFrameworkStores<AnidoptContext>();
+builder.Services.AddIdentity<AnidoptUser, AnidoptRole>().AddEntityFrameworkStores<AnidoptContext>().AddDefaultTokenProviders();
 
 // Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

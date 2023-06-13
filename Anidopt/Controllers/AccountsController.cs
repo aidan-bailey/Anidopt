@@ -83,7 +83,7 @@ public class AccountsController : Controller {
         }
         return View(anidoptUser);
     }
-    private bool UserExists(string id) {
+    private bool UserExists(int id) {
         return (_context.AnidoptUser?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 

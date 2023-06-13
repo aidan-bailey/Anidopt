@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Anidopt.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Anidopt.Identity;
 
 namespace Anidopt.Data {
-    public class AnidoptContext : IdentityDbContext
+    public class AnidoptContext : IdentityDbContext<AnidoptUser, AnidoptRole, int>
     {
         public AnidoptContext(DbContextOptions<AnidoptContext> options)
             : base(options)
