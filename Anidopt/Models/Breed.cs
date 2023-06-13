@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-public class Breed : EntityModelBase
-{
+public class Breed : EntityModelBase, IEntityModelBase {
     #region Native Properties
     
     [StringLength(32, MinimumLength = 1)]

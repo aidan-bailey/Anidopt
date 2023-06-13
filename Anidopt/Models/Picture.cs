@@ -3,8 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-public class Picture : EntityModelBase
-{
+public class Picture : EntityModelBase, IEntityModelBase {
     #region Native Properties
     [Required]
     public string Name { get; set; }

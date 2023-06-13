@@ -2,8 +2,7 @@
 
 namespace Anidopt.Models;
 
-public class AnimalColour : EntityModelBase
-{
+public class AnimalColour : EntityModelBase, IEntityModelBase {
     #region Native Properties
 
     [Required]

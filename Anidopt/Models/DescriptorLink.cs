@@ -3,8 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-public class DescriptorLink : EntityModelBase
-{
+public class DescriptorLink : EntityModelBase, IEntityModelBase {
     #region Native Properties
 
     [Required]

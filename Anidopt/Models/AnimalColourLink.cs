@@ -3,8 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-public class AnimalColourLink : EntityModelBase
-{
+public class AnimalColourLink : EntityModelBase, IEntityModelBase {
     #region Native Properties
 
     [Required]

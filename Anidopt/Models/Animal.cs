@@ -3,8 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-public class Animal : EntityModelBase
-{
+public class Animal : EntityModelBase, IEntityModelBase {
     #region Native Properties
 
     [StringLength(32, MinimumLength = 1)]

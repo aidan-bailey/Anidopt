@@ -4,8 +4,7 @@ namespace Anidopt.Models;
 
 #pragma warning disable CS8618
 
-public class Organisation : EntityModelBase
-{
+public class Organisation : EntityModelBase, IEntityModelBase {
     #region Native Properties
 
     [Required]

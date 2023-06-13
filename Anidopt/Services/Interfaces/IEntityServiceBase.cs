@@ -2,7 +2,7 @@
 
 namespace Anidopt.Services.Interfaces;
 
-public interface IEntityServiceBase<T> where T : EntityModelBase {
+public interface IEntityServiceBase<T> where T : class, IEntityModelBase {
     bool Initialised { get; }
     Task<List<T>> GetAllAsync();
     Task<T?> GetByIdAsync(int id);

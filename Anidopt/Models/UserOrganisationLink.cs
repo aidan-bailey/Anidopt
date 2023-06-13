@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Models;
 
-public class UserOrganisationLink : EntityModelBase
+public class UserOrganisationLink : EntityModelBase, IEntityModelBase
 {
     #region Native Properties
 
