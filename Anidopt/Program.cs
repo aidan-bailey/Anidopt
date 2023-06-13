@@ -36,6 +36,7 @@ builder.Services.AddTransient<IDescriptorLinkService, DescriptorLinkService>();
 builder.Services.AddTransient<IDescriptorTypeService, DescriptorTypeService>();
 builder.Services.AddTransient<IEstimationService, EstimationService>();
 builder.Services.AddTransient<IPictureService, PictureService>();
+builder.Services.AddTransient<IAnidoptUserService, AnidoptUserService>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
