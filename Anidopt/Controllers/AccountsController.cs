@@ -1,5 +1,6 @@
 ﻿using Anidopt.Data;
 using Anidopt.Identity;
+using Anidopt.Services.Interfaces;
 using Anidopt.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,14 +11,18 @@ namespace Anidopt.Controllers;
 
 public class AccountsController : Controller {
     private readonly AnidoptContext _context;
+    private readonly IAnidoptUserService _anidoptUserService;
     private readonly UserManager<AnidoptUser> _userManager;
     private readonly SignInManager<AnidoptUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AccountsController(AnidoptContext context, UserManager<AnidoptUser> userManager,
-                                  SignInManager<AnidoptUser> signInManager,
-                                  RoleManager<IdentityRole> roleManager) {
+    public AccountsController(AnidoptContext context, 
+        IAnidoptUserService anidoptUserService,
+        UserManager<AnidoptUser> userManager,
+        SignInManager<AnidoptUser> signInManager,
+        RoleManager<IdentityRole> roleManager) {
         _context = context;
+        _anidoptUserService = anidoptUserService;
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
@@ -26,15 +31,17 @@ public class AccountsController : Controller {
     [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
     public async Task<IActionResult> Index() {
         if (User.IsInRole("SiteAdmin")) {
-            return View(await _context.AnidoptUser.ToListAsync());
+            return View(await _anidoptUserService.GetAllAsync());
         }
-        var user = await _userManager.GetUserAsync(User);
-        var organisationIds = user.UserOrganisationLinks.Where(uol => uol.IsAdmin).Select(uol => uol.OrganisationId).ToList();
-        var users = await _context.AnidoptUser.Where(au => au.UserOrganisationLinks.Any(uol => organisationIds.Contains(uol.OrganisationId))).ToListAsync();
+        var user = await _anidoptUserService.GetUserAsync(User);
+        if (user == null) {
+            return NotFound(); // TODO - Find a suitable response because something has clearly gone wrong.
+        }
+        var users = await _anidoptUserService.GetAdministratedUsersAsync(user.Id);
         return View(users);
     }
 
-    [Authorize]
+    [Authorize(Roles = "OrganisationAdmin")]
     public async Task<IActionResult> Edit(int? id) {
         if (id == null || _context.AnidoptUser == null) {
             return NotFound();
@@ -53,9 +60,8 @@ public class AccountsController : Controller {
             return View(user);
         }
 
-        // TODO - this needs finishing
-        var organisationIds = currentUser.UserOrganisationLinks.Where(uol => uol.IsAdmin).Select(uol => uol.OrganisationId);
-        var users = await _context.AnidoptUser.Where(au => au.UserOrganisationLinks.Any(uol => organisationIds.Contains(uol.OrganisationId))).ToListAsync();
+        if (!await _anidoptUserService.HasEditRights(User, id.Value))
+            return NotFound();
 
         return View(user);
     }
