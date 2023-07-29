@@ -14,13 +14,13 @@ public class AccountsController : Controller {
     private readonly IAnidoptUserService _anidoptUserService;
     private readonly UserManager<AnidoptUser> _userManager;
     private readonly SignInManager<AnidoptUser> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<AnidoptRole> _roleManager;
 
     public AccountsController(AnidoptContext context, 
         IAnidoptUserService anidoptUserService,
         UserManager<AnidoptUser> userManager,
         SignInManager<AnidoptUser> signInManager,
-        RoleManager<IdentityRole> roleManager) {
+        RoleManager<AnidoptRole> roleManager) {
         _context = context;
         _anidoptUserService = anidoptUserService;
         _userManager = userManager;
