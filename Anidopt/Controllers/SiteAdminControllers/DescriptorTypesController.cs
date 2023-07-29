@@ -23,7 +23,7 @@ public class DescriptorTypesController : Controller
     public async Task<IActionResult> Index()
     {
         return _descriptorTypeService.Initialised ?
-                    View(ViewPath("Index"), await _descriptorTypeService.GetAllAsync()) :
+                    View(ViewPath("Index"), await _descriptorTypeService.GetAll().ToListAsync()) :
                     Problem("Entity set 'AnidoptContext.DescriptorType'  is null.");
     }
 

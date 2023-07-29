@@ -8,5 +8,5 @@ public interface IAnidoptUserService : IEntityServiceBase<AnidoptUser> {
     Task<List<Organisation>> GetAdministratedOrganisationsAsync(int id);
     Task<List<AnidoptUser>> GetAdministratedUsersAsync(int id);
     Task<AnidoptUser?> GetUserAsync(ClaimsPrincipal principal);
-    Task<bool> HasEditRights(ClaimsPrincipal principal, int id)
+    Task<bool> HasEditRights(ClaimsPrincipal principal, int id);
 }

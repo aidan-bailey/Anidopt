@@ -27,7 +27,7 @@ public class DescriptorLinksController : Controller
     // GET: DescriptorLinks
     public async Task<IActionResult> Index()
     {
-        return View(ViewPath("Index"), await _descriptorLinkService.GetAllAsync());
+        return View(ViewPath("Index"), await _descriptorLinkService.GetAll().ToListAsync());
     }
 
     // GET: DescriptorLinks/Details/5
@@ -44,8 +44,8 @@ public class DescriptorLinksController : Controller
     // GET: DescriptorLinks/Create
     public async Task<IActionResult> Create()
     {
-        ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name");
-        ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name");
+        ViewData["AnimalId"] = new SelectList(await _animalService.GetAll().ToListAsync(), "Id", "Name");
+        ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAll().ToListAsync(), "Id", "Name");
         return View(ViewPath("Create"));
     }
 
@@ -61,8 +61,8 @@ public class DescriptorLinksController : Controller
             await _descriptorLinkService.AddAsync(descriptorLink);
             return RedirectToAction(nameof(Index));
         }
-        ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", descriptorLink.AnimalId);
-        ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name", descriptorLink.DescriptorId);
+        ViewData["AnimalId"] = new SelectList(await _animalService.GetAll().ToListAsync(), "Id", "Name", descriptorLink.AnimalId);
+        ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAll().ToListAsync(), "Id", "Name", descriptorLink.DescriptorId);
         return View(ViewPath("Create"), descriptorLink);
     }
 
@@ -74,8 +74,8 @@ public class DescriptorLinksController : Controller
         var descriptorLink = await _descriptorLinkService.GetByIdAsync(id.Value);
         if (descriptorLink == null)
             return NotFound();
-        ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", descriptorLink.AnimalId);
-        ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name", descriptorLink.DescriptorId);
+        ViewData["AnimalId"] = new SelectList(await _animalService.GetAll().ToListAsync(), "Id", "Name", descriptorLink.AnimalId);
+        ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAll().ToListAsync(), "Id", "Name", descriptorLink.DescriptorId);
         return View(ViewPath("Edit"), descriptorLink);
     }
 
@@ -103,8 +103,8 @@ public class DescriptorLinksController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", descriptorLink.AnimalId);
-        ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name", descriptorLink.DescriptorId);
+        ViewData["AnimalId"] = new SelectList(await _animalService.GetAll().ToListAsync(), "Id", "Name", descriptorLink.AnimalId);
+        ViewData["DescriptorId"] = new SelectList(await _descriptorService.GetAll().ToListAsync(), "Id", "Name", descriptorLink.DescriptorId);
         return View(ViewPath("Edit"), descriptorLink);
     }
 

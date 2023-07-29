@@ -24,7 +24,7 @@ public class OrganisationsController : Controller
     public async Task<IActionResult> Index()
     {
         if (!_organisationService.Initialised) return Problem("Entity set 'AnidoptContext.Organisation'  is null.");
-        var organisations = await _organisationService.GetAllAsync();
+        var organisations = await _organisationService.GetAll().ToListAsync();
         return View(ViewPath("Index"), organisations);
     }
 

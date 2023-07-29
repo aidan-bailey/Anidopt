@@ -29,7 +29,7 @@ public class EstimationsController : Controller
     // GET: Estimations
     public async Task<IActionResult> Index()
     {
-        return View(ViewPath("Index"), await _estimationService.GetAllAsync());
+        return View(ViewPath("Index"), await _estimationService.GetAll().ToListAsync());
     }
 
     // GET: Estimations/Details/5
@@ -46,9 +46,9 @@ public class EstimationsController : Controller
     // GET: Estimations/Create
     public async Task<IActionResult> Create()
     {
-        ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name");
-        ViewBag.Breeds = new SelectList(await _breedService.GetAllAsync(), "Id", "Name");
-        ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name");
+        ViewBag.Species = new SelectList(await _speciesService.GetAll().ToListAsync(), "Id", "Name");
+        ViewBag.Breeds = new SelectList(await _breedService.GetAll().ToListAsync(), "Id", "Name");
+        ViewBag.Sexes = new SelectList(await _sexService.GetAll().ToListAsync(), "Id", "Name");
         return View(ViewPath("Create"));
     }
 
@@ -64,9 +64,9 @@ public class EstimationsController : Controller
             await _estimationService.AddAsync(estimation);
             return RedirectToAction(nameof(Index));
         }
-        ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
-        ViewBag.Breeds = new SelectList(await _breedService.GetAllAsync(), "Id", "Name", estimation.BreedId);
-        ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
+        ViewBag.Species = new SelectList(await _speciesService.GetAll().ToListAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
+        ViewBag.Breeds = new SelectList(await _breedService.GetAll().ToListAsync(), "Id", "Name", estimation.BreedId);
+        ViewBag.Sexes = new SelectList(await _sexService.GetAll().ToListAsync(), "Id", "Name", estimation.SexId);
         return View(ViewPath("Create"), estimation);
     }
 
@@ -79,9 +79,9 @@ public class EstimationsController : Controller
         var estimation = await _estimationService.GetByIdAsync((int)id);
         if (estimation == null)
             return NotFound();
-        ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
-        ViewBag.Breeds = new SelectList(await _breedService.GetAllAsync(), "Id", "Name", estimation.BreedId);
-        ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
+        ViewBag.Species = new SelectList(await _speciesService.GetAll().ToListAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
+        ViewBag.Breeds = new SelectList(await _breedService.GetAll().ToListAsync(), "Id", "Name", estimation.BreedId);
+        ViewBag.Sexes = new SelectList(await _sexService.GetAll().ToListAsync(), "Id", "Name", estimation.SexId);
         return View(ViewPath("Edit"), estimation);
     }
 
@@ -108,9 +108,9 @@ public class EstimationsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewBag.Species = new SelectList(await _speciesService.GetAllAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
-        ViewBag.Breeds = new SelectList(await _breedService.GetAllAsync(), "Id", "Name", estimation.BreedId);
-        ViewBag.Sexes = new SelectList(await _sexService.GetAllAsync(), "Id", "Name", estimation.SexId);
+        ViewBag.Species = new SelectList(await _speciesService.GetAll().ToListAsync(), "Id", "Name", (int)estimation.Breed?.SpeciesId);
+        ViewBag.Breeds = new SelectList(await _breedService.GetAll().ToListAsync(), "Id", "Name", estimation.BreedId);
+        ViewBag.Sexes = new SelectList(await _sexService.GetAll().ToListAsync(), "Id", "Name", estimation.SexId);
         return View(ViewPath("Edit"), estimation);
     }
 

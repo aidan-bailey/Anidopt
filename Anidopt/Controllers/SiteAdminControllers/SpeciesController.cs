@@ -22,7 +22,7 @@ public class SpeciesController : Controller
     public async Task<IActionResult> Index()
     {
         if (!_speciesService.Initialised) return Problem("Entity set 'AnidoptContext.Species'  is null.");
-        var speciess = await _speciesService.GetAllAsync();
+        var speciess = await _speciesService.GetAll().ToListAsync();
         return View(ViewPath("Index"), speciess);
     }
 

@@ -31,7 +31,7 @@ public class AccountsController : Controller {
     [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
     public async Task<IActionResult> Index() {
         if (User.IsInRole("SiteAdmin")) {
-            return View(await _anidoptUserService.GetAllAsync());
+            return View(await _anidoptUserService.GetAll().ToListAsync());
         }
         var user = await _anidoptUserService.GetUserAsync(User);
         if (user == null) {

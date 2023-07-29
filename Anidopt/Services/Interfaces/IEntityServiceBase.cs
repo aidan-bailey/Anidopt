@@ -4,7 +4,7 @@ namespace Anidopt.Services.Interfaces;
 
 public interface IEntityServiceBase<T> where T : class, IEntityModelBase {
     bool Initialised { get; }
-    Task<List<T>> GetAllAsync();
+    IQueryable<T> GetAll();
     Task<T?> GetByIdAsync(int id);
     bool ExistsById(int id);
     Task<bool> ExistsByIdAsync(int id);

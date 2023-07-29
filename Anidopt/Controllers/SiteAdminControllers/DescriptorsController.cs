@@ -25,7 +25,7 @@ public class DescriptorsController : Controller
     // GET: Descriptors
     public async Task<IActionResult> Index()
     {
-        return View(ViewPath("Index"), await _descriptorService.GetAllAsync());
+        return View(ViewPath("Index"), await _descriptorService.GetAll().ToListAsync());
     }
 
     // GET: Descriptors/Details/5
@@ -42,7 +42,7 @@ public class DescriptorsController : Controller
     // GET: Descriptors/Create
     public async Task<IActionResult> Create()
     {
-        ViewData["DescriptorTypeId"] = new SelectList(await _descriptorService.GetAllAsync(), "Id", "Name");
+        ViewData["DescriptorTypeId"] = new SelectList(await _descriptorService.GetAll().ToListAsync(), "Id", "Name");
         return View(ViewPath("Create"));
     }
 
@@ -58,7 +58,7 @@ public class DescriptorsController : Controller
             await _descriptorService.AddAsync(descriptor);
             return RedirectToAction(nameof(Index));
         }
-        ViewData["DescriptorTypeId"] = new SelectList(await _descriptorTypeService.GetAllAsync(), "Id", "Name", descriptor.DescriptorTypeId);
+        ViewData["DescriptorTypeId"] = new SelectList(await _descriptorTypeService.GetAll().ToListAsync(), "Id", "Name", descriptor.DescriptorTypeId);
         return View(ViewPath("Create"), descriptor);
     }
 
@@ -70,7 +70,7 @@ public class DescriptorsController : Controller
         var descriptor = await _descriptorService.GetByIdAsync((int)id);
         if (descriptor == null)
             return NotFound();
-        ViewData["DescriptorTypeId"] = new SelectList(await _descriptorTypeService.GetAllAsync(), "Id", "Name", descriptor.DescriptorTypeId);
+        ViewData["DescriptorTypeId"] = new SelectList(await _descriptorTypeService.GetAll().ToListAsync(), "Id", "Name", descriptor.DescriptorTypeId);
         return View(ViewPath("Edit"), descriptor);
     }
 
@@ -98,7 +98,7 @@ public class DescriptorsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["DescriptorTypeId"] = new SelectList(await _descriptorTypeService.GetAllAsync(), "Id", "Name", descriptor.DescriptorTypeId);
+        ViewData["DescriptorTypeId"] = new SelectList(await _descriptorTypeService.GetAll().ToListAsync(), "Id", "Name", descriptor.DescriptorTypeId);
         return View(ViewPath("Edit"), descriptor);
     }
 

@@ -25,7 +25,7 @@ public class PicturesController : Controller
     // GET: Pictures
     public async Task<IActionResult> Index()
     {
-        var pictures = await _pictureService.GetAllAsync();
+        var pictures = await _pictureService.GetAll().ToListAsync();
         var imagesBase64 = pictures.ToDictionary(
             p => p.Id,
             p => "data:image/png;base64," + Convert.ToBase64String(p.Image)
@@ -47,7 +47,7 @@ public class PicturesController : Controller
     // GET: Pictures/Create
     public async Task<IActionResult> Create()
     {
-        ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name");
+        ViewData["AnimalId"] = new SelectList(await _animalService.GetAll().ToListAsync(), "Id", "Name");
         return View(ViewPath("Create"));
     }
 
@@ -80,7 +80,7 @@ public class PicturesController : Controller
                 return RedirectToAction(nameof(Index));
             }
         }
-        ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", pictureUpload.AnimalId);
+        ViewData["AnimalId"] = new SelectList(await _animalService.GetAll().ToListAsync(), "Id", "Name", pictureUpload.AnimalId);
         return View(ViewPath("Create"), pictureUpload);
     }
 
@@ -94,7 +94,7 @@ public class PicturesController : Controller
         if (picture == null)
             return NotFound();
         ViewBag.ImageBase64 = "data:image/png;base64," + Convert.ToBase64String(picture.Image);
-        ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", picture.AnimalId);
+        ViewData["AnimalId"] = new SelectList(await _animalService.GetAll().ToListAsync(), "Id", "Name", picture.AnimalId);
         return View(ViewPath("Edit"), picture);
     }
 
@@ -125,7 +125,7 @@ public class PicturesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["AnimalId"] = new SelectList(await _animalService.GetAllAsync(), "Id", "Name", picture.AnimalId);
+        ViewData["AnimalId"] = new SelectList(await _animalService.GetAll().ToListAsync(), "Id", "Name", picture.AnimalId);
         return View(ViewPath("Edit"), picture);
     }
 

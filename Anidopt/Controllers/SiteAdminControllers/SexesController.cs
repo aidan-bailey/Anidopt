@@ -21,7 +21,7 @@ public class SexesController : Controller
 
     // GET: Sexes
     public async Task<IActionResult> Index() => _sexService.Initialised
-        ? View(await _sexService.GetAllAsync())
+        ? View(await _sexService.GetAll().ToListAsync())
         : Problem("Entity set 'AnidoptContext.Sex'  is null.");
 
     // GET: Sexes/Details/5

@@ -25,7 +25,7 @@ public class BreedsController : Controller
     public async Task<IActionResult> Index()
     {
         if (!_breedService.Initialised) return Problem("Entity set 'AnidoptContext.Breed'  is null.");
-        return View(ViewPath("Index"), await _breedService.GetAllAsync());
+        return View(ViewPath("Index"), await _breedService.GetAll().ToListAsync());
     }
 
     // GET: Breeds/Details/5
@@ -40,7 +40,7 @@ public class BreedsController : Controller
     // GET: Breeds/Create
     public async Task<IActionResult> Create()
     {
-        var speciess = await _speciesService.GetAllAsync();
+        var speciess = await _speciesService.GetAll().ToListAsync();
         ViewBag.Speciess = new SelectList(speciess, "Id", "Name");
         return View(ViewPath("Create"));
     }
@@ -65,7 +65,7 @@ public class BreedsController : Controller
             await _breedService.AddAsync(breed);
             return RedirectToAction(nameof(Index));
         }
-        var speciess = await _speciesService.GetAllAsync();
+        var speciess = await _speciesService.GetAll().ToListAsync();
         ViewBag.Speciess = new SelectList(speciess, "Id", "Name", breed.SpeciesId);
         return View(ViewPath("Create"), breed);
     }
@@ -76,7 +76,7 @@ public class BreedsController : Controller
         if (id == null || !_breedService.Initialised) return NotFound();
         var breed = await _breedService.GetByIdAsync((int)id);
         if (breed == null) return NotFound();
-        var speciess = await _speciesService.GetAllAsync();
+        var speciess = await _speciesService.GetAll().ToListAsync();
         ViewBag.Speciess = new SelectList(speciess, "Id", "Name", breed.SpeciesId);
         return View(ViewPath("Edit"), breed);
     }
@@ -102,7 +102,7 @@ public class BreedsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        var speciess = await _speciesService.GetAllAsync();
+        var speciess = await _speciesService.GetAll().ToListAsync();
         ViewBag.Speciess = new SelectList(speciess, "Id", "Name", breed.SpeciesId);
         return View(ViewPath("Edit"), breed);
     }

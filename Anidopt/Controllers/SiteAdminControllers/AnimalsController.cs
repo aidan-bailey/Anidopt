@@ -1,5 +1,4 @@
-﻿using Anidopt.Data;
-using Anidopt.Models;
+﻿using Anidopt.Models;
 using Anidopt.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +32,7 @@ public class AnimalsController : Controller
     public async Task<IActionResult> Index()
     {
         if (!_animalService.Initialised) Problem("Entity set 'AnidoptContext.Animal'  is null.");
-        var animals = await _animalService.GetAllAsync();
+        var animals = await _animalService.GetAll().ToListAsync();
         return View(ViewPath("Index"), animals);
     }
 
@@ -49,13 +48,13 @@ public class AnimalsController : Controller
     // GET: Animals/Create
     public async Task<IActionResult> Create()
     {
-        var species = await _speciesService.GetAllAsync();
+        var species = await _speciesService.GetAll().ToListAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name");
-        var breeds = await _breedService.GetAllAsync();
+        var breeds = await _breedService.GetAll().ToListAsync();
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name");
-        var organisations = await _organisationService.GetAllAsync();
+        var organisations = await _organisationService.GetAll().ToListAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name");
-        var sexes = await _sexService.GetAllAsync();
+        var sexes = await _sexService.GetAll().ToListAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name");
         return View(ViewPath("Create"));
     }
@@ -72,13 +71,13 @@ public class AnimalsController : Controller
             await _animalService.AddAsync(animal);
             return RedirectToAction(nameof(Index));
         }
-        var organisations = await _organisationService.GetAllAsync();
+        var organisations = await _organisationService.GetAll().ToListAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
-        var species = await _speciesService.GetAllAsync();
+        var species = await _speciesService.GetAll().ToListAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", (int)animal.Breed?.SpeciesId);
-        var breeds = await _breedService.GetAllAsync();
+        var breeds = await _breedService.GetAll().ToListAsync();
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
-        var sexes = await _sexService.GetAllAsync();
+        var sexes = await _sexService.GetAll().ToListAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
         return View(ViewPath("Create"), animal);
     }
@@ -89,13 +88,13 @@ public class AnimalsController : Controller
         if (id == null || !_animalService.Initialised) return NotFound();
         var animal = await _animalService.GetByIdAsync((int)id);
         if (animal == null) return NotFound();
-        var organisations = await _organisationService.GetAllAsync();
+        var organisations = await _organisationService.GetAll().ToListAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
-        var species = await _speciesService.GetAllAsync();
+        var species = await _speciesService.GetAll().ToListAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
         var breeds = await _breedService.GetForSpeciesByIdAsync((int)animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
-        var sexes = await _sexService.GetAllAsync();
+        var sexes = await _sexService.GetAll().ToListAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
         return View(ViewPath("Edit"), animal);
     }
@@ -121,13 +120,13 @@ public class AnimalsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        var organisations = await _organisationService.GetAllAsync();
+        var organisations = await _organisationService.GetAll().ToListAsync();
         ViewBag.Organisations = new SelectList(organisations, "Id", "Name", animal.OrganisationId);
-        var species = await _speciesService.GetAllAsync();
+        var species = await _speciesService.GetAll().ToListAsync();
         ViewBag.Species = new SelectList(species, "Id", "Name", animal.Breed?.SpeciesId);
         var breeds = await _breedService.GetForSpeciesByIdAsync((int)animal.Breed?.SpeciesId);
         ViewBag.Breeds = new SelectList(breeds, "Id", "Name", animal.BreedId);
-        var sexes = await _sexService.GetAllAsync();
+        var sexes = await _sexService.GetAll().ToListAsync();
         ViewBag.Sexes = new SelectList(sexes, "Id", "Name", animal.SexId);
         return View(ViewPath("Edit"), animal);
     }
