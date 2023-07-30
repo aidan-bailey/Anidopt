@@ -123,6 +123,12 @@ public class AccountsController : Controller {
 
     #region Register
 
+
+    [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
+    public IActionResult Create() {
+        return View("Register");
+    }
+
     public IActionResult Register() {
         if (_signInManager.IsSignedIn(User))
             return RedirectToAction("Index");

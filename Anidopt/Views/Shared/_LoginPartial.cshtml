@@ -15,6 +15,12 @@
                 <a class="nav-link text-dark" asp-area="" asp-controller="SiteAdmin" asp-action="AdminPanel">Admin Panel</a>
             </li>
         }
+        @if (User.IsInRole("SiteAdmin") || User.IsInRole("OrganisationAdmin"))
+        {
+             <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="Index">Organisation Users</a>
+            </li>           
+        }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="Accounts" asp-action="Logout">Logout</a>
         </li>
