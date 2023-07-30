@@ -41,7 +41,35 @@ public class AccountsController : Controller {
         return View(users);
     }
 
-    [Authorize(Roles = "OrganisationAdmin")]
+    public async Task<IActionResult> Details(int ?id) {
+        if (!_anidoptUserService.Initialised) 
+            return NotFound();
+        if (id == null) {
+            if (!_signInManager.IsSignedIn(User))
+                return NotFound();
+            var currentUser = await _anidoptUserService.GetUserAsync(User);
+            if (currentUser == null)
+                return NotFound();
+            return View(currentUser);
+        }
+
+        var user = await _anidoptUserService.GetByIdAsync(id.Value);
+        if (user == null)
+            return NotFound();
+
+        if (User.IsInRole("SiteAdmin"))
+            return View(user);
+
+        if (User.IsInRole("OrganisationAdmin")) {
+            var currentUser = await _anidoptUserService.GetUserAsync(User);
+            if (currentUser == null)
+                return NotFound();
+        }
+
+        return NotFound();
+    }
+
+    [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
     public async Task<IActionResult> Edit(int? id) {
         if (id == null || _context.AnidoptUser == null) {
             return NotFound();

@@ -29,8 +29,8 @@ public class AnidoptUserService : EntityServiceBase<AnidoptUser>, IAnidoptUserSe
                 .Include(uol => uol.Organisation!.UserOrganisationLinks)
                 .SelectMany(uol => uol.Organisation!.UserOrganisationLinks)
                 .Include(uol => uol.User)
-                .Select(uol => uol.User!)
-                .DistinctBy(au => au.UserName);
+                .Select(uol => uol.User!);
+                //.DistinctBy(au => au.UserName);
 
     public Task<List<AnidoptUser>> GetAdministratedUsersAsync(int id)
         => GetAdministratedUsersQuery(id).ToListAsync();
