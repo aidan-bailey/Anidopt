@@ -16,7 +16,7 @@ public class AccountsController : Controller {
     private readonly SignInManager<AnidoptUser> _signInManager;
     private readonly RoleManager<AnidoptRole> _roleManager;
 
-    public AccountsController(AnidoptContext context, 
+    public AccountsController(AnidoptContext context,
         IAnidoptUserService anidoptUserService,
         UserManager<AnidoptUser> userManager,
         SignInManager<AnidoptUser> signInManager,
@@ -41,8 +41,8 @@ public class AccountsController : Controller {
         return View(users);
     }
 
-    public async Task<IActionResult> Details(int ?id) {
-        if (!_anidoptUserService.Initialised) 
+    public async Task<IActionResult> Details(int? id) {
+        if (!_anidoptUserService.Initialised)
             return NotFound();
         if (id == null) {
             if (!_signInManager.IsSignedIn(User))
