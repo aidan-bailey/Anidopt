@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Anidopt.Identity;
 
 namespace Anidopt.Models;
 
@@ -17,7 +18,7 @@ public class Organisation : EntityModelBase, IEntityModelBase {
 
     public virtual List<Animal>? Animals { get; set; }
 
-    public virtual List<UserOrganisationLink> UserOrganisationLinks { get; set; } = new List<UserOrganisationLink>();
-    
+    public virtual List<AnidoptUser> Users { get; set; }
+
     #endregion
 }

@@ -25,28 +25,10 @@ namespace Anidopt.Data {
                 .IsUnique();
             // One-To-Many UserOrganisationLink
             builder.Entity<AnidoptUser>()
-                .HasMany(au => au.UserOrganisationLinks)
-                .WithOne(uol => uol.User)
-                .HasForeignKey(uol => uol.UserId)
+                .HasOne(au => au.Organisation)
+                .WithMany(o => o.Users)
+                .HasForeignKey(uol => uol.OrganisationId)
                 .HasPrincipalKey(au => au.Id);
-            #endregion
-            #region UserOrganisationLink Constraints
-            // UserId, OrganisationId index
-            builder.Entity<UserOrganisationLink>()
-                .HasIndex(uol => new { uol.UserId, uol.OrganisationId })
-                .IsUnique();
-            // Many-to-One AnidoptUser
-            builder.Entity<UserOrganisationLink>()
-                .HasOne(uol => uol.User)
-                .WithMany(au => au.UserOrganisationLinks)
-                .HasForeignKey(au => au.UserId)
-                .HasPrincipalKey(uol => uol.Id);
-            // Many-to-One Organisation
-            builder.Entity<UserOrganisationLink>()
-                .HasOne(uol => uol.Organisation)
-                .WithMany(o => o.UserOrganisationLinks)
-                .HasForeignKey(o => o.OrganisationId)
-                .HasPrincipalKey(uol => uol.Id);
             #endregion
             #region Organisation Constraints
             // Organisation index
@@ -55,9 +37,9 @@ namespace Anidopt.Data {
                 .IsUnique();
             // One-To-Many UserOrganisationLink
             builder.Entity<Organisation>()
-                .HasMany(o => o.UserOrganisationLinks)
-                .WithOne(uol => uol.Organisation)
-                .HasForeignKey(uol => uol.OrganisationId)
+                .HasMany(o => o.Users)
+                .WithOne(au => au.Organisation)
+                .HasForeignKey(au => au.OrganisationId)
                 .HasPrincipalKey(o => o.Id);
             // One-To-Many Animal
             builder.Entity<Organisation>()
@@ -269,8 +251,6 @@ namespace Anidopt.Data {
         public DbSet<Anidopt.Models.Estimation> Estimation { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Picture> Picture { get; set; } = default!;
-
-        public DbSet<Anidopt.Models.UserOrganisationLink> UserOrganisationLink { get; set; } = default!;
 
         public DbSet<AnidoptUser> AnidoptUser { get; set; } = default!;
 

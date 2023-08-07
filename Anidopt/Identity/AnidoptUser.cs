@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Anidopt.Identity;
 
@@ -14,6 +15,12 @@ public class AnidoptUser : IdentityUser<int>, IEntityModelBase {
     [Required]
     public string LastName { get; set; } = null!;
 
-    [DisplayName("Organisations")]
-    public virtual List<UserOrganisationLink> UserOrganisationLinks { get; set; } = new();
+    [Required]
+    public int OrganisationId { get; set; }
+
+    [ForeignKey(nameof(OrganisationId))]
+    public virtual Organisation? Organisation { get; set; }
+
+    public bool IsOrganisationAdmin { get; set; }
+
 }

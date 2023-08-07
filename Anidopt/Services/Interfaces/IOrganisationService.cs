@@ -4,5 +4,4 @@ namespace Anidopt.Services.Interfaces;
 
 public interface IOrganisationService : IEntityServiceBase<Organisation>
 {
-    IQueryable<Organisation> GetAdministratedByUserId(int id);
 }

@@ -1,5 +1,6 @@
 ﻿using Anidopt.Data;
 using Anidopt.Identity;
+using Anidopt.Models;
 using Anidopt.Services.Interfaces;
 using Anidopt.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -38,10 +39,9 @@ public class AccountsController : Controller {
             return View(await _anidoptUserService.GetAll().ToListAsync());
         }
         var user = await _anidoptUserService.GetUserAsync(User);
-        if (user == null) {
+        if (user == null)
             return NotFound(); // TODO - Find a suitable response because something has clearly gone wrong.
-        }
-        var users = await _anidoptUserService.GetAdministratedUsersAsync(user.Id);
+        var users = user?.Organisation?.Users;
         return View(users);
     }
 
@@ -79,20 +79,17 @@ public class AccountsController : Controller {
             return NotFound();
         }
 
-        var user = await _context.AnidoptUser.FindAsync(id);
-        if (user == null) {
-            return NotFound();
-        }
-
         var currentUser = await _userManager.GetUserAsync(User);
-        if (currentUser == null) {
+        if (currentUser == null)
             return NotFound(); // TODO - Find a suitable response because something has clearly gone wrong.
-        }
-        if (user.Id == currentUser.Id) {
-            return View(user);
-        }
+        if (!currentUser.IsOrganisationAdmin)
+            return NotFound();
 
-        if (!await _anidoptUserService.HasEditRights(User, id.Value))
+        var user = await _context.AnidoptUser.FindAsync(id);
+        if (user == null)
+            return NotFound();
+
+        if (user.OrganisationId != currentUser.OrganisationId)
             return NotFound();
 
         return View(user);
@@ -138,8 +135,7 @@ public class AccountsController : Controller {
             var user = await _anidoptUserService.GetUserAsync(User);
             if (user == null)
                 return NotFound();
-            var organisations = await _organisationService.GetAdministratedByUserId(user.Id).ToListAsync();
-            ViewBag.Organisations = new SelectList(organisations, "Id", "Name");
+            ViewBag.Organisations = new SelectList(new List<Organisation> { user.Organisation }, "Id", "Name");
         }
         return View("Register");
     }
