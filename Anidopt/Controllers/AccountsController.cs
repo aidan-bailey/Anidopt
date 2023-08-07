@@ -144,12 +144,12 @@ public class AccountsController : Controller {
         return View("Register");
     }
 
-    public IActionResult Register() {
-        if (_signInManager.IsSignedIn(User))
-            return RedirectToAction("Index");
-        else
-            return View();
-    }
+    //public IActionResult Register() {
+    //    if (_signInManager.IsSignedIn(User))
+    //        return RedirectToAction("Index");
+    //    else
+    //        return View();
+    //}
 
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model) {
@@ -157,19 +157,18 @@ public class AccountsController : Controller {
             var user = new AnidoptUser {
                 UserName = model.Email,
                 Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (result.Succeeded) {
-                await _signInManager.SignInAsync(user, isPersistent: false);
+            if (result.Succeeded)
+                return RedirectToAction("Index");
 
-                return RedirectToAction("index", "Home");
-            }
-
-            foreach (var error in result.Errors) {
+            foreach (var error in result.Errors)
                 ModelState.AddModelError("", error.Description);
-            }
 
             ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
 
