@@ -128,6 +128,27 @@ public class AccountsController : Controller {
 
     #region Register
 
+    [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
+    public async Task<IActionResult> Delete(int id) {
+        var currentUser = await _anidoptUserService.GetUserAsync(User);
+        if (currentUser == null)
+            return NotFound(); // TODO: Current user does not exist.
+
+        var targetUser = await _anidoptUserService.GetByIdAsync(id);
+        if (targetUser == null)
+            return NotFound(); // TODO: Target user does not exist.
+
+        if (!User.IsInRole("SiteAdmin"))
+            if (!currentUser.Organisation.AnidoptUsers.Contains(targetUser))
+                return NotFound(); // TODO: User does not have authority.
+
+        if (currentUser.Id == targetUser.Id)
+            return NotFound(); // TODO: Current user cannot delete their own account.
+
+        await _anidoptUserService.EnsureDeletionByIdAsync(targetUser.Id);
+
+        return RedirectToAction("Index");
+    }
 
     [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
     public async Task<IActionResult> Create() {
