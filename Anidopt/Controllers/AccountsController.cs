@@ -68,6 +68,8 @@ public class AccountsController : Controller {
             var currentUser = await _anidoptUserService.GetUserAsync(User);
             if (currentUser == null)
                 return NotFound();
+            if (currentUser.Organisation.AnidoptUsers.Contains(user))
+                return View(user);
         }
 
         return NotFound();
@@ -99,10 +101,12 @@ public class AccountsController : Controller {
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize]
-    public async Task<IActionResult> Edit([Bind("FirstName,LastName")] AnidoptUser anidoptUser) {
+    public async Task<IActionResult> Edit([Bind("FirstName,LastName,Email,PhoneNumber")] AnidoptUser anidoptUser) {
         var user = await _userManager.GetUserAsync(User);
         user.FirstName = anidoptUser.FirstName;
         user.LastName = anidoptUser.LastName;
+        user.Email = anidoptUser.Email;
+        user.PhoneNumber = anidoptUser.PhoneNumber;
         if (ModelState.IsValid) {
             try {
                 _context.Update(user);
