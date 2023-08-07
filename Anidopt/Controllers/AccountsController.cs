@@ -5,6 +5,7 @@ using Anidopt.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Controllers;
@@ -12,17 +13,20 @@ namespace Anidopt.Controllers;
 public class AccountsController : Controller {
     private readonly AnidoptContext _context;
     private readonly IAnidoptUserService _anidoptUserService;
+    private readonly IOrganisationService _organisationService;
     private readonly UserManager<AnidoptUser> _userManager;
     private readonly SignInManager<AnidoptUser> _signInManager;
     private readonly RoleManager<AnidoptRole> _roleManager;
 
     public AccountsController(AnidoptContext context,
         IAnidoptUserService anidoptUserService,
+        IOrganisationService organisationService,
         UserManager<AnidoptUser> userManager,
         SignInManager<AnidoptUser> signInManager,
         RoleManager<AnidoptRole> roleManager) {
         _context = context;
         _anidoptUserService = anidoptUserService;
+        _organisationService = organisationService;
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
@@ -125,7 +129,18 @@ public class AccountsController : Controller {
 
 
     [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
-    public IActionResult Create() {
+    public async Task<IActionResult> Create() {
+        if (User.IsInRole("SiteAdmin")) {
+            var organisations = await _organisationService.GetAll().ToListAsync();
+            ViewBag.Organisations = new SelectList(organisations, "Id", "Name");
+        }
+        else {
+            var user = await _anidoptUserService.GetUserAsync(User);
+            if (user == null)
+                return NotFound();
+            var organisations = await _organisationService.GetAdministratedByUserId(user.Id).ToListAsync();
+            ViewBag.Organisations = new SelectList(organisations, "Id", "Name");
+        }
         return View("Register");
     }
 
