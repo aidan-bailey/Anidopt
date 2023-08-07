@@ -18,7 +18,7 @@ public class Organisation : EntityModelBase, IEntityModelBase {
 
     public virtual List<Animal>? Animals { get; set; }
 
-    public virtual List<AnidoptUser> Users { get; set; }
+    public virtual List<AnidoptUser>? AnidoptUsers { get; set; } = new();
 
     #endregion
 }

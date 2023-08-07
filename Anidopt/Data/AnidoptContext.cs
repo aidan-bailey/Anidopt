@@ -26,7 +26,7 @@ namespace Anidopt.Data {
             // One-To-Many UserOrganisationLink
             builder.Entity<AnidoptUser>()
                 .HasOne(au => au.Organisation)
-                .WithMany(o => o.Users)
+                .WithMany(o => o.AnidoptUsers)
                 .HasForeignKey(uol => uol.OrganisationId)
                 .HasPrincipalKey(au => au.Id);
             #endregion
@@ -37,7 +37,7 @@ namespace Anidopt.Data {
                 .IsUnique();
             // One-To-Many UserOrganisationLink
             builder.Entity<Organisation>()
-                .HasMany(o => o.Users)
+                .HasMany(o => o.AnidoptUsers)
                 .WithOne(au => au.Organisation)
                 .HasForeignKey(au => au.OrganisationId)
                 .HasPrincipalKey(o => o.Id);

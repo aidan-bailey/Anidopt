@@ -41,7 +41,7 @@ public class AccountsController : Controller {
         var user = await _anidoptUserService.GetUserAsync(User);
         if (user == null)
             return NotFound(); // TODO - Find a suitable response because something has clearly gone wrong.
-        var users = user?.Organisation?.Users;
+        var users = user?.Organisation?.AnidoptUsers;
         return View(users);
     }
 

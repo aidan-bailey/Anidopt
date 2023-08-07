@@ -20,6 +20,9 @@ public static class SeedData
     }
 
     private static AnidoptContext SeedOrganisations(this AnidoptContext context) => context.Seed(
+        new Organisation {
+            Name = "Anidopt"
+        },
         new Organisation
         {
             Name = "TestOrganisation"
@@ -173,6 +176,8 @@ public static class SeedData
             LastName = "Admin",
             UserName = "admin@anidopt.org",
             Email = "admin@anidopt.org",
+            OrganisationId = context.Organisation.First(at => at.Name == "Anidopt").Id,
+            IsOrganisationAdmin = true
         };
         userManager.CreateAsync(siteAdmin, "1").Wait();
         userManager.AddToRoleAsync(siteAdmin, "SiteAdmin").Wait();
@@ -183,14 +188,11 @@ public static class SeedData
             LastName = "Admin",
             UserName = "admin@testorganisation.org",
             Email = "admin@testorganisation.org",
+            OrganisationId = context.Organisation.First(at => at.Name == "TestOrganisation").Id,
+            IsOrganisationAdmin = true
         };
         userManager.CreateAsync(organisationAdmin, "1").Wait();
         userManager.AddToRoleAsync(organisationAdmin, "OrganisationAdmin").Wait();
-        context.UserOrganisationLink.Add(new UserOrganisationLink { 
-            IsAdmin = true, 
-            Organisation = context.Organisation.First(at => at.Name == "TestOrganisation"),
-            User = context.AnidoptUser.First(u => u.UserName == "admin@testorganisation.org")
-        });
 
         var organisationUser = new AnidoptUser
         {
@@ -198,15 +200,11 @@ public static class SeedData
             LastName = "Doe",
             UserName = "jane@testorganisation.org",
             Email = "jane@testorganisation.org",
+            OrganisationId = context.Organisation.First(at => at.Name == "TestOrganisation").Id,
+            IsOrganisationAdmin = false
         };
         userManager.CreateAsync(organisationUser, "1").Wait();
         userManager.AddToRoleAsync(organisationUser, "OrganisationUser").Wait();
-        context.UserOrganisationLink.Add(new UserOrganisationLink
-        {
-            IsAdmin = true,
-            Organisation = context.Organisation.First(at => at.Name == "TestOrganisation"),
-            User = context.AnidoptUser.First(u => u.UserName == "jane@testorganisation.org")
-        });
 
         return context;
     }
