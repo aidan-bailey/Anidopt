@@ -15,12 +15,5 @@ public class AnidoptUser : IdentityUser<int>, IEntityModelBase {
     [Required]
     public string LastName { get; set; } = null!;
 
-    [Required]
-    public int OrganisationId { get; set; }
-
-    [ForeignKey(nameof(OrganisationId))]
-    public virtual Organisation? Organisation { get; set; }
-
     public bool IsOrganisationAdmin { get; set; }
-
 }

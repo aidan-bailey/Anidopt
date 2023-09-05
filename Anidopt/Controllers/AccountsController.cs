@@ -14,20 +14,17 @@ namespace Anidopt.Controllers;
 public class AccountsController : Controller {
     private readonly AnidoptContext _context;
     private readonly IAnidoptUserService _anidoptUserService;
-    private readonly IOrganisationService _organisationService;
     private readonly UserManager<AnidoptUser> _userManager;
     private readonly SignInManager<AnidoptUser> _signInManager;
     private readonly RoleManager<AnidoptRole> _roleManager;
 
     public AccountsController(AnidoptContext context,
         IAnidoptUserService anidoptUserService,
-        IOrganisationService organisationService,
         UserManager<AnidoptUser> userManager,
         SignInManager<AnidoptUser> signInManager,
         RoleManager<AnidoptRole> roleManager) {
         _context = context;
         _anidoptUserService = anidoptUserService;
-        _organisationService = organisationService;
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
@@ -41,7 +38,7 @@ public class AccountsController : Controller {
         var user = await _anidoptUserService.GetUserAsync(User);
         if (user == null)
             return NotFound(); // TODO - Find a suitable response because something has clearly gone wrong.
-        var users = user?.Organisation?.AnidoptUsers;
+        var users = await _anidoptUserService.GetAll().ToListAsync();
         return View(users);
     }
 
@@ -68,8 +65,7 @@ public class AccountsController : Controller {
             var currentUser = await _anidoptUserService.GetUserAsync(User);
             if (currentUser == null)
                 return NotFound();
-            if (currentUser.Organisation.AnidoptUsers.Contains(user))
-                return View(user);
+            return View(user);
         }
 
         return NotFound();
@@ -89,9 +85,6 @@ public class AccountsController : Controller {
 
         var user = await _context.AnidoptUser.FindAsync(id);
         if (user == null)
-            return NotFound();
-
-        if (user.OrganisationId != currentUser.OrganisationId)
             return NotFound();
 
         return View(user);
@@ -138,9 +131,6 @@ public class AccountsController : Controller {
         if (targetUser == null)
             return NotFound(); // TODO: Target user does not exist.
 
-        if (!User.IsInRole("SiteAdmin"))
-            if (!currentUser.Organisation.AnidoptUsers.Contains(targetUser))
-                return NotFound(); // TODO: User does not have authority.
 
         if (currentUser.Id == targetUser.Id)
             return NotFound(); // TODO: Current user cannot delete their own account.
@@ -151,17 +141,7 @@ public class AccountsController : Controller {
     }
 
     [Authorize(Roles = "SiteAdmin,OrganisationAdmin")]
-    public async Task<IActionResult> Create() {
-        if (User.IsInRole("SiteAdmin")) {
-            var organisations = await _organisationService.GetAll().ToListAsync();
-            ViewBag.Organisations = new SelectList(organisations, "Id", "Name");
-        }
-        else {
-            var user = await _anidoptUserService.GetUserAsync(User);
-            if (user == null)
-                return NotFound();
-            ViewBag.Organisations = new SelectList(new List<Organisation> { user.Organisation }, "Id", "Name");
-        }
+    public IActionResult Create() {
         return View("Register");
     }
 

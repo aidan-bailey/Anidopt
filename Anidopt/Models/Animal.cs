@@ -28,9 +28,6 @@ public class Animal : EntityModelBase, IEntityModelBase {
     #region Foreign Keys
 
     [Required]
-    public int OrganisationId { get; set; }
-
-    [Required]
     public int BreedId { get; set; }
 
     [Required]
@@ -45,9 +42,6 @@ public class Animal : EntityModelBase, IEntityModelBase {
 
     [ForeignKey(nameof(BreedId))]
     public virtual Breed? Breed { get; set; }
-
-    [ForeignKey(nameof(OrganisationId))]
-    public virtual Organisation? Organisation { get; set; }
 
     public virtual List<DescriptorLink>? DescriptorLinks { get; set; } = new();
 

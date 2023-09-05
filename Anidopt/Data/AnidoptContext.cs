@@ -23,30 +23,6 @@ namespace Anidopt.Data {
             builder.Entity<AnidoptUser>()
                 .HasIndex(at => at.UserName)
                 .IsUnique();
-            // One-To-Many UserOrganisationLink
-            builder.Entity<AnidoptUser>()
-                .HasOne(au => au.Organisation)
-                .WithMany(o => o.AnidoptUsers)
-                .HasForeignKey(uol => uol.OrganisationId)
-                .HasPrincipalKey(au => au.Id);
-            #endregion
-            #region Organisation Constraints
-            // Organisation index
-            builder.Entity<Organisation>()
-                .HasIndex(o => o.Name)
-                .IsUnique();
-            // One-To-Many UserOrganisationLink
-            builder.Entity<Organisation>()
-                .HasMany(o => o.AnidoptUsers)
-                .WithOne(au => au.Organisation)
-                .HasForeignKey(au => au.OrganisationId)
-                .HasPrincipalKey(o => o.Id);
-            // One-To-Many Animal
-            builder.Entity<Organisation>()
-                .HasMany(o => o.Animals)
-                .WithOne(a => a.Organisation)
-                .HasForeignKey(a => a.OrganisationId)
-                .HasPrincipalKey(o => o.Id);
             #endregion
             #region DescriptorType Constraints
             // Name index
@@ -205,12 +181,6 @@ namespace Anidopt.Data {
                 .WithMany(b => b.Animals)
                 .HasForeignKey(a => a.BreedId)
                 .HasPrincipalKey(b => b.Id);
-            // Many-To-One Organisation
-            builder.Entity<Animal>()
-                .HasOne(a => a.Organisation)
-                .WithMany(o => o.Animals)
-                .HasForeignKey(a => a.OrganisationId)
-                .HasPrincipalKey(o => o.Id);
             // One-To-Many DescriptorLinks
             builder.Entity<Animal>()
                 .HasMany(a => a.DescriptorLinks)
@@ -235,8 +205,6 @@ namespace Anidopt.Data {
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Species> Species { get; set; } = default!;
-
-        public DbSet<Anidopt.Models.Organisation> Organisation { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Breed> Breed { get; set; } = default!;
 

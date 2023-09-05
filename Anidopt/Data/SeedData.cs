@@ -19,16 +19,6 @@ public static class SeedData
         return context;
     }
 
-    private static AnidoptContext SeedOrganisations(this AnidoptContext context) => context.Seed(
-        new Organisation {
-            Name = "Anidopt"
-        },
-        new Organisation
-        {
-            Name = "TestOrganisation"
-        }
-    );
-
     private static AnidoptContext SeedSexes(this AnidoptContext context) => context.Seed(
         new Sex
         {
@@ -83,7 +73,6 @@ public static class SeedData
         {
             Name = "Ginny",
             BirthDay = new DateTime(2016, 12, 16),
-            Organisation = context.Organisation.Where(o => o.Name == "TestOrganisation").First(),
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
             Sex = context.Sex.Where(s => s.Name == "Female").First(),
             Description = "Ginny is a playful little pup who loves a good snooze.",
@@ -94,7 +83,6 @@ public static class SeedData
         {
             Name = "Layla",
             BirthDay = new DateTime(2016, 12, 16),
-            Organisation = context.Organisation.Where(o => o.Name == "TestOrganisation").First(),
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
             Sex = context.Sex.Where(s => s.Name == "Female").First(),
             Weight = 0,
@@ -176,7 +164,6 @@ public static class SeedData
             LastName = "Admin",
             UserName = "admin@anidopt.org",
             Email = "admin@anidopt.org",
-            OrganisationId = context.Organisation.First(at => at.Name == "Anidopt").Id,
             IsOrganisationAdmin = true
         };
         userManager.CreateAsync(siteAdmin, "1").Wait();
@@ -188,7 +175,6 @@ public static class SeedData
             LastName = "Admin",
             UserName = "admin@testorganisation.org",
             Email = "admin@testorganisation.org",
-            OrganisationId = context.Organisation.First(at => at.Name == "TestOrganisation").Id,
             IsOrganisationAdmin = true
         };
         userManager.CreateAsync(organisationAdmin, "1").Wait();
@@ -200,7 +186,6 @@ public static class SeedData
             LastName = "Doe",
             UserName = "jane@testorganisation.org",
             Email = "jane@testorganisation.org",
-            OrganisationId = context.Organisation.First(at => at.Name == "TestOrganisation").Id,
             IsOrganisationAdmin = false
         };
         userManager.CreateAsync(organisationUser, "1").Wait();
@@ -219,7 +204,6 @@ public static class SeedData
             context.Database.EnsureDeleted(); // TODO - this is obviously bad!!!
             context.Database.EnsureCreated();
             context
-                .SeedOrganisations()
                 .SeedSexes()
                 .SeedSpecies()
                 .SeedBreeds()

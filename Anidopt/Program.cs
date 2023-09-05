@@ -28,7 +28,6 @@ builder.Services.AddControllersWithViews();
 // Services
 builder.Services.AddTransient<ISpeciesService, SpeciesService>();
 builder.Services.AddTransient<IAnimalService, AnimalService>();
-builder.Services.AddTransient<IOrganisationService, OrganisationService>();
 builder.Services.AddTransient<IBreedService, BreedService>();
 builder.Services.AddTransient<ISexService, SexService>();
 builder.Services.AddTransient<IDescriptorService, DescriptorService>();
