@@ -7,62 +7,52 @@ using System.Data;
 
 namespace Anidopt.Data;
 
-public static class SeedData
-{
+public static class SeedData {
 
-    private static AnidoptContext Seed<T>(this AnidoptContext context, params T[] entities) where T : class
-    {
+    private static AnidoptContext Seed<T>(this AnidoptContext context, params T[] entities) where T : class {
         var dbSet = context.Set<T>();
-        if (dbSet.Any()) return context;
+        if (dbSet.Any())
+            return context;
         dbSet.AddRange(entities);
         context.SaveChanges();
         return context;
     }
 
     private static AnidoptContext SeedSexes(this AnidoptContext context) => context.Seed(
-        new Sex
-        {
+        new Sex {
             Name = "Male"
         },
-        new Sex
-        {
+        new Sex {
             Name = "Female"
         }
     );
 
     private static AnidoptContext SeedSpecies(this AnidoptContext context) => context.Seed(
-        new Species
-        {
+        new Species {
             Name = "Dog"
         },
-        new Species
-        {
+        new Species {
             Name = "Cat"
         },
-        new Species
-        {
+        new Species {
             Name = "Frog"
         }
     );
 
     private static AnidoptContext SeedBreeds(this AnidoptContext context) => context.Seed(
-        new Breed
-        {
+        new Breed {
             Name = "Golden Retriever",
             Species = context.Species.Where(at => at.Name == "Dog").First()
         },
-        new Breed
-        {
+        new Breed {
             Name = "Afrikanis",
             Species = context.Species.Where(at => at.Name == "Dog").First()
         },
-        new Breed
-        {
+        new Breed {
             Name = "Siamese",
             Species = context.Species.Where(at => at.Name == "Cat").First()
         },
-        new Breed
-        {
+        new Breed {
             Name = "Red-Eyed Tree",
             Species = context.Species.Where(at => at.Name == "Frog").First()
         }
@@ -75,8 +65,7 @@ public static class SeedData
     );
 
     private static AnidoptContext SeedAnimals(this AnidoptContext context) => context.Seed(
-        new Animal
-        {
+        new Animal {
             Name = "Ginny",
             BirthDay = new DateTime(2016, 12, 16),
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
@@ -84,8 +73,7 @@ public static class SeedData
             Description = "Ginny is a playful little pup who loves a good snooze.",
             Size = context.Size.Where(s => s.Name == "Small (5kg - 10kg)").First()
         },
-        new Animal
-        {
+        new Animal {
             Name = "Layla",
             BirthDay = new DateTime(2016, 12, 16),
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
@@ -95,63 +83,52 @@ public static class SeedData
     );
 
     private static AnidoptContext SeedDescriptorTypes(this AnidoptContext context) => context.Seed(
-        new DescriptorType
-        {
+        new DescriptorType {
             Name = "Social"
         },
-        new DescriptorType
-        {
+        new DescriptorType {
             Name = "Medical"
         },
-        new DescriptorType
-        {
+        new DescriptorType {
             Name = "Personal"
         }
     );
 
     private static AnidoptContext SeedDescriptors(this AnidoptContext context) => context.Seed(
-        new Descriptor
-        {
+        new Descriptor {
             Name = "Friendly with Cats",
             DescriptorType = context.DescriptorType.Where(at => at.Name == "Social").First()
         },
-        new Descriptor
-        {
+        new Descriptor {
             Name = "Nervous",
             DescriptorType = context.DescriptorType.Where(at => at.Name == "Personal").First()
         },
-        new Descriptor
-        {
+        new Descriptor {
             Name = "Dewormed",
             DescriptorType = context.DescriptorType.Where(at => at.Name == "Medical").First()
         },
-        new Descriptor
-        {
+        new Descriptor {
             Name = "Vaccinated",
             DescriptorType = context.DescriptorType.Where(at => at.Name == "Medical").First()
         }
     );
 
     private static AnidoptContext SeedDescriptorLinks(this AnidoptContext context) => context.Seed(
-        new DescriptorLink
-        {
+        new DescriptorLink {
             Descriptor = context.Descriptor.Where(at => at.Name == "Dewormed").First(),
             Animal = context.Animal.Where(at => at.Name == "Ginny").First()
         },
-        new DescriptorLink
-        {
+        new DescriptorLink {
             Descriptor = context.Descriptor.Where(at => at.Name == "Nervous").First(),
             Animal = context.Animal.Where(at => at.Name == "Ginny").First()
         },
-        new DescriptorLink
-        {
+        new DescriptorLink {
             Descriptor = context.Descriptor.Where(at => at.Name == "Dewormed").First(),
             Animal = context.Animal.Where(at => at.Name == "Layla").First()
         }
     );
 
-    private static AnidoptContext SeedRoles(this AnidoptContext context, IServiceProvider serviceProvider)
-    {
+    private static AnidoptContext SeedRoles(this AnidoptContext context, IServiceProvider serviceProvider) {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<AnidoptRole>>();
         roleManager.CreateAsync(new AnidoptRole("SiteAdmin")).Wait();
         roleManager.CreateAsync(new AnidoptRole("OrganisationAdmin")).Wait();
@@ -159,11 +136,9 @@ public static class SeedData
         return context;
     }
 
-    private static AnidoptContext SeedUsers(this AnidoptContext context, IServiceProvider serviceProvider)
-    {
+    private static AnidoptContext SeedUsers(this AnidoptContext context, IServiceProvider serviceProvider) {
         var userManager = serviceProvider.GetRequiredService<UserManager<AnidoptUser>>();
-        var siteAdmin = new AnidoptUser
-        {
+        var siteAdmin = new AnidoptUser {
             FirstName = "Site",
             LastName = "Admin",
             UserName = "admin@anidopt.org",
@@ -173,8 +148,7 @@ public static class SeedData
         userManager.CreateAsync(siteAdmin, "1").Wait();
         userManager.AddToRoleAsync(siteAdmin, "SiteAdmin").Wait();
 
-        var organisationAdmin = new AnidoptUser
-        {
+        var organisationAdmin = new AnidoptUser {
             FirstName = "Organisation",
             LastName = "Admin",
             UserName = "admin@testorganisation.org",
@@ -184,8 +158,7 @@ public static class SeedData
         userManager.CreateAsync(organisationAdmin, "1").Wait();
         userManager.AddToRoleAsync(organisationAdmin, "OrganisationAdmin").Wait();
 
-        var organisationUser = new AnidoptUser
-        {
+        var organisationUser = new AnidoptUser {
             FirstName = "Jane",
             LastName = "Doe",
             UserName = "jane@testorganisation.org",
@@ -198,12 +171,10 @@ public static class SeedData
         return context;
     }
 
-    public static void Initialize(IServiceProvider serviceProvider)
-    {
+    public static void Initialize(IServiceProvider serviceProvider) {
         using (var context = new AnidoptContext(
             serviceProvider.GetRequiredService<
-                DbContextOptions<AnidoptContext>>()))
-        {
+                DbContextOptions<AnidoptContext>>())) {
 
             context.Database.EnsureDeleted(); // TODO - this is obviously bad!!!
             context.Database.EnsureCreated();
