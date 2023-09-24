@@ -2,7 +2,6 @@
 using Anidopt.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 
 namespace Anidopt.Data;
