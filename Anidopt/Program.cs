@@ -33,7 +33,6 @@ builder.Services.AddTransient<ISexService, SexService>();
 builder.Services.AddTransient<IDescriptorService, DescriptorService>();
 builder.Services.AddTransient<IDescriptorLinkService, DescriptorLinkService>();
 builder.Services.AddTransient<IDescriptorTypeService, DescriptorTypeService>();
-builder.Services.AddTransient<IEstimationService, EstimationService>();
 builder.Services.AddTransient<IPictureService, PictureService>();
 builder.Services.AddTransient<IAnidoptUserService, AnidoptUserService>();
 

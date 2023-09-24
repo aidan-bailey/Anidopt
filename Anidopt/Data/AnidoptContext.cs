@@ -137,12 +137,6 @@ namespace Anidopt.Data {
                 .WithOne(a => a.Sex)
                 .HasForeignKey(a => a.SexId)
                 .HasPrincipalKey(s => s.Id);
-            // One-To-Many Estimations
-            builder.Entity<Sex>()
-                .HasMany(s => s.Estimations)
-                .WithOne(e => e.Sex)
-                .HasForeignKey(e => e.SexId)
-                .HasPrincipalKey(s => s.Id);
             #endregion
             #region Breed Constraints
             // Name, Species Index
@@ -154,12 +148,6 @@ namespace Anidopt.Data {
                 .HasOne(b => b.Species)
                 .WithMany(s => s.Breeds)
                 .HasForeignKey(s => s.SpeciesId)
-                .HasPrincipalKey(b => b.Id);
-            // One-To-Many Estimations
-            builder.Entity<Breed>()
-                .HasMany(b => b.Estimations)
-                .WithOne(e => e.Breed)
-                .HasForeignKey(e => e.BreedId)
                 .HasPrincipalKey(b => b.Id);
             // One-To-Many Animals
             builder.Entity<Breed>()
@@ -215,8 +203,6 @@ namespace Anidopt.Data {
         public DbSet<Anidopt.Models.DescriptorLink> DescriptorLink { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Sex> Sex { get; set; } = default!;
-
-        public DbSet<Anidopt.Models.Estimation> Estimation { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Picture> Picture { get; set; } = default!;
 
