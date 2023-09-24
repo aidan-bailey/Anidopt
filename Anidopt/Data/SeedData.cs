@@ -68,6 +68,12 @@ public static class SeedData
         }
     );
 
+    private static AnidoptContext SeedSizes(this AnidoptContext context) => context.Seed(
+        new Size {
+            Name = "Small (5kg - 10kg)"
+        }
+    );
+
     private static AnidoptContext SeedAnimals(this AnidoptContext context) => context.Seed(
         new Animal
         {
@@ -76,8 +82,7 @@ public static class SeedData
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
             Sex = context.Sex.Where(s => s.Name == "Female").First(),
             Description = "Ginny is a playful little pup who loves a good snooze.",
-            Weight = 0,
-            Height = 0
+            Size = context.Size.Where(s => s.Name == "Small (5kg - 10kg)").First()
         },
         new Animal
         {
@@ -85,8 +90,7 @@ public static class SeedData
             BirthDay = new DateTime(2016, 12, 16),
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
             Sex = context.Sex.Where(s => s.Name == "Female").First(),
-            Weight = 0,
-            Height = 0
+            Size = context.Size.Where(s => s.Name == "Small (5kg - 10kg)").First()
         }
     );
 
@@ -207,6 +211,7 @@ public static class SeedData
                 .SeedSexes()
                 .SeedSpecies()
                 .SeedBreeds()
+                .SeedSizes()
                 .SeedAnimals()
                 .SeedDescriptorTypes()
                 .SeedDescriptors()

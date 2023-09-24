@@ -190,6 +190,8 @@ namespace Anidopt.Data {
             #endregion
         }
 
+        public DbSet<Anidopt.Models.Size> Size { get; set; } = default!;
+
         public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
 
         public DbSet<Anidopt.Models.Species> Species { get; set; } = default!;
