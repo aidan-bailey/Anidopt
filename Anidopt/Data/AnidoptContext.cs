@@ -1,22 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Anidopt.Identity;
 using Anidopt.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Anidopt.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Anidopt.Data {
-    public class AnidoptContext : IdentityDbContext<AnidoptUser, AnidoptRole, int>
-    {
+    public class AnidoptContext : IdentityDbContext<AnidoptUser, AnidoptRole, int> {
         public AnidoptContext(DbContextOptions<AnidoptContext> options)
-            : base(options)
-        {
+            : base(options) {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseLazyLoadingProxies();
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
+        protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
             #region AnidoptUser Constraints
             // Unique UserName
@@ -141,7 +138,7 @@ namespace Anidopt.Data {
             #region Breed Constraints
             // Name, Species Index
             builder.Entity<Breed>()
-                .HasIndex(b => new { b.Name, b.SpeciesId})
+                .HasIndex(b => new { b.Name, b.SpeciesId })
                 .IsUnique();
             // Many-To-One Species
             builder.Entity<Breed>()
@@ -174,7 +171,7 @@ namespace Anidopt.Data {
                 .HasMany(a => a.DescriptorLinks)
                 .WithOne(dl => dl.Animal)
                 .HasForeignKey(dl => dl.AnimalId)
-                .HasPrincipalKey (a => a.Id);
+                .HasPrincipalKey(a => a.Id);
             // One-To-Many AnimalColourLinks
             builder.Entity<Animal>()
                 .HasMany(a => a.AnimalColourLinks)
@@ -190,28 +187,28 @@ namespace Anidopt.Data {
             #endregion
         }
 
-        public DbSet<Anidopt.Models.Size> Size { get; set; } = default!;
+        public DbSet<Size> Size { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.Animal> Animal { get; set; } = default!;
+        public DbSet<Animal> Animal { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.Species> Species { get; set; } = default!;
+        public DbSet<Species> Species { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.Breed> Breed { get; set; } = default!;
+        public DbSet<Breed> Breed { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.DescriptorType> DescriptorType { get; set; } = default!;
+        public DbSet<DescriptorType> DescriptorType { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.Descriptor> Descriptor { get; set; } = default!;
+        public DbSet<Descriptor> Descriptor { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.DescriptorLink> DescriptorLink { get; set; } = default!;
+        public DbSet<DescriptorLink> DescriptorLink { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.Sex> Sex { get; set; } = default!;
+        public DbSet<Sex> Sex { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.Picture> Picture { get; set; } = default!;
+        public DbSet<Picture> Picture { get; set; } = default!;
 
         public DbSet<AnidoptUser> AnidoptUser { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.AnimalColour> AnimalColour { get; set; } = default!;
+        public DbSet<AnimalColour> AnimalColour { get; set; } = default!;
 
-        public DbSet<Anidopt.Models.AnimalColourLink> AnimalColourLink { get; set; } = default!;
+        public DbSet<AnimalColourLink> AnimalColourLink { get; set; } = default!;
     }
 }
