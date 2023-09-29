@@ -59,8 +59,21 @@ public static class SeedData {
 
     private static AnidoptContext SeedSizes(this AnidoptContext context) => context.Seed(
         new Size {
-            Name = "Small (5kg - 10kg)"
+            Name = "Small"
+        },
+        new Size {
+            Name = "Small-Medium"
+        },
+        new Size {
+            Name = "Medium"
+        },
+        new Size {
+            Name = "Medium-Large"
+        },
+        new Size {
+            Name = "Large"
         }
+
     );
 
     private static AnidoptContext SeedAnimals(this AnidoptContext context) => context.Seed(
