@@ -35,6 +35,9 @@ public class Animal : EntityModelBase, IEntityModelBase {
     [Required]
     public virtual Size? Size { get; set; }
 
+    [Required]
+    public virtual float Weight { get; set; }
+
     [ForeignKey(nameof(SexId))]
     public virtual Sex? Sex { get; set; }
 
