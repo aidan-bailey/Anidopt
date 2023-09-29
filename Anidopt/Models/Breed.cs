@@ -6,7 +6,7 @@ namespace Anidopt.Models;
 public class Breed : EntityModelBase, IEntityModelBase {
     #region Native Properties
     
-    [StringLength(32, MinimumLength = 1)]
+    [StringLength(64, MinimumLength = 1)]
     [Required]
     public string? Name { get; set; }
 
