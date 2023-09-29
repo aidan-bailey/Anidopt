@@ -32,15 +32,12 @@ public static class SeedData {
         },
         new Species {
             Name = "Cat"
-        },
-        new Species {
-            Name = "Frog"
         }
     );
 
     private static AnidoptContext SeedBreeds(this AnidoptContext context) => context.Seed(
         new Breed {
-            Name = "Golden Retriever",
+            Name = "Afghan Hound",
             Species = context.Species.Where(at => at.Name == "Dog").First()
         },
         new Breed {
@@ -48,12 +45,240 @@ public static class SeedData {
             Species = context.Species.Where(at => at.Name == "Dog").First()
         },
         new Breed {
-            Name = "Siamese",
-            Species = context.Species.Where(at => at.Name == "Cat").First()
+            Name = "Airedale Terrier",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
         },
         new Breed {
-            Name = "Red-Eyed Tree",
-            Species = context.Species.Where(at => at.Name == "Frog").First()
+            Name = "Alsation / German Shepherd",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Basset Hound",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Bloodhound",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Boerboel",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Boxer",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Bull Terrier",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Bulldog",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Cairn Terrier",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Chihuahua",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Collie",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Corgi",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Cross-breed",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Dachshund",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Dalmatian",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Doberman Pinscher",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "English Setter",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Fox Terrier",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Golden Retriever",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Gordon Setter",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Great Dane",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Greyhound",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Irish Terrier",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Irish Wolfhound",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Irish Setter",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Jack Russell Terrier",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "King Charles Spaniel",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Labrador",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Malamute",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Mastiff",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Miniature Toy Pom - Pomeranian",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Miniature Pinscher (Minpin)",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Norfolk Terrier",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Old English Sheepdog",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Pekingese",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Pitbull",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Pointer",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Pointer - Wire Haired",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Pomeranian",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Poodle",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Pug",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Red/Red&White Setter",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Retriever (Flat Coated)",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Ridgeback",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Rottweiler",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Saint Bernard",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Schipperkes",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Schnauzer",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Scottish Terrier",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Setter",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Shar-pei",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Siberian Husky",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Spaniel",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Staffordshire Bull Terrier (Staffie)",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Toy Pom",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Weimaraner",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Whippet",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Yorkshire Terrier (Yorkie)",
+            Species = context.Species.Where(at => at.Name == "Dog").First()
+        },
+        new Breed {
+            Name = "Siamese",
+            Species = context.Species.Where(at => at.Name == "Cat").First()
         }
     );
 
@@ -83,14 +308,16 @@ public static class SeedData {
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
             Sex = context.Sex.Where(s => s.Name == "Female").First(),
             Description = "Ginny is a playful little pup who loves a good snooze.",
-            Size = context.Size.Where(s => s.Name == "Small (5kg - 10kg)").First()
+            Size = context.Size.Where(s => s.Name == "Small").First(),
+            Weight = 50
         },
         new Animal {
             Name = "Layla",
             BirthDay = new DateTime(2016, 12, 16),
             Breed = context.Breed.Where(b => b.Name == "Afrikanis").First(),
             Sex = context.Sex.Where(s => s.Name == "Female").First(),
-            Size = context.Size.Where(s => s.Name == "Small (5kg - 10kg)").First()
+            Size = context.Size.Where(s => s.Name == "Small-Medium").First(),
+            Weight = 50
         }
     );
 
