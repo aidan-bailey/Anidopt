@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Anidopt.Models;
+namespace Anidopt.ViewModels;
 
-public class PictureUpload
-{
+public class PictureViewModel {
     public static IList<string> SupportedImageTypes = new List<string> { "image/jpeg", "image/png" };
 
     [Required]

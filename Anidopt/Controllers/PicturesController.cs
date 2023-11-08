@@ -1,5 +1,6 @@
 ﻿using Anidopt.Models;
 using Anidopt.Services.Interfaces;
+using Anidopt.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -47,9 +48,9 @@ namespace Anidopt.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,FormFile,Position,AnimalId")] PictureUpload pictureUpload) {
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,FormFile,Position,AnimalId")] PictureViewModel pictureUpload) {
             if (ModelState.IsValid) {
-                if (!PictureUpload.SupportedImageTypes.Contains(pictureUpload.FormFile.ContentType)) {
+                if (!PictureViewModel.SupportedImageTypes.Contains(pictureUpload.FormFile.ContentType)) {
                     ModelState.AddModelError("FormFile", "File is bad type.");
                 } else {
                     using (var memoryStream = new MemoryStream()) {
