@@ -15,6 +15,9 @@ public class Animal : EntityModelBase, IEntityModelBase {
 
     public string? Description { get; set; }
 
+    [Required]
+    public float Weight { get; set; }
+
     #endregion
 
     #region Foreign Keys
@@ -32,11 +35,8 @@ public class Animal : EntityModelBase, IEntityModelBase {
 
     #region Proxy Properties
 
-    [Required]
+    [ForeignKey(nameof(SizeId))]
     public virtual Size? Size { get; set; }
-
-    [Required]
-    public virtual float Weight { get; set; }
 
     [ForeignKey(nameof(SexId))]
     public virtual Sex? Sex { get; set; }
